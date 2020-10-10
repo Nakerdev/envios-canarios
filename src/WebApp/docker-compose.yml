@@ -1,14 +1,35 @@
 version: '2.3'
 services: 
+
     api:
         build:
             context: ./backend
         container_name: WebAppApi
+        restart: always
         ports: 
             - 127.0.0.1:5000:80
         networks: 
-            - envios_canarios
+            envioscanariosnet:
+                ipv4_address: 192.168.1.2
+
+    database:
+        image: mcr.microsoft.com/mssql/server:2017-latest
+        container_name: WebAppDatabase
+        restart: always
+        ports: 
+            - 127.0.0.1:1433:1433
+        environment: 
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "saPassword01."
+        volumes: 
+            - ~/envios-canarios/db-data:/var/opt/mssql
+        networks: 
+            envioscanariosnet:
+                ipv4_address: 192.168.1.3
         
 networks:
-    envios_canarios:
+    envioscanariosnet:
         driver: bridge
+        ipam: 
+            config: 
+                - subnet: 192.168.1.0/24
