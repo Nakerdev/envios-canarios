@@ -1,7 +1,7 @@
 #Builder
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS builder
 
-COPY ./WebAppApi/. /api
+COPY . /api
 RUN dotnet restore ./api/WebAppApi.csproj
 RUN dotnet build ./api/WebAppApi.csproj -c Release -o ./build
 
