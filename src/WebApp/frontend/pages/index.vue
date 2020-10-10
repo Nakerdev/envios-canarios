@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div>
-      <h1>
-        Navbar
-      </h1>
-    </div>
+    <Navbar />
     <div>
       <h1>
         Header
@@ -20,8 +16,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Navbar from '../components/Navbar.vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  components: {
+    Navbar
+  }
+})
 </script>
 
 <style>
@@ -30,8 +31,4 @@ export default Vue.extend({})
 @apply min-h-screen flex justify-center items-center text-center mx-auto;
 }
 */
-* {
-  font-family: Roboto;
-}
-
 </style>
