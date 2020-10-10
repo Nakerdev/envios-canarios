@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebAppApi.Configuration;
 
 namespace WebAppApi
 {
@@ -35,13 +36,7 @@ namespace WebAppApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                app.UseSwagger();
-                app.UseSwaggerUI(c => 
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Envios Canarios Web App Api");
-                    c.RoutePrefix = "_doc";
-                });
+                SwaggerConfiguration.Configure(app);
             }
 
             app.UseHttpsRedirection();
