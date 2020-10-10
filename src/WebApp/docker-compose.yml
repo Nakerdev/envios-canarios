@@ -1,0 +1,14 @@
+version: '2.3'
+services: 
+    api:
+        build:
+            context: ./backend/WebAppApi
+        container_name: WebAppApi
+        ports: 
+            - 127.0.0.1:5000:5000
+        networks: 
+            - envios_canarios
+        
+networks:
+    envios_canarios:
+        driver: bridge
