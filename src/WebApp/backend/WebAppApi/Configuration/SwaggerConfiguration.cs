@@ -11,8 +11,7 @@ namespace WebAppApi.Configuration
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Envios Canarios Web App Api");
                     c.RoutePrefix = "_doc";
-                });
-
+                });             
         }
     }
 }
