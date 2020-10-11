@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace WebAppApi.Purchase.Request.Controllers
+namespace WebAppApi.PurchaseApplication.Controllers
 {
     [ApiController]
     [Route("/v1/purchase/request")]
-    public class PurchaseRequestController : ControllerBase
+    public class PurchaseApplicationController : ControllerBase
     {
         [HttpPost]
         [SwaggerOperation(summary: "Creates a purchase request")]
