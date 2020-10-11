@@ -9,7 +9,13 @@
 
 To run the WebAppApi for devel propouse you should go to `/src/WebApp` directory and run the following command: `docker-compose up --force-recreate`
 
-If the command finished successfuly the Api is running in `http://127.0.0.1:5000`
+If the command finished successfuly, the Api is running in `http://127.0.0.1:5000`
+
+### Documentation
+
+The Api documentation is created following the OpenApi specification (OAS3), you can view it using the following route: `http://127.0.0.1:5000/_doc`.
+
+**The Api documentations is only available in a development enviroment.**
 
 #### Database
 
