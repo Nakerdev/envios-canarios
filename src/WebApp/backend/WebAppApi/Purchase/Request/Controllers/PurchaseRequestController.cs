@@ -8,7 +8,7 @@ namespace WebAppApi.Purchase.Request.Controllers
     public class PurchaseRequestController : ControllerBase
     {
         [HttpPost]
-        public ActionResult Execute(RequestDto request)
+        public ActionResult Execute([FromBody] RequestDto request)
         {
             return Ok();
         }

@@ -19,7 +19,7 @@ namespace WebAppApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen();
+            SwaggerConfiguration.ConfigureServices(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

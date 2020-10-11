@@ -1,9 +1,17 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebAppApi.Configuration
 {
     public static class SwaggerConfiguration
     {
+        public static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c => {
+                c.EnableAnnotations();
+            });
+        }
+
         public static void Configure(IApplicationBuilder app) 
         {
                 app.UseSwagger();
