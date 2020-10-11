@@ -19,6 +19,9 @@ namespace WebAppApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMvc().AddJsonOptions(options => {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
             SwaggerConfiguration.ConfigureServices(services);
         }
 
