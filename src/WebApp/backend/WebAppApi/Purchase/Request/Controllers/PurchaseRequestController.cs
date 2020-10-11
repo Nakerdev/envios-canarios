@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace WebAppApi.Purchase.Request.Controllers
 {
@@ -8,6 +9,9 @@ namespace WebAppApi.Purchase.Request.Controllers
     public class PurchaseRequestController : ControllerBase
     {
         [HttpPost]
+        [SwaggerOperation(summary: "Creates a purchase request")]
+        [SwaggerResponse(statusCode: 200, description: "The purchase request was created successfuly")]
+        [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         public ActionResult Execute([FromBody] RequestDto request)
         {
             return Ok();
