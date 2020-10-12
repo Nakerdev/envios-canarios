@@ -21,7 +21,7 @@ namespace WebAppApi.PurchaseApplication.Controllers.Documentation
                 },
                 Client = new PurchaseApplicationController.Client{
                     Name = "Alfredo",
-                    TelephoneNumber = "123123123",
+                    Phone = "123123123",
                     Email = "alfredo@elguapo.com"
                 },
                 AdditionalInformation = "Si el código promocional no funciona quiero el producto igualmente"

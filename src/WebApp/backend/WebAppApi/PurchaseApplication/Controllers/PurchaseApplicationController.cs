@@ -66,7 +66,7 @@ namespace WebAppApi.PurchaseApplication.Controllers
 
             [SwaggerSchema("The client telephone number", Description = "Must be a numeric value and contains a maximum of 15 characters")]            
             [RequiredAttribute]            
-            public string TelephoneNumber { get; set; }
+            public string Phone { get; set; }
 
             [SwaggerSchema("The client email",Description = "Must be a valid email format and contains a maximum of 255 characters")]            
             [RequiredAttribute]            
