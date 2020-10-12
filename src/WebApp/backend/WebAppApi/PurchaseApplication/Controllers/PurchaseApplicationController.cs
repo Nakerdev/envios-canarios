@@ -1,3 +1,4 @@
+using System;
 using System.Net.Mime;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
