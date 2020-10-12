@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebAppApi.Utils
 {
@@ -35,7 +36,11 @@ namespace WebAppApi.Utils
 
     public sealed class ValidationError<ValidationErrorCode> where ValidationErrorCode : Enum
     {
+
+        [RequiredAttribute]            
         public string FieldId { get; }
+
+        [RequiredAttribute]            
         public string ErrorCode { get; }
 
         public ValidationError(
