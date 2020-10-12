@@ -1,3 +1,4 @@
+using System;
 using System.Net.Mime;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
@@ -21,8 +22,9 @@ namespace WebAppApi.PurchaseApplication.Controllers
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(PurchaseApplicationRequest), typeof(PurchaseApplicationRequestExample))]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
-        public ActionResult Execute([FromBody] PurchaseApplicationRequest request)
+        public ActionResult Execute()
         {
+            throw new Exception("Tracked exception!");
             return Ok();
         }
 
