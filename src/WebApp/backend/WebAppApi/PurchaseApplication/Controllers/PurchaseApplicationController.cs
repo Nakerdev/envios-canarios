@@ -24,7 +24,6 @@ namespace WebAppApi.PurchaseApplication.Controllers
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
         public ActionResult Execute()
         {
-            throw new Exception("Tracked exception!");
             return Ok();
         }
 
