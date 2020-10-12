@@ -35,8 +35,10 @@ namespace WebAppApi
                 app.UseDeveloperExceptionPage();
                 SwaggerConfiguration.Configure(app);
             }
-
-            app.UseHttpsRedirection();
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 

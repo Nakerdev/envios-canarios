@@ -6,30 +6,35 @@ services:
             context: ./backend/WebAppApi
         container_name: WebAppApi
         restart: always
+        environment: 
+            - "ASPNETCORE_ENVIRONMENT=Development"
         ports: 
             - 127.0.0.1:5000:80
         dns: 
             - "8.8.8.8"
+<<<<<<< HEAD
         volumes: 
             - ~/envios-canarios/webappapi-logs:/tmp/webappapi-logs
+=======
+>>>>>>> develop
         networks: 
             envioscanariosnet:
                 ipv4_address: 192.168.1.2
 
-    database:
-        image: mcr.microsoft.com/mssql/server:2017-latest
-        container_name: WebAppDatabase
-        restart: always
-        ports: 
-            - 127.0.0.1:1433:1433
-        environment: 
-            ACCEPT_EULA: "Y"
-            SA_PASSWORD: "saPassword01."
-        volumes: 
-            - ~/envios-canarios/db-data:/var/opt/mssql
-        networks: 
-            envioscanariosnet:
-                ipv4_address: 192.168.1.3
+    ##database:
+     ##   image: mcr.microsoft.com/mssql/server:2017-latest
+      ##  container_name: WebAppDatabase
+      ##  restart: always
+      ##  ports: 
+      ##      - 127.0.0.1:1433:1433
+      ##  environment: 
+      ##      ACCEPT_EULA: "Y"
+        ##    SA_PASSWORD: "saPassword01."
+       ## volumes: 
+        ##    - ~/envios-canarios/db-data:/var/opt/mssql
+       ## networks: 
+        ##    envioscanariosnet:
+     ##           ipv4_address: 192.168.1.3
         
 networks:
     envioscanariosnet:

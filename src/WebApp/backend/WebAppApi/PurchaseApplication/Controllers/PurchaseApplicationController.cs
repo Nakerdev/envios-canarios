@@ -18,7 +18,7 @@ namespace WebAppApi.PurchaseApplication.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(summary: "Creates a purchase application")]
         [SwaggerResponse(statusCode: 200, description: "The purchase application was created successfuly")]
-        [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors. It response never returns an opration error", type: typeof(BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode>))]
+        [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors. It response never returns an operation error", type: typeof(BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode>))]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(PurchaseApplicationRequest), typeof(PurchaseApplicationRequestExample))]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
@@ -43,7 +43,7 @@ namespace WebAppApi.PurchaseApplication.Controllers
 
         public sealed class Product 
         {
-            [SwaggerSchema("The link of the product that the client want to purchase", Description = "Must be a valid email and contains a maximum of 1000 characters")]            
+            [SwaggerSchema("The link of the product that the client want to purchase", Description = "Must be a valid URL and contains a maximum of 1000 characters")]            
             [RequiredAttribute]            
             public string Link { get; set; }
 
@@ -64,7 +64,7 @@ namespace WebAppApi.PurchaseApplication.Controllers
             [RequiredAttribute]            
             public string Name { get; set; }
 
-            [SwaggerSchema("The client telephone number", Description = "Must be a numeric value and contains a maximum of 15 characters")]            
+            [SwaggerSchema("The client phone number", Description = "Must be a numeric value and contains a maximum of 15 characters")]            
             [RequiredAttribute]            
             public string Phone { get; set; }
 
