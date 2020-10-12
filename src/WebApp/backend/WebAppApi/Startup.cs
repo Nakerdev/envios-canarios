@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebAppApi.Configuration;
+using WebAppApi.Configuration.Filters;
 
 namespace WebAppApi
 {
@@ -18,7 +19,9 @@ namespace WebAppApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(config => {
+                config.Filters.Add(new HttpResponseExceptionFilter());
+            });
             services.AddMvc().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
@@ -43,6 +46,7 @@ namespace WebAppApi
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
