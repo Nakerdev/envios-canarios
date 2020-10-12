@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +10,7 @@ namespace WebAppApi.Configuration
         {
             services.AddSwaggerGen(c => {
                 c.EnableAnnotations();
+                c.CustomSchemaIds(schemaIdStrategy);
             });
         }
 
@@ -20,6 +22,14 @@ namespace WebAppApi.Configuration
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Envios Canarios Web App Api");
                     c.RoutePrefix = "_doc";
                 });             
+        }
+
+        private static string schemaIdStrategy(Type currentClass)
+        {
+            if(currentClass.IsGenericType){
+                return currentClass.Name.Remove(currentClass.Name.IndexOf('`'));
+            }
+            return currentClass.Name;
         }
     }
 }

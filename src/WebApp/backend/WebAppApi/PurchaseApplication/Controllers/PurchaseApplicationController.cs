@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using WebAppApi.Utils;
 
 namespace WebAppApi.PurchaseApplication.Controllers
 {
@@ -14,7 +15,7 @@ namespace WebAppApi.PurchaseApplication.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(summary: "Creates a purchase application")]
         [SwaggerResponse(statusCode: 200, description: "The purchase application was created successfuly")]
-        [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors")]
+        [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors", type: typeof(BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode>))]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         public ActionResult Execute([FromBody] PurchaseApplicationRequest request)
         {
@@ -66,5 +67,13 @@ namespace WebAppApi.PurchaseApplication.Controllers
             [RequiredAttribute]            
             public string Email { get; set; }
         }
+    }
+
+    public enum PurchaseApplicationCreationRequestErrorCode 
+    {
+        Required,
+        InvalidFormat,
+        WrongLength,
+        InvalidValue
     }
 }
