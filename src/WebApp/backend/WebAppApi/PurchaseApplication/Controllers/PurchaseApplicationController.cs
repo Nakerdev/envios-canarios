@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using WebAppApi.Utils;
+using WebAppApi.PurchaseApplication.Controllers.Documentation;
 
 namespace WebAppApi.PurchaseApplication.Controllers
 {
