@@ -22,7 +22,7 @@ namespace WebAppApi.PurchaseApplication.Controllers
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(PurchaseApplicationRequest), typeof(PurchaseApplicationRequestExample))]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
-        public ActionResult Execute()
+        public ActionResult Execute([FromBody] PurchaseApplicationRequest request)
         {
             return Ok();
         }

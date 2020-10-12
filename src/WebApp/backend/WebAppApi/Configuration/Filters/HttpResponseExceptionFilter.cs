@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Architecture.Logs;
+using WebAppApi.Logs;
 
 namespace WebAppApi.Configuration.Filters
 {
