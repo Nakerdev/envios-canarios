@@ -6,6 +6,8 @@ services:
             context: ./backend/WebAppApi
         container_name: WebAppApi
         restart: always
+        environment: 
+            - "ASPNETCORE_ENVIRONMENT=Development"
         ports: 
             - 127.0.0.1:5000:80
         dns: 

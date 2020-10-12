@@ -27,11 +27,15 @@ namespace WebAppApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
+            if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
                 SwaggerConfiguration.Configure(app);
-            //}
+            }
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 
