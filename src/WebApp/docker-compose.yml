@@ -12,11 +12,8 @@ services:
             - 127.0.0.1:5000:80
         dns: 
             - "8.8.8.8"
-<<<<<<< HEAD
         volumes: 
             - ~/envios-canarios/webappapi-logs:/tmp/webappapi-logs
-=======
->>>>>>> develop
         networks: 
             envioscanariosnet:
                 ipv4_address: 192.168.1.2
