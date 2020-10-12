@@ -1,6 +1,8 @@
+using System.Reflection;
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace WebAppApi.Configuration
 {
@@ -11,7 +13,9 @@ namespace WebAppApi.Configuration
             services.AddSwaggerGen(c => {
                 c.EnableAnnotations();
                 c.CustomSchemaIds(schemaIdStrategy);
+                c.ExampleFilters();
             });
+            services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
         }
 
         public static void Configure(IApplicationBuilder app) 
