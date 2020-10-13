@@ -1,3 +1,5 @@
+import { BadRequestResponse } from '../../../models/errors.model'
+
 export interface PurchaseAplication {
   products: Product[]
   client: Client
@@ -16,3 +18,5 @@ export interface Client {
   phone? : string /** Must be a numeric value and contains a maximum of 15 characters */
   email: string /** Must be a valid email format and contains a maximum of 255 characters */
 }
+
+export type PurchaseAplicationResponse = void | BadRequestResponse;

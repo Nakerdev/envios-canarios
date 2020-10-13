@@ -45,6 +45,8 @@ import Navbar from '../components/Navbar.vue'
 import ProductForm from '../components/ProductForm.vue'
 import Table from '../components/Table.vue'
 import OrderForm from '../components/OrderForm.vue'
+import * as PurchaseAplicationService from '../services/puchase-aplication/purchase-aplication-service'
+import { PurchaseAplication } from '../models/purchase-aplication.models'
 
 export default Vue.extend({
   components: {
@@ -87,7 +89,7 @@ export default Vue.extend({
     },
     requestPurchase (order: any) {
       if (this.products.length > 0) {
-        const finalOrder = {
+        const finalOrder: PurchaseAplication = {
           ...order,
           products: [
             ...this.products.map(({ link, units, promoCode, information }) => ({
@@ -98,10 +100,14 @@ export default Vue.extend({
             }))
           ]
         }
-        this.products = []
-        this.selectedProduct = {}
 
-        console.log('FINAL ORDER', finalOrder)
+        PurchaseAplicationService.sendPurchaseAplication({
+          axios: this.$axios,
+          body: finalOrder
+        }).then(() => {
+          this.products = []
+          this.selectedProduct = {}
+        })
       }
     }
   }
