@@ -7,12 +7,11 @@
 
 ### BackEnd
 
-To run the WebAppApi for devel propouse you should go to `/src/WebApp` directory and run the following commands: 
+To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-web-app-api.sh` script.
 
-1. `docker-compose build --no-cache`
-2. `docker-compose up --force-recreate`
+If the script execution finished successfuly, the Api is running in `http://127.0.0.1:5000`
 
-If the command finished successfuly, the Api is running in `http://127.0.0.1:5000`
+**To stop the Api press CTRL+C**
 
 ### Documentation
 
