@@ -3,7 +3,7 @@ services:
 
     api:
         build:
-            context: ./backend/WebAppApi
+            context: ./WebAppApi
         container_name: WebAppApi
         restart: always
         environment: 
