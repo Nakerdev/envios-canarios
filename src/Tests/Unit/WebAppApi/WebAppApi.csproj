@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <AssemblyName>EnviosCanarios.Tests.Unit.WebAppApi</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.12.0"/>
@@ -10,6 +11,6 @@
     <PackageReference Include="FluentAssertions" Version="5.10.3"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WebApp\backend\WebAppApi\WebAppApi.csproj"/>
+    <ProjectReference Include="..\..\..\WebApp\backend\WebAppApi\WebAppApi.csproj"/>
   </ItemGroup>
 </Project>
