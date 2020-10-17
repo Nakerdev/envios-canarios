@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
+        <AssemblyName>CanaryDeliveries.Domain.PurchaseApplication</AssemblyName>
+        <RootNamespace>CanaryDeliveries.Domain.PurchaseApplication</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
