@@ -1,3 +1,6 @@
-# Back
+# .NET folders
 **/bin
 **/obj
+
+# JetBrains folders
+.idea/
