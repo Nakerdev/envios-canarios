@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAppApi.Utils
+namespace CanaryDeliveries.WebApp.Api.Utils
 {
     public sealed class BadRequestResponseModel<ValidationErrorCode> where ValidationErrorCode : Enum
     {
@@ -37,10 +37,10 @@ namespace WebAppApi.Utils
     public sealed class ValidationError<ValidationErrorCode> where ValidationErrorCode : Enum
     {
 
-        [RequiredAttribute]            
+        [Required]            
         public string FieldId { get; }
 
-        [RequiredAttribute]            
+        [Required]            
         public string ErrorCode { get; }
 
         public ValidationError(

@@ -1,14 +1,13 @@
-using System;
-using System.Net.Mime;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
+using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation;
+using CanaryDeliveries.WebApp.Api.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using WebAppApi.Utils;
-using WebAppApi.PurchaseApplication.Controllers.Documentation;
 
-namespace WebAppApi.PurchaseApplication.Controllers
+namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
 {
     [ApiController]
     [Route("/v1/purchase-application")]
@@ -30,11 +29,11 @@ namespace WebAppApi.PurchaseApplication.Controllers
         public sealed class PurchaseApplicationRequest
         {
             [SwaggerSchema("List of products that the client want to purchase")]            
-            [RequiredAttribute]            
+            [Required]            
             public List<Product> Products { get; set; }
 
             [SwaggerSchema("The client information")]            
-            [RequiredAttribute]            
+            [Required]            
             public Client Client { get; set; }
 
             [SwaggerSchema("General additional information that the client want to specifies", Description = "Must contains a maximum of 1000 characters")]            
@@ -44,11 +43,11 @@ namespace WebAppApi.PurchaseApplication.Controllers
         public sealed class Product 
         {
             [SwaggerSchema("The link of the product that the client want to purchase", Description = "Must be a valid URL and contains a maximum of 1000 characters")]            
-            [RequiredAttribute]            
+            [Required]            
             public string Link { get; set; }
 
             [SwaggerSchema("Number of product units to purchase", Description = "Must be a numeric value greather than 0")]            
-            [RequiredAttribute]            
+            [Required]            
             public string Units { get; set; }
 
             [SwaggerSchema("Additional information needed to purchas the product, like size, color, etc.", Description = "Must contains a maximum of 1000 characters")]            
@@ -61,15 +60,15 @@ namespace WebAppApi.PurchaseApplication.Controllers
         public sealed class Client 
         {
             [SwaggerSchema("The client name", Description = "Must contains a maximum of 255 characters")]            
-            [RequiredAttribute]            
+            [Required]            
             public string Name { get; set; }
 
             [SwaggerSchema("The client phone number", Description = "Must be a numeric value and contains a maximum of 15 characters")]            
-            [RequiredAttribute]            
+            [Required]            
             public string Phone { get; set; }
 
             [SwaggerSchema("The client email",Description = "Must be a valid email format and contains a maximum of 255 characters")]            
-            [RequiredAttribute]            
+            [Required]            
             public string Email { get; set; }
         }
     }

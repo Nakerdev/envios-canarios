@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 
-namespace WebAppApi
+namespace CanaryDeliveries.WebApp.Api
 {
     public class Program
     {

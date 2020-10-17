@@ -1,8 +1,8 @@
+using CanaryDeliveries.WebApp.Api.Logs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebAppApi.Logs;
 
-namespace WebAppApi.Configuration.Filters
+namespace CanaryDeliveries.WebApp.Api.Configuration.Filters
 {
     public class HttpResponseExceptionFilter : ExceptionFilterAttribute 
     {

@@ -1,10 +1,10 @@
-using System.Reflection;
 using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace WebAppApi.Configuration
+namespace CanaryDeliveries.WebApp.Api.Configuration
 {
     public static class SwaggerConfiguration
     {

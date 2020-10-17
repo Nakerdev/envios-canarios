@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using CanaryDeliveries.WebApp.Api.Utils;
 using Swashbuckle.AspNetCore.Filters;
-using WebAppApi.Utils;
 
-namespace WebAppApi.PurchaseApplication.Controllers.Documentation
+namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation
 {
     public sealed class BadRequestResponseModelExampleForValidationsError : IExamplesProvider<BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode>>
     {

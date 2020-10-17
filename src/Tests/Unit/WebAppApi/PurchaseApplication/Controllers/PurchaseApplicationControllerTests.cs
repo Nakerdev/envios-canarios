@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
 using FluentAssertions;
 using NUnit.Framework;
-using WebAppApi.PurchaseApplication.Controllers;
 
 namespace CanaryDeliveries.Tests.Unit.WebAppApi.PurchaseApplication.Controllers
 {

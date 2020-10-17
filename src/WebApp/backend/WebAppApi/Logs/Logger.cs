@@ -1,6 +1,6 @@
 using System;
 
-namespace WebAppApi.Logs
+namespace CanaryDeliveries.WebApp.Api.Logs
 {
     public interface Logger
     {
