@@ -3,7 +3,7 @@ using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace CanaryDeliveries.Tests.Unit.WebAppApi.PurchaseApplication.Controllers
+namespace CanaryDeliveries.Tests.Unit.WebApp.Api.PurchaseApplication.Controllers
 {
     public class PurchaseApplicationControllerTests
     {
