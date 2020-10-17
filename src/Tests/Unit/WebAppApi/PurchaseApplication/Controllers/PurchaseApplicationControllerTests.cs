@@ -1,8 +1,9 @@
-using System.ComponentModel;
+using System.Collections.Generic;
+using FluentAssertions;
 using NUnit.Framework;
 using WebAppApi.PurchaseApplication.Controllers;
 
-namespace EnviosCanarios.Tests.Unit.WebAppApi.PurchaseApplication.Controllers
+namespace CanaryDeliveries.Tests.Unit.WebAppApi.PurchaseApplication.Controllers
 {
     public class PurchaseApplicationControllerTests
     {
