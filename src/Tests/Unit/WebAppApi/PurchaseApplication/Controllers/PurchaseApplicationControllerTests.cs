@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
 namespace CanaryDeliveries.Tests.Unit.WebApp.Api.PurchaseApplication.Controllers
@@ -18,7 +20,16 @@ namespace CanaryDeliveries.Tests.Unit.WebApp.Api.PurchaseApplication.Controllers
         [Test]
         public void CreatesPurchaseApplication()
         {
-            var request = new PurchaseApplicationController.PurchaseApplicationRequest
+            var request = BuildPurchaseApplicationRequest();
+
+            var response = controller.Execute(request) as StatusCodeResult;
+
+            response.StatusCode.Should().Be(StatusCodes.Status200OK);
+        }
+
+        private static PurchaseApplicationController.PurchaseApplicationRequest BuildPurchaseApplicationRequest()
+        {
+            return new PurchaseApplicationController.PurchaseApplicationRequest
             {
                 Products = new List<PurchaseApplicationController.Product>
                 {
@@ -38,10 +49,6 @@ namespace CanaryDeliveries.Tests.Unit.WebApp.Api.PurchaseApplication.Controllers
                 },
                 AdditionalInformation = "Additional purchase application information"
             };
-
-            var response = controller.Execute(request);
-
-            false.Should().BeTrue();
         }
     }
 }

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{4E7708B6-5E54-4B67-9AE1-1B4493DCC7BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{D1171F05-9801-46DD-A699-9CD6572B53CC}"
+ProjectSection(SolutionItems) = preProject
+	WebApp\backend\docker-compose.yml = WebApp\backend\docker-compose.yml
+EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "WebApp\backend\Api\Api.csproj", "{28646613-3A1A-4177-AED0-622650172CC7}"
 EndProject
