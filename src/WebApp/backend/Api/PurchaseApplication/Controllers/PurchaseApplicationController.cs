@@ -65,7 +65,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
 
             [SwaggerSchema("The client phone number", Description = "Must be a numeric value and contains a maximum of 15 characters")]            
             [Required]            
-            public string Phone { get; set; }
+            public string PhoneNumber { get; set; }
 
             [SwaggerSchema("The client email",Description = "Must be a valid email format and contains a maximum of 255 characters")]            
             [Required]            

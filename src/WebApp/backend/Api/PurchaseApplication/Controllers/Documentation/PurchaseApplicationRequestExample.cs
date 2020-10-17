@@ -21,7 +21,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentat
                 },
                 Client = new PurchaseApplicationController.Client{
                     Name = "Alfredo",
-                    Phone = "123123123",
+                    PhoneNumber = "123123123",
                     Email = "alfredo@elguapo.com"
                 },
                 AdditionalInformation = "Si el código promocional no funciona quiero el producto igualmente"

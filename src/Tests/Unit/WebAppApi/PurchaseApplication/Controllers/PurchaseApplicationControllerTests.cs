@@ -44,7 +44,7 @@ namespace CanaryDeliveries.Tests.Unit.WebApp.Api.PurchaseApplication.Controllers
                 Client = new  PurchaseApplicationController.Client
                 {
                     Name = "Alfredo",
-                    Phone = "123123123",
+                    PhoneNumber = "123123123",
                     Email = "alfredo@elguapo.com"
                 },
                 AdditionalInformation = "Additional purchase application information"
