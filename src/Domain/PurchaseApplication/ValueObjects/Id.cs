@@ -12,7 +12,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             return new Id(Guid.NewGuid());
         }
 
-        public Id(Guid value)
+        private Id(Guid value)
         {
             this.value = value;
         }
