@@ -30,7 +30,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
         [Test]
         public void CreatesPurchaseApplication()
         {
-            var purchaseApplicationCreationRequest = BuildPurchaseApplicationRequest();
+            var purchaseApplicationCreationRequest = BuildPurchaseApplicationCreationRequest();
             var now = new DateTime(2020, 10, 10);
             timeService
                 .Setup(x => x.UtcNow())
@@ -64,7 +64,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                     && y.CreationDateTime == now)), Times.Once);
         }
 
-        private static PurchaseApplicationCreationRequest BuildPurchaseApplicationRequest()
+        private static PurchaseApplicationCreationRequest BuildPurchaseApplicationCreationRequest()
         {
             var requestDto = new PurchaseApplicationCreationRequestDto(
                 products: new List<PurchaseApplicationCreationRequestDto.ProductDto>
