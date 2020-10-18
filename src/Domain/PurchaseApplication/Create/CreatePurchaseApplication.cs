@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using CanaryDeliveries.Domain.PurchaseApplication.Services;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.Create
@@ -7,10 +7,14 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
     public sealed class CreatePurchaseApplication
     {
         private readonly PurchaseApplicationRepository purchaseApplicationRepository;
+        private readonly TimeService timeService;
 
-        public CreatePurchaseApplication(PurchaseApplicationRepository purchaseApplicationRepository)
+        public CreatePurchaseApplication(
+            PurchaseApplicationRepository purchaseApplicationRepository,
+            TimeService timeService)
         {
             this.purchaseApplicationRepository = purchaseApplicationRepository;
+            this.timeService = timeService;
         }
 
         public PurchaseApplication Create(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
@@ -20,14 +24,14 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             return purchaseApplication;
         }
 
-        private static PurchaseApplication BuildPurchaseApplication(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
+        private PurchaseApplication BuildPurchaseApplication(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
         {
             return new PurchaseApplication(
                 id: Id.Create(),
                 products: purchaseApplicationCreationRequest.Products.Map((BuildProduct)).ToList().AsReadOnly(),
                 client: BuildClient(),
                 additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
-                creationDateTime: DateTime.UtcNow);
+                creationDateTime: timeService.UtcNow());
 
             Product BuildProduct(PurchaseApplicationCreationRequest.Product product)
             {

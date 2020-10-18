@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.Domain.PurchaseApplication;
 using CanaryDeliveries.Domain.PurchaseApplication.Create;
+using CanaryDeliveries.Domain.PurchaseApplication.Services;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -12,20 +14,27 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
     public sealed class CreatePurchaseApplicationTests
     {
         private Mock<PurchaseApplicationRepository> purchaseApplicationRepository;
+        private Mock<TimeService> timeService;
         private CreatePurchaseApplication command;
         
         [SetUp]
         public void SetUp()
         {
             purchaseApplicationRepository = new Mock<PurchaseApplicationRepository>();
+            timeService = new Mock<TimeService>();
             command = new CreatePurchaseApplication(
-                purchaseApplicationRepository: purchaseApplicationRepository.Object);
+                purchaseApplicationRepository: purchaseApplicationRepository.Object,
+                timeService: timeService.Object);
         }
 
         [Test]
         public void CreatesPurchaseApplication()
         {
             var purchaseApplicationCreationRequest = BuildPurchaseApplicationRequest();
+            var now = new DateTime(2020, 10, 10);
+            timeService
+                .Setup(x => x.UtcNow())
+                .Returns(now);
             
             var createdPurchaseApplication = command.Create(purchaseApplicationCreationRequest);
             
@@ -39,6 +48,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
             createdPurchaseApplication.Client.PhoneNumber.Value.Should().Be(purchaseApplicationCreationRequest.ClientProp.PhoneNumber.Value);
             createdPurchaseApplication.Client.Email.Value.Should().Be(purchaseApplicationCreationRequest.ClientProp.Email.Value);
             createdPurchaseApplication.AdditionalInformation.Equals(purchaseApplicationCreationRequest.AdditionalInformation).Should().BeTrue();
+            createdPurchaseApplication.CreationDateTime.Should().Be(now);
             purchaseApplicationRepository
                 .Verify(x => x.Create(It.Is<CanaryDeliveries.Domain.PurchaseApplication.PurchaseApplication>(y => 
                     y.Id != null
@@ -50,7 +60,8 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                     && y.Client.Name.Value == purchaseApplicationCreationRequest.ClientProp.Name.Value
                     && y.Client.PhoneNumber.Value == purchaseApplicationCreationRequest.ClientProp.PhoneNumber.Value
                     && y.Client.Email.Value == purchaseApplicationCreationRequest.ClientProp.Email.Value
-                    && y.AdditionalInformation == purchaseApplicationCreationRequest.AdditionalInformation)), Times.Once);
+                    && y.AdditionalInformation == purchaseApplicationCreationRequest.AdditionalInformation
+                    && y.CreationDateTime == now)), Times.Once);
         }
 
         private static PurchaseApplicationCreationRequest BuildPurchaseApplicationRequest()
