@@ -12,19 +12,19 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
         public Client ClientProp { get; }
         public Option<AdditionalInformation> AdditionalInformation { get; }
 
-        public static PurchaseApplicationCreationRequest Create(PurchaseApplicationRequestDto requestDto)
+        public static PurchaseApplicationCreationRequest Create(PurchaseApplicationCreationRequestDto creationRequestDto)
         {
             return new PurchaseApplicationCreationRequest(
-                products: requestDto.Products.Map(product => new Product(
+                products: creationRequestDto.Products.Map(product => new Product(
                     link: new Link(product.Link.ValueUnsafe()),
                     units: new Units(int.Parse(product.Units.ValueUnsafe())),
                     additionalInformation: product.AdditionalInformation.Map(x => new AdditionalInformation(x)),
                     promotionCode: product.PromotionCode.Map(x => new PromotionCode(x)))).ToList().AsReadOnly(),
                 clientProp: new Client(
-                    name: new Name(requestDto.Client.Name.ValueUnsafe()),
-                    phoneNumber: new PhoneNumber(requestDto.Client.PhoneNumber.ValueUnsafe()),
-                    email: new Email(requestDto.Client.Email.ValueUnsafe())),
-                additionalInformation: requestDto.AdditionalInformation.Map(x => new AdditionalInformation(x)));
+                    name: new Name(creationRequestDto.Client.Name.ValueUnsafe()),
+                    phoneNumber: new PhoneNumber(creationRequestDto.Client.PhoneNumber.ValueUnsafe()),
+                    email: new Email(creationRequestDto.Client.Email.ValueUnsafe())),
+                additionalInformation: creationRequestDto.AdditionalInformation.Map(x => new AdditionalInformation(x)));
         }
 
         private PurchaseApplicationCreationRequest(
@@ -75,13 +75,13 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
         }
     }
     
-    public sealed class PurchaseApplicationRequestDto
+    public sealed class PurchaseApplicationCreationRequestDto
     {
         public List<ProductDto> Products { get; }
         public ClientDto Client { get; }
         public Option<string> AdditionalInformation { get; }
 
-        public PurchaseApplicationRequestDto(
+        public PurchaseApplicationCreationRequestDto(
             List<ProductDto> products, 
             ClientDto client, 
             Option<string> additionalInformation)
