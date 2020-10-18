@@ -13,23 +13,38 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             this.purchaseApplicationRepository = purchaseApplicationRepository;
         }
 
-        public CanaryDeliveries.Domain.PurchaseApplication.PurchaseApplication Create(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
+        public PurchaseApplication Create(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
         {
-            var purchaseApplication = new CanaryDeliveries.Domain.PurchaseApplication.PurchaseApplication(
+            var purchaseApplication = BuildPurchaseApplication(purchaseApplicationCreationRequest);
+            purchaseApplicationRepository.Create(purchaseApplication);
+            return purchaseApplication;
+        }
+
+        private static PurchaseApplication BuildPurchaseApplication(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
+        {
+            return new PurchaseApplication(
                 id: Id.Create(),
-                products: purchaseApplicationCreationRequest.Products.Map((product => new Product(
+                products: purchaseApplicationCreationRequest.Products.Map((BuildProduct)).ToList().AsReadOnly(),
+                client: BuildClient(),
+                additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
+                creationDateTime: DateTime.UtcNow);
+
+            Product BuildProduct(PurchaseApplicationCreationRequest.Product product)
+            {
+                return new Product(
                     link: product.Link,
                     units: product.Units,
                     additionalInformation: product.AdditionalInformation,
-                    promotionCode: product.PromotionCode))).ToList().AsReadOnly(),
-                client: new Client(
+                    promotionCode: product.PromotionCode);
+            }
+
+            Client BuildClient()
+            {
+                return new Client(
                     name: purchaseApplicationCreationRequest.ClientProp.Name,
                     phoneNumber: purchaseApplicationCreationRequest.ClientProp.PhoneNumber,
-                    email: purchaseApplicationCreationRequest.ClientProp.Email),
-                additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
-                creationDateTime: DateTime.UtcNow);
-            purchaseApplicationRepository.Create(purchaseApplication);
-            return purchaseApplication;
+                    email: purchaseApplicationCreationRequest.ClientProp.Email);
+            }
         }
     }
 }
