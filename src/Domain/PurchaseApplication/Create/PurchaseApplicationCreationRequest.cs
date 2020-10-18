@@ -15,16 +15,26 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
         public static PurchaseApplicationCreationRequest Create(PurchaseApplicationCreationRequestDto creationRequestDto)
         {
             return new PurchaseApplicationCreationRequest(
-                products: creationRequestDto.Products.Map(product => new Product(
+                products: creationRequestDto.Products.Map(BuildProduct).ToList().AsReadOnly(),
+                clientProp: BuildClient(),
+                additionalInformation: creationRequestDto.AdditionalInformation.Map(value => new AdditionalInformation(value)));
+
+            Product BuildProduct(PurchaseApplicationCreationRequestDto.ProductDto product)
+            {
+                return new Product(
                     link: new Link(product.Link.ValueUnsafe()),
                     units: new Units(int.Parse(product.Units.ValueUnsafe())),
-                    additionalInformation: product.AdditionalInformation.Map(x => new AdditionalInformation(x)),
-                    promotionCode: product.PromotionCode.Map(x => new PromotionCode(x)))).ToList().AsReadOnly(),
-                clientProp: new Client(
+                    additionalInformation: product.AdditionalInformation.Map(value => new AdditionalInformation(value)),
+                    promotionCode: product.PromotionCode.Map(value => new PromotionCode(value)));
+            }
+
+            Client BuildClient()
+            {
+                return new Client(
                     name: new Name(creationRequestDto.Client.Name.ValueUnsafe()),
                     phoneNumber: new PhoneNumber(creationRequestDto.Client.PhoneNumber.ValueUnsafe()),
-                    email: new Email(creationRequestDto.Client.Email.ValueUnsafe())),
-                additionalInformation: creationRequestDto.AdditionalInformation.Map(x => new AdditionalInformation(x)));
+                    email: new Email(creationRequestDto.Client.Email.ValueUnsafe()));
+            }
         }
 
         private PurchaseApplicationCreationRequest(
