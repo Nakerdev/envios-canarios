@@ -2,11 +2,11 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class PromotionCode
     {
-        public string Value { get; }
+        private string value;
 
         public PromotionCode(string value)
         {
-            Value = value;
+            this.value = value;
         }
     }
 }

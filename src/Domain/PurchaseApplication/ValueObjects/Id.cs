@@ -1,10 +1,11 @@
 using System;
+using LanguageExt;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
-    public sealed class Id
+    public sealed class Id : Record<Id>
     {
-        public Guid Value { get; }
+        private Guid value;
 
         public static Id Create()
         {
@@ -13,7 +14,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 
         public Id(Guid value)
         {
-            Value = value;
+            this.value = value;
         }
     }
 }

@@ -40,26 +40,26 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
             
             createdPurchaseApplication.Id.Should().NotBeNull();
             createdPurchaseApplication.Products.Count.Should().Be(purchaseApplicationCreationRequest.Products.Count);
-            createdPurchaseApplication.Products.First().Link.Value.Should().Be(purchaseApplicationCreationRequest.Products.First().Link.Value);
-            createdPurchaseApplication.Products.First().Units.Value.Should().Be(purchaseApplicationCreationRequest.Products.First().Units.Value);
+            createdPurchaseApplication.Products.First().Link.Should().Be(purchaseApplicationCreationRequest.Products.First().Link);
+            createdPurchaseApplication.Products.First().Units.Should().Be(purchaseApplicationCreationRequest.Products.First().Units);
             createdPurchaseApplication.Products.First().AdditionalInformation.Equals(purchaseApplicationCreationRequest.Products.First().AdditionalInformation).Should().BeTrue();
             createdPurchaseApplication.Products.First().PromotionCode.Equals(purchaseApplicationCreationRequest.Products.First().PromotionCode).Should().BeTrue();
-            createdPurchaseApplication.Client.Name.Value.Should().Be(purchaseApplicationCreationRequest.ClientProp.Name.Value);
-            createdPurchaseApplication.Client.PhoneNumber.Value.Should().Be(purchaseApplicationCreationRequest.ClientProp.PhoneNumber.Value);
-            createdPurchaseApplication.Client.Email.Value.Should().Be(purchaseApplicationCreationRequest.ClientProp.Email.Value);
+            createdPurchaseApplication.Client.Name.Should().Be(purchaseApplicationCreationRequest.ClientProp.Name);
+            createdPurchaseApplication.Client.PhoneNumber.Should().Be(purchaseApplicationCreationRequest.ClientProp.PhoneNumber);
+            createdPurchaseApplication.Client.Email.Should().Be(purchaseApplicationCreationRequest.ClientProp.Email);
             createdPurchaseApplication.AdditionalInformation.Equals(purchaseApplicationCreationRequest.AdditionalInformation).Should().BeTrue();
             createdPurchaseApplication.CreationDateTime.Should().Be(now);
             purchaseApplicationRepository
                 .Verify(x => x.Create(It.Is<CanaryDeliveries.Domain.PurchaseApplication.PurchaseApplication>(y => 
                     y.Id != null
                     && y.Products.Count == purchaseApplicationCreationRequest.Products.Count
-                    && y.Products.First().Link.Value == purchaseApplicationCreationRequest.Products.First().Link.Value
-                    && y.Products.First().Units.Value == purchaseApplicationCreationRequest.Products.First().Units.Value
+                    && y.Products.First().Link == purchaseApplicationCreationRequest.Products.First().Link
+                    && y.Products.First().Units== purchaseApplicationCreationRequest.Products.First().Units
                     && y.Products.First().AdditionalInformation == purchaseApplicationCreationRequest.Products.First().AdditionalInformation
                     && y.Products.First().PromotionCode == purchaseApplicationCreationRequest.Products.First().PromotionCode
-                    && y.Client.Name.Value == purchaseApplicationCreationRequest.ClientProp.Name.Value
-                    && y.Client.PhoneNumber.Value == purchaseApplicationCreationRequest.ClientProp.PhoneNumber.Value
-                    && y.Client.Email.Value == purchaseApplicationCreationRequest.ClientProp.Email.Value
+                    && y.Client.Name== purchaseApplicationCreationRequest.ClientProp.Name
+                    && y.Client.PhoneNumber== purchaseApplicationCreationRequest.ClientProp.PhoneNumber
+                    && y.Client.Email == purchaseApplicationCreationRequest.ClientProp.Email
                     && y.AdditionalInformation == purchaseApplicationCreationRequest.AdditionalInformation
                     && y.CreationDateTime == now)), Times.Once);
         }

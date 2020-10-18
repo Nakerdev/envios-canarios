@@ -1,12 +1,14 @@
+using LanguageExt;
+
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
-    public sealed class Units
+    public sealed class Units : Record<Units>
     {
-        public int Value { get; }
+        private int value;
 
         public Units(int value)
         {
-            Value = value;
+            this.value = value;
         }
     }
 }

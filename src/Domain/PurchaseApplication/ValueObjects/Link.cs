@@ -1,12 +1,14 @@
+using LanguageExt;
+
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
-    public sealed class Link
+    public sealed class Link : Record<Link>
     {
-        public string Value { get; }
+        private string value;
 
         public Link(string value)
         {
-            Value = value;
+            this.value = value;
         }
     }
 }
