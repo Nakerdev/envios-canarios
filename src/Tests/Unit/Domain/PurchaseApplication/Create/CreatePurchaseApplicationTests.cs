@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
+using CanaryDeliveries.Domain.PurchaseApplication;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using FluentAssertions;
 using LanguageExt;
@@ -68,16 +71,30 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
 
     public sealed class CreatePurchaseApplication
     {
-        private readonly PurchaseApplicationRepository _purchaseApplicationRepository;
+        private readonly PurchaseApplicationRepository purchaseApplicationRepository;
 
         public CreatePurchaseApplication(PurchaseApplicationRepository purchaseApplicationRepository)
         {
-            _purchaseApplicationRepository = purchaseApplicationRepository;
+            this.purchaseApplicationRepository = purchaseApplicationRepository;
         }
 
         public CanaryDeliveries.Domain.PurchaseApplication.PurchaseApplication Create(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
         {
-            throw new System.NotImplementedException();
+            var purchaseApplication = new CanaryDeliveries.Domain.PurchaseApplication.PurchaseApplication(
+                id: Id.Create(),
+                products: purchaseApplicationCreationRequest.Products.Map((product => new Product(
+                    link: product.Link,
+                    units: product.Units,
+                    additionalInformation: product.AdditionalInformation,
+                    promotionCode: product.PromotionCode))).ToList().AsReadOnly(),
+                client: new Client(
+                    name: purchaseApplicationCreationRequest.ClientProp.Name,
+                    phoneNumber: purchaseApplicationCreationRequest.ClientProp.PhoneNumber,
+                    email: purchaseApplicationCreationRequest.ClientProp.Email),
+                additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
+                creationDateTime: DateTime.UtcNow);
+            purchaseApplicationRepository.Create(purchaseApplication);
+            return purchaseApplication;
         }
     }
 
