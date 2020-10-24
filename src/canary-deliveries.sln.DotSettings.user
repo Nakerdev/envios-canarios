@@ -3,5 +3,7 @@
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Create.CreatePurchaseApplicationTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Create.PurchaseApplicationCreationRequestTests.CreatesPurchaseApplicationCreationRequest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Create.PurchaseApplicationCreationRequestTests.DoesNotCreatePurchaseApplicationRequestWhenAnyPurchaseLinkIsEmpty&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Create.PurchaseApplicationCreationRequestTests.DoesNotCreatePurchaseApplicationRequestWhenThereAreNotProducts&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

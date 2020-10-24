@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.Domain.PurchaseApplication;
 using CanaryDeliveries.Domain.PurchaseApplication.Create;
+using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.Services;
 using FluentAssertions;
 using Moq;
@@ -67,9 +68,9 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
         private static PurchaseApplicationCreationRequest BuildPurchaseApplicationCreationRequest()
         {
             var requestDto = new PurchaseApplicationCreationRequestDto(
-                products: new List<PurchaseApplicationCreationRequestDto.ProductDto>
+                products: new List<Product.ProductDto>
                 {
-                    new PurchaseApplicationCreationRequestDto.ProductDto(
+                    new Product.ProductDto(
                         link: "https://addidas.com/any/product",
                         units: "1",
                         additionalInformation: "Product additional product",
@@ -80,7 +81,9 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                     phoneNumber: "123123123",
                     email: "alfredo@elguapo.com"),
                 additionalInformation: "Purchase application additional information");
-            return PurchaseApplicationCreationRequest.Create(requestDto);
+            return PurchaseApplicationCreationRequest
+                .Create(requestDto)
+                .IfFail(() => throw new InvalidOperationException());
         }
     }
 }

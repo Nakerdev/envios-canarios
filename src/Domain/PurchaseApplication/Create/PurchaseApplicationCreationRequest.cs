@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
 using LanguageExt.UnsafeValueAccess;
@@ -12,21 +14,19 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
         public Client ClientProp { get; }
         public Option<AdditionalInformation> AdditionalInformation { get; }
 
-        public static PurchaseApplicationCreationRequest Create(PurchaseApplicationCreationRequestDto creationRequestDto)
+        public static Validation<
+            ValidationError<PurchaseApplicationCreationRequestValidationError>, 
+            PurchaseApplicationCreationRequest> Create(PurchaseApplicationCreationRequestDto creationRequestDto)
         {
-            return new PurchaseApplicationCreationRequest(
-                products: creationRequestDto.Products.Map(BuildProduct).ToList().AsReadOnly(),
-                clientProp: BuildClient(),
-                additionalInformation: creationRequestDto.AdditionalInformation.Map(value => new AdditionalInformation(value)));
-
-            Product BuildProduct(PurchaseApplicationCreationRequestDto.ProductDto product)
-            {
-                return new Product(
-                    link: Link.Create(product.Link).ValueUnsafe(),
-                    units: Units.Create(product.Units).ValueUnsafe(),
-                    additionalInformation: product.AdditionalInformation.Map(value => new AdditionalInformation(value)),
-                    promotionCode: product.PromotionCode.Map(value => new PromotionCode(value)));
-            }
+            var products = Product.Create(creationRequestDto.Products);
+            return products
+                .Map(p => new PurchaseApplicationCreationRequest(
+                    products: p,
+                    clientProp: BuildClient(),
+                    additionalInformation: creationRequestDto.AdditionalInformation.Map(value => new AdditionalInformation(value))))
+                .MapFail(error => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
+                        fieldId: error.FieldId,
+                        errorCode: PurchaseApplicationCreationRequestValidationError.Required));
 
             Client BuildClient()
             {
@@ -47,26 +47,6 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             AdditionalInformation = additionalInformation;
         }
 
-        public sealed class Product
-        {
-            public Link Link { get; }
-            public Units Units { get; }
-            public Option<AdditionalInformation> AdditionalInformation { get; }
-            public Option<PromotionCode> PromotionCode { get; }
-    
-            public Product(
-                Link link, 
-                Units units, 
-                Option<AdditionalInformation> additionalInformation, 
-                Option<PromotionCode> promotionCode)
-            {
-                Link = link;
-                Units = units;
-                AdditionalInformation = additionalInformation;
-                PromotionCode = promotionCode;
-            }
-        }
-        
         public sealed class Client
         {
             public Name Name { get; }
@@ -87,38 +67,18 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
     
     public sealed class PurchaseApplicationCreationRequestDto
     {
-        public List<ProductDto> Products { get; }
+        public List<Product.ProductDto> Products { get; }
         public ClientDto Client { get; }
         public Option<string> AdditionalInformation { get; }
 
         public PurchaseApplicationCreationRequestDto(
-            List<ProductDto> products, 
+            List<Product.ProductDto> products, 
             ClientDto client, 
             Option<string> additionalInformation)
         {
             Products = products;
             Client = client;
             AdditionalInformation = additionalInformation;
-        }
-
-        public sealed class ProductDto
-        {
-            public Option<string> Link { get; }
-            public Option<string> Units { get; }
-            public Option<string> AdditionalInformation { get; }
-            public Option<string> PromotionCode { get; }
-
-            public ProductDto(
-                Option<string> link, 
-                Option<string> units, 
-                Option<string> additionalInformation, 
-                Option<string> promotionCode)
-            {
-                Link = link;
-                Units = units;
-                AdditionalInformation = additionalInformation;
-                PromotionCode = promotionCode;
-            }
         }
         
         public sealed class ClientDto
@@ -137,5 +97,21 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                 Email = email;
             }
         }
+    }
+
+    public sealed class ValidationError<T>
+    {
+        public string FieldId { get; }
+        public T ErrorCode { get; }
+
+        public ValidationError(string fieldId, T errorCode)
+        {
+            FieldId = fieldId;
+            ErrorCode = errorCode;
+        }
+    }
+     public enum PurchaseApplicationCreationRequestValidationError
+    {
+        Required
     }
 }

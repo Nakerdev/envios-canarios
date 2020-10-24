@@ -1,4 +1,5 @@
 using System.Linq;
+using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.Services;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 
@@ -33,7 +34,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                 additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
                 creationDateTime: timeService.UtcNow());
 
-            Product BuildProduct(PurchaseApplicationCreationRequest.Product product)
+            Product BuildProduct(Product product)
             {
                 return new Product(
                     link: product.Link,
