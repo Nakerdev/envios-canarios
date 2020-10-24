@@ -6,9 +6,21 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private int value;
 
-        public Units(int value)
+        public static Either<UnitsValidationError, Units> Create(Option<string> value)
+        {
+            return value
+                .Map(v => new Units(int.Parse(v)))
+                .ToEither(() => UnitsValidationError.Required);
+        }
+
+        private Units(int value)
         {
             this.value = value;
         }
+    }
+
+    public enum UnitsValidationError
+    {
+        Required
     }
 }

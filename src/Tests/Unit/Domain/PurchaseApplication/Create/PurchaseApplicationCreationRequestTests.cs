@@ -19,11 +19,28 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
             var request = PurchaseApplicationCreationRequest.Create(requestDto);
             
             request.Products.Count.Should().Be(requestDto.Products.Count);
-            request.Products.First().Link.Should().Be(new Link(requestDto.Products.First().Link.ValueUnsafe()));
-            request.Products.First().Units.Should().Be(new Units(int.Parse(requestDto.Products.First().Units.ValueUnsafe())));
-            //Me quedo aqui, pendiente de resolver dudas respecto a como validar los Value Objects.
+            var expectedLink = Link.Create(requestDto.Products.First().Link);
+            request.Products.First().Link.Should().Be(expectedLink.ValueUnsafe());
+            var expectedUnits = Units.Create(requestDto.Products.First().Units);
+            request.Products.First().Units.Should().Be(expectedUnits.ValueUnsafe());
+            request.Products.First().AdditionalInformation.IsSome.Should().BeTrue();
+            var expectedAdditionalInformation = AdditionalInformation.Create(requestDto.Products.First().AdditionalInformation);
+            request.Products.First().AdditionalInformation.IfSome(x => x.Should().Be(expectedAdditionalInformation.ValueUnsafe()));
+            request.Products.First().PromotionCode.IsSome.Should().BeTrue();
+            var expectedPromotionCode = PromotionCode.Create(requestDto.Products.First().PromotionCode);
+            request.Products.First().PromotionCode.IfSome(x => x.Should().Be(expectedPromotionCode.ValueUnsafe()));
+            var expectedClientName = Name.Create(requestDto.Client.Email);
+            request.ClientProp.Name.Should().Be(expectedClientName.ValueUnsafe());
+            var expectedClientPhoneNumber = PhoneNumber.Create(requestDto.Client.PhoneNumber);
+            request.ClientProp.PhoneNumber.Should().Be(expectedClientPhoneNumber.ValueUnsafe());
+            var expectedClientEmail = Email.Create(requestDto.Client.Email);
+            request.ClientProp.Email.Should().Be(expectedClientEmail.ValueUnsafe());
+            request.AdditionalInformation.IsSome.Should().BeTrue();
+            var expectedPurchaseApplicationAdditionalInformation = AdditionalInformation.Create(requestDto.AdditionalInformation);
+            request.AdditionalInformation.IfSome(x => x.Should().Be(expectedPurchaseApplicationAdditionalInformation .ValueUnsafe()));
         }
         
+
         private static PurchaseApplicationCreationRequestDto BuildPurchaseApplicationCreationRequestDto ()
         {
             return new PurchaseApplicationCreationRequestDto(

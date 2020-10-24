@@ -22,8 +22,8 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             Product BuildProduct(PurchaseApplicationCreationRequestDto.ProductDto product)
             {
                 return new Product(
-                    link: new Link(product.Link.ValueUnsafe()),
-                    units: new Units(int.Parse(product.Units.ValueUnsafe())),
+                    link: Link.Create(product.Link).ValueUnsafe(),
+                    units: Units.Create(product.Units).ValueUnsafe(),
                     additionalInformation: product.AdditionalInformation.Map(value => new AdditionalInformation(value)),
                     promotionCode: product.PromotionCode.Map(value => new PromotionCode(value)));
             }
@@ -31,9 +31,9 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             Client BuildClient()
             {
                 return new Client(
-                    name: new Name(creationRequestDto.Client.Name.ValueUnsafe()),
-                    phoneNumber: new PhoneNumber(creationRequestDto.Client.PhoneNumber.ValueUnsafe()),
-                    email: new Email(creationRequestDto.Client.Email.ValueUnsafe()));
+                    name: Name.Create(creationRequestDto.Client.Name).ValueUnsafe(),
+                    phoneNumber: PhoneNumber.Create(creationRequestDto.Client.PhoneNumber).ValueUnsafe(),
+                    email: Email.Create(creationRequestDto.Client.Email).ValueUnsafe());
             }
         }
 
