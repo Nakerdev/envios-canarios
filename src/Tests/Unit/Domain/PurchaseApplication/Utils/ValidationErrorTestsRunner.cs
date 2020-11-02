@@ -9,7 +9,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Utils
     public static class ValidationErrorTestsRunner
     {
         public static void Run<IValidationErrorCode, IType>(
-            IReadOnlyList<ValidationErrorTestCase<IValidationErrorCode, IType>> validationErrorTestCases)
+            IEnumerable<ValidationErrorTestCase<IValidationErrorCode, IType>> validationErrorTestCases)
         {
             foreach (var validationErrorTestCase in validationErrorTestCases)
             {

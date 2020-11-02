@@ -30,7 +30,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
             return productsDto
                 .Map(product => new Product(
                     link: Link.Create(product.Link).IfFail(() => throw new InvalidOperationException()),
-                    units: Units.Create(product.Units).ValueUnsafe(),
+                    units: Units.Create(product.Units).IfFail(() => throw new InvalidOperationException()),
                     product.AdditionalInformation.Map(x => new AdditionalInformation(x)),
                     promotionCode: product.PromotionCode.Map(x => new PromotionCode(x))))
                 .ToList()
