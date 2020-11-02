@@ -6,6 +6,7 @@ using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using FluentAssertions;
 using LanguageExt.UnsafeValueAccess;
 using NUnit.Framework;
+using PluralizeService.Core;
 
 namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
 {
@@ -55,7 +56,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
             result.IsFail.Should().BeTrue();
             result.IfFail(validationError =>
             {
-                validationError.First().FieldId.Should().Be(nameof(Product));
+                validationError.First().FieldId.Should().Be(PluralizationProvider.Pluralize(nameof(Product)));
                 validationError.First().ErrorCode.Should().Be(PurchaseApplicationCreationRequestValidationError.Required);
             });
         }

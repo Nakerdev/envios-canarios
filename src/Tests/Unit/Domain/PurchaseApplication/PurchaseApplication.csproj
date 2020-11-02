@@ -16,6 +16,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="PluralizeService.Core" Version="1.2.19339.3" />
     </ItemGroup>
 
     <ItemGroup>

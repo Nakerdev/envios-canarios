@@ -4,6 +4,7 @@ using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
 using LanguageExt.UnsafeValueAccess;
+using PluralizeService.Core;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
 {
@@ -21,7 +22,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
             if (productsDto.Count == 0)
             {
                 return new ValidationError<ProductValidationError>(
-                    fieldId: nameof(Product),
+                    fieldId: PluralizationProvider.Pluralize(nameof(Product)),
                     errorCode: ProductValidationError.Required);
             }
 
