@@ -77,6 +77,21 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
             });
         }
         
+        [Test]
+        public void DoesNotCreateProductsWhenSomeAdditionalInformationHasValidationErrors()
+        {
+            var product = buildProductDto(additionalInformation: new string('a', 1001));
+            
+            var result = Product.Create(new List<Product.Dto>{product}.AsReadOnly());
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationErrors =>
+            {
+                validationErrors.Count.Should().Be(1);
+                validationErrors.First().FieldId.Should().Be($"{nameof(Product)}[0].{nameof(AdditionalInformation)}");
+            });
+        }
+        
         private static Product.Dto buildProductDto(
             string link = "https://addidas.com/products/1", 
             string units = "1", 

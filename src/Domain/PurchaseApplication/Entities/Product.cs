@@ -36,20 +36,24 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                 {
                    var link = Link.Create(productDto.Value.Link);
                    var units = Units.Create(productDto.Value.Units);
+                   var additionalInformation = productDto.Value.AdditionalInformation
+                       .Map(x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x));
   
-                   if (link.IsFail || units.IsFail)
+                   if (link.IsFail 
+                       || units.IsFail 
+                       || additionalInformation.Match(None: () => false, Some: x => x.IsFail))
                    {
                        link.IfFail(errors => validationErrors = validationErrors.Concat(MapLinkValidationErrors(errors, productDto.Index)));
                        units.IfFail(errors => validationErrors = validationErrors.Concat(MapUnitsValidationErrors(errors, productDto.Index)));
+                       additionalInformation.IfSome(result =>
+                           result.IfFail(errors => validationErrors = validationErrors.Concat(MapAdditionalInformationValidationErrors(errors, productDto.Index))));
                    }
                    else
                    {
                        var product = new Product(
                            link: link.ToEither().ValueUnsafe(),
                            units: units.ToEither().ValueUnsafe(),
-                           productDto.Value.AdditionalInformation.Map(
-                               x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x)
-                                   .IfFail(() => throw new InvalidOperationException())),
+                           additionalInformation: additionalInformation.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe()),
                            promotionCode: productDto.Value.PromotionCode.Map(x =>
                                Domain.PurchaseApplication.ValueObjects.PromotionCode.Create(x)
                                    .IfFail(() => throw new InvalidOperationException()))); 
@@ -98,6 +102,25 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                         {UnitsValidationErrorCode.Required, ProductValidationErrorCode.Required},
                         {UnitsValidationErrorCode.InvalidValue, ProductValidationErrorCode.InvalidValue},
                         {UnitsValidationErrorCode.InvalidFormat, ProductValidationErrorCode.InvalidFormat}
+                    };
+                    return errorsEquality[errorCode];
+                }
+            }
+            
+            Seq<ValidationError<ProductValidationErrorCode>> MapAdditionalInformationValidationErrors(
+                Seq<ValidationError<AdditionalInformationValidationErrorCode>> validationErrors,
+                int index)
+            {
+                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                    fieldId: $"{nameof(Product)}[{index}].{nameof(AdditionalInformation)}",
+                    errorCode: MapErrorCode(validationError.ErrorCode)));
+
+                static ProductValidationErrorCode MapErrorCode(AdditionalInformationValidationErrorCode errorCode)
+                {
+                    var errorsEquality = new Dictionary<AdditionalInformationValidationErrorCode , ProductValidationErrorCode>
+                    {
+                        {AdditionalInformationValidationErrorCode.Required, ProductValidationErrorCode.Required},
+                        {AdditionalInformationValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength},
                     };
                     return errorsEquality[errorCode];
                 }
