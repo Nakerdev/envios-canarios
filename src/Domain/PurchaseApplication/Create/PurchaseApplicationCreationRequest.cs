@@ -1,6 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
@@ -23,7 +22,8 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                 .Map(p => new PurchaseApplicationCreationRequest(
                     products: p,
                     clientProp: BuildClient(),
-                    additionalInformation: creationRequestDto.AdditionalInformation.Map(value => new AdditionalInformation(value))))
+                    additionalInformation: creationRequestDto.AdditionalInformation.Map(
+                        value => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(value).IfFail(() => throw new InvalidOperationException()))))
                 .MapFail(error => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
                         fieldId: error.FieldId,
                         errorCode: PurchaseApplicationCreationRequestValidationError.Required));

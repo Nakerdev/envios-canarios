@@ -38,7 +38,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             }.AsReadOnly();
 
         [Test]
-        public void DoesNotCreateALinkWhenThereIsValidationError()
+        public void DoesNotCreateLinkWhenThereIsValidationError()
         {
             ValidationErrorTestsRunner.Run(_validationErrorTestCases);
         }

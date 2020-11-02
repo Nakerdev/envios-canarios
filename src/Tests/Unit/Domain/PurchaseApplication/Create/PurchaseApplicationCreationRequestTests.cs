@@ -29,8 +29,8 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                 var expectedUnits = Units.Create(requestDto.Products.First().Units).IfFail(() => null);
                 request.Products.First().Units.Should().Be(expectedUnits);
                 request.Products.First().AdditionalInformation.IsSome.Should().BeTrue();
-                var expectedAdditionalInformation = AdditionalInformation.Create(requestDto.Products.First().AdditionalInformation);
-                request.Products.First().AdditionalInformation.IfSome(x => x.Should().Be(expectedAdditionalInformation.ValueUnsafe()));
+                var expectedAdditionalInformation = AdditionalInformation.Create(requestDto.Products.First().AdditionalInformation).IfFail(() => null);
+                request.Products.First().AdditionalInformation.IfSome(x => x.Should().Be(expectedAdditionalInformation));
                 request.Products.First().PromotionCode.IsSome.Should().BeTrue();
                 var expectedPromotionCode = PromotionCode.Create(requestDto.Products.First().PromotionCode);
                 request.Products.First().PromotionCode.IfSome(x => x.Should().Be(expectedPromotionCode.ValueUnsafe()));
@@ -41,8 +41,8 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                 var expectedClientEmail = Email.Create(requestDto.Client.Email);
                 request.ClientProp.Email.Should().Be(expectedClientEmail.ValueUnsafe());
                 request.AdditionalInformation.IsSome.Should().BeTrue();
-                var expectedPurchaseApplicationAdditionalInformation = AdditionalInformation.Create(requestDto.AdditionalInformation);
-                request.AdditionalInformation.IfSome(x => x.Should().Be(expectedPurchaseApplicationAdditionalInformation .ValueUnsafe()));    
+                var expectedPurchaseApplicationAdditionalInformation = AdditionalInformation.Create(requestDto.AdditionalInformation).IfFail(() => null);
+                request.AdditionalInformation.IfSome(x => x.Should().Be(expectedPurchaseApplicationAdditionalInformation));    
             });
         }
 

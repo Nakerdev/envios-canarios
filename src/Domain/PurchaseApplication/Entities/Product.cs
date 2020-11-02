@@ -31,7 +31,8 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                 .Map(product => new Product(
                     link: Link.Create(product.Link).IfFail(() => throw new InvalidOperationException()),
                     units: Units.Create(product.Units).IfFail(() => throw new InvalidOperationException()),
-                    product.AdditionalInformation.Map(x => new AdditionalInformation(x)),
+                    product.AdditionalInformation.Map(
+                        x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x).IfFail(() => throw new InvalidOperationException())),
                     promotionCode: product.PromotionCode.Map(x => new PromotionCode(x))))
                 .ToList()
                 .AsReadOnly();
