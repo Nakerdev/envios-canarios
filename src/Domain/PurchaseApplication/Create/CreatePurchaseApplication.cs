@@ -1,5 +1,3 @@
-using System.Linq;
-using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.Services;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 
@@ -29,19 +27,10 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
         {
             return new PurchaseApplication(
                 id: Id.Create(),
-                products: purchaseApplicationCreationRequest.Products.Map((BuildProduct)).ToList().AsReadOnly(),
+                products: purchaseApplicationCreationRequest.Products,
                 client: purchaseApplicationCreationRequest.ClientProp,
                 additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
                 creationDateTime: timeService.UtcNow());
-
-            Product BuildProduct(Product product)
-            {
-                return new Product(
-                    link: product.Link,
-                    units: product.Units,
-                    additionalInformation: product.AdditionalInformation,
-                    promotionCode: product.PromotionCode);
-            }
         }
     }
 }

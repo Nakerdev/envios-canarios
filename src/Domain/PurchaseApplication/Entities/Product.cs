@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.Domain.PurchaseApplication.Create;
@@ -55,12 +54,11 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                    }
                    else
                    {
-                       var product = new Product(
-                           link: link.ToEither().ValueUnsafe(),
-                           units: units.ToEither().ValueUnsafe(),
-                           additionalInformation: additionalInformation.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe()),
-                           promotionCode: promotionCode.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe())); 
-                          products.Add(product);
+                       products.Add(new Product(
+                          link: link.ToEither().ValueUnsafe(),
+                          units: units.ToEither().ValueUnsafe(),
+                          additionalInformation: additionalInformation.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe()),
+                          promotionCode: promotionCode.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe())));
                    }                  
                 });
 
@@ -149,7 +147,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
             }
         }
 
-        public Product(
+        private Product(
             Link link, 
             Units units, 
             Option<AdditionalInformation> additionalInformation, 
