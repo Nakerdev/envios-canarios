@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.Tests.Domain.PurchaseApplication.Utils;
 using FluentAssertions;
-using LanguageExt;
 using NUnit.Framework;
 using static LanguageExt.Prelude;
 
@@ -20,23 +18,6 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             var result = Link.Create(link);
 
             result.IsSuccess.Should().BeTrue();
-        }
-
-        public class ValidationErrorTestCase<IValidationErrorCode, IType>
-        {
-            public Func<Validation<ValidationError<IValidationErrorCode>, IType>> Builder { get; }
-            public string ExpectedFieldId { get; }
-            public IValidationErrorCode ExpectedErrorCode { get; }
-
-            public ValidationErrorTestCase(
-                Func<Validation<ValidationError<IValidationErrorCode>, IType>> builder, 
-                string expectedFieldId, 
-                IValidationErrorCode expectedErrorCode)
-            {
-                Builder = builder;
-                ExpectedFieldId = expectedFieldId;
-                ExpectedErrorCode = expectedErrorCode;
-            }
         }
         
         private readonly IReadOnlyList<ValidationErrorTestCase<LinkValidationErrorCode, Link>> _validationErrorTestCases =
@@ -59,18 +40,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
         [Test]
         public void DoesNotCreateALinkWhenThereIsValidationError()
         {
-            foreach (var validationErrorTestCase in _validationErrorTestCases)
-            {
-                var result = validationErrorTestCase.Builder();
-            
-                result.IsFail.Should().BeTrue();
-                result.IfFail(validationErrors =>
-                {
-                    validationErrors.Count.Should().Be(1);
-                    validationErrors.First().FieldId.Should().Be(validationErrorTestCase.ExpectedFieldId);
-                    validationErrors.First().ErrorCode.Should().Be(validationErrorTestCase.ExpectedErrorCode);
-                });    
-            }
+            ValidationErrorTestsRunner.Run(_validationErrorTestCases);
         }
     }
 }
