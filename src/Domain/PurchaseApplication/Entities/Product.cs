@@ -26,17 +26,61 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                     fieldId: PluralizationProvider.Pluralize(nameof(Product)),
                     errorCode: ProductValidationErrorCode.Required);
             }
-
-            return productsDto
-                .Map(product => new Product(
-                    link: Link.Create(product.Link).IfFail(() => throw new InvalidOperationException()),
-                    units: Units.Create(product.Units).IfFail(() => throw new InvalidOperationException()),
-                    product.AdditionalInformation.Map(
-                        x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x).IfFail(() => throw new InvalidOperationException())),
-                    promotionCode: product.PromotionCode.Map(x => 
-                        Domain.PurchaseApplication.ValueObjects.PromotionCode.Create(x).IfFail(() => throw new InvalidOperationException()))))
+           
+            var validationErrors = new Seq<ValidationError<ProductValidationErrorCode>>();
+            var products = new List<Product>();
+            productsDto
+                .Select((productDto, index) => new {Value = productDto, Index = index} )
                 .ToList()
-                .AsReadOnly();
+                .ForEach(productDto =>
+                {
+                   var link = Link.Create(productDto.Value.Link);
+  
+                   if (link.IsFail)
+                   {
+                       link.IfFail(errors => validationErrors = validationErrors.Concat(MapLinkValidationErrors(errors, productDto.Index)));
+                   }
+                   else
+                   {
+                       var product = new Product(
+                           link: link.ToEither().ValueUnsafe(),
+                           units: Units.Create(productDto.Value.Units)
+                               .IfFail(() => throw new InvalidOperationException()),
+                           productDto.Value.AdditionalInformation.Map(
+                               x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x)
+                                   .IfFail(() => throw new InvalidOperationException())),
+                           promotionCode: productDto.Value.PromotionCode.Map(x =>
+                               Domain.PurchaseApplication.ValueObjects.PromotionCode.Create(x)
+                                   .IfFail(() => throw new InvalidOperationException()))); 
+                          products.Add(product);
+                   }                  
+                });
+
+            if (validationErrors.Count > 0)
+            {
+                return validationErrors;
+            }
+            return products.ToList().AsReadOnly();
+            
+            Seq<ValidationError<ProductValidationErrorCode>> MapLinkValidationErrors(
+                Seq<ValidationError<LinkValidationErrorCode>> validationErrors,
+                int index)
+            {
+                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                    fieldId: $"{nameof(Product)}[{index}].{nameof(Link)}",
+                    errorCode: MapErrorCode(validationError.ErrorCode)));
+
+                static ProductValidationErrorCode MapErrorCode(LinkValidationErrorCode errorCode)
+                {
+                    var errorsEquality = new Dictionary<LinkValidationErrorCode, ProductValidationErrorCode>
+                    {
+                        {LinkValidationErrorCode.Required, ProductValidationErrorCode.Required},
+                        {LinkValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength},
+                        {LinkValidationErrorCode.InvalidFormat, ProductValidationErrorCode.InvalidFormat}
+                    };
+                    return errorsEquality[errorCode];
+                }
+            }
         }
 
         public Product(
@@ -74,6 +118,8 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
 
     public enum ProductValidationErrorCode
     {
-        Required
+        Required,
+        WrongLength,
+        InvalidFormat
     }
 }
