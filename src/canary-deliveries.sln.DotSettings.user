@@ -9,5 +9,6 @@
     &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects.UnitsTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects.AdditionalInformationTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects.PromotionCodeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects.NameTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

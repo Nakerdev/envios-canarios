@@ -31,7 +31,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             Client BuildClient()
             {
                 return new Client(
-                    name: Name.Create(creationRequestDto.Client.Name).ValueUnsafe(),
+                    name: Name.Create(creationRequestDto.Client.Name).IfFail(() => throw new InvalidOperationException()),
                     phoneNumber: PhoneNumber.Create(creationRequestDto.Client.PhoneNumber).ValueUnsafe(),
                     email: Email.Create(creationRequestDto.Client.Email).ValueUnsafe());
             }
