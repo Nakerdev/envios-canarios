@@ -38,15 +38,20 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                    var units = Units.Create(productDto.Value.Units);
                    var additionalInformation = productDto.Value.AdditionalInformation
                        .Map(x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x));
+                   var promotionCode = productDto.Value.PromotionCode
+                        .Map(x => Domain.PurchaseApplication.ValueObjects.PromotionCode.Create(x));
   
                    if (link.IsFail 
                        || units.IsFail 
-                       || additionalInformation.Match(None: () => false, Some: x => x.IsFail))
+                       || additionalInformation.Match(None: () => false, Some: x => x.IsFail)
+                       || promotionCode.Match(None: () => false, Some: x => x.IsFail))
                    {
                        link.IfFail(errors => validationErrors = validationErrors.Concat(MapLinkValidationErrors(errors, productDto.Index)));
                        units.IfFail(errors => validationErrors = validationErrors.Concat(MapUnitsValidationErrors(errors, productDto.Index)));
                        additionalInformation.IfSome(result =>
                            result.IfFail(errors => validationErrors = validationErrors.Concat(MapAdditionalInformationValidationErrors(errors, productDto.Index))));
+                       promotionCode.IfSome(result =>
+                            result.IfFail(errors => validationErrors = validationErrors.Concat(MapPromotionCodeValidationErrors(errors, productDto.Index))));
                    }
                    else
                    {
@@ -54,9 +59,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                            link: link.ToEither().ValueUnsafe(),
                            units: units.ToEither().ValueUnsafe(),
                            additionalInformation: additionalInformation.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe()),
-                           promotionCode: productDto.Value.PromotionCode.Map(x =>
-                               Domain.PurchaseApplication.ValueObjects.PromotionCode.Create(x)
-                                   .IfFail(() => throw new InvalidOperationException()))); 
+                           promotionCode: promotionCode.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe())); 
                           products.Add(product);
                    }                  
                 });
@@ -117,10 +120,29 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
 
                 static ProductValidationErrorCode MapErrorCode(AdditionalInformationValidationErrorCode errorCode)
                 {
-                    var errorsEquality = new Dictionary<AdditionalInformationValidationErrorCode , ProductValidationErrorCode>
+                    var errorsEquality = new Dictionary<AdditionalInformationValidationErrorCode, ProductValidationErrorCode>
                     {
                         {AdditionalInformationValidationErrorCode.Required, ProductValidationErrorCode.Required},
-                        {AdditionalInformationValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength},
+                        {AdditionalInformationValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength}
+                    };
+                    return errorsEquality[errorCode];
+                }
+            }
+            
+            Seq<ValidationError<ProductValidationErrorCode>> MapPromotionCodeValidationErrors(
+                Seq<ValidationError<PromotionCodeValidationErrorCode>> validationErrors,
+                int index)
+            {
+                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                    fieldId: $"{nameof(Product)}[{index}].{nameof(PromotionCode)}",
+                    errorCode: MapErrorCode(validationError.ErrorCode)));
+
+                static ProductValidationErrorCode MapErrorCode(PromotionCodeValidationErrorCode errorCode)
+                {
+                    var errorsEquality = new Dictionary<PromotionCodeValidationErrorCode, ProductValidationErrorCode>
+                    {
+                        {PromotionCodeValidationErrorCode.Required, ProductValidationErrorCode.Required},
+                        {PromotionCodeValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength}
                     };
                     return errorsEquality[errorCode];
                 }
