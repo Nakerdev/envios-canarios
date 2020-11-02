@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.Domain.PurchaseApplication.Create;
@@ -28,8 +29,8 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
 
             return productsDto
                 .Map(product => new Product(
-                    link: ValueObjects.Link.Create(product.Link).ValueUnsafe(),
-                    units: ValueObjects.Units.Create(product.Units).ValueUnsafe(),
+                    link: Link.Create(product.Link).IfFail(() => throw new InvalidOperationException()),
+                    units: Units.Create(product.Units).ValueUnsafe(),
                     product.AdditionalInformation.Map(x => new AdditionalInformation(x)),
                     promotionCode: product.PromotionCode.Map(x => new PromotionCode(x))))
                 .ToList()

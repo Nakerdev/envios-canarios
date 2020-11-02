@@ -24,8 +24,8 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
             result .IfSuccess(request =>
             {
                 request.Products.Count.Should().Be(requestDto.Products.Count);
-                var expectedLink = Link.Create(requestDto.Products.First().Link);
-                request.Products.First().Link.Should().Be(expectedLink.ValueUnsafe());
+                var expectedLink = new Link(requestDto.Products.First().Link.ValueUnsafe());
+                request.Products.First().Link.Should().Be(expectedLink);
                 var expectedUnits = Units.Create(requestDto.Products.First().Units);
                 request.Products.First().Units.Should().Be(expectedUnits.ValueUnsafe());
                 request.Products.First().AdditionalInformation.IsSome.Should().BeTrue();

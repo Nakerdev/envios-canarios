@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using LanguageExt;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
@@ -6,14 +8,17 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private string value;
         
-        public static Either<LinkValidationError, Link> Create(Option<string> value)
+        public static Validation<ValidationError<LinkValidationError>, Link> Create(
+            Option<string> value)
         {
             return value
                 .Map(v => new Link(v))
-                .ToEither(() => LinkValidationError.Required);
+                .ToValidation(new ValidationError<LinkValidationError>(
+                    fieldId: nameof(Link),
+                    errorCode: LinkValidationError.Required));
         }
 
-        private Link(string value)
+        public Link(string value)
         {
             this.value = value;
         }
