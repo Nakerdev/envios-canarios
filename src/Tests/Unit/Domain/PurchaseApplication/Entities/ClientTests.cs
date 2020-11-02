@@ -11,10 +11,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
         [Test]
         public void CreatesClient()
         {
-            var clientDto = new Client.ClientDto(
-                name: "Alfredo", 
-                phoneNumber: "610929292", 
-                email: "alfredo@email.com");
+            var clientDto = buildClientDto();
             
             var result = Client.Create(clientDto);
 
@@ -28,6 +25,32 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
                 var expectedEmail = Email.Create(clientDto.Email).IfFail(() => null);
                 client.Email.Should().Be(expectedEmail);
             });
+        }
+        
+        [Test]
+        public void DoesNotCreateClientWhenNameHasValidationErrors()
+        {
+            var clientDto = buildClientDto(name: null);
+            
+            var result = Client.Create(clientDto);
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationErrors =>
+            {
+                validationErrors.Count.Should().Be(1);
+                validationErrors.First().FieldId.Should().Be($"{nameof(Client)}.{nameof(Name)}");
+            });
+        }
+
+        private static Client.Dto buildClientDto(
+            string name = "Alfredo",
+            string phoneNumber = "620929292",
+            string email = "alfredo@email.com")
+        {
+            return new Client.Dto(
+                name: name,
+                phoneNumber: phoneNumber,
+                email: email);
         }
     }
 }
