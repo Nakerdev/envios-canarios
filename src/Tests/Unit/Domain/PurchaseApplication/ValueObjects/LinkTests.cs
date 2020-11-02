@@ -11,7 +11,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
     public sealed class LinkTests
     {
         [Test]
-        public void CreatesALink()
+        public void CreatesLink()
         {
             const string link = "https://adidas.com/product/0";
             

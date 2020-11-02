@@ -33,7 +33,8 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                     units: Units.Create(product.Units).IfFail(() => throw new InvalidOperationException()),
                     product.AdditionalInformation.Map(
                         x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x).IfFail(() => throw new InvalidOperationException())),
-                    promotionCode: product.PromotionCode.Map(x => new PromotionCode(x))))
+                    promotionCode: product.PromotionCode.Map(x => 
+                        Domain.PurchaseApplication.ValueObjects.PromotionCode.Create(x).IfFail(() => throw new InvalidOperationException()))))
                 .ToList()
                 .AsReadOnly();
         }

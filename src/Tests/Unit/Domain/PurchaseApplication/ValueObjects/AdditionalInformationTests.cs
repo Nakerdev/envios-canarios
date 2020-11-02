@@ -11,7 +11,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
     public sealed class AdditionalInformationTests
     {
         [Test]
-        public void CreatesALink()
+        public void CreatesAdditionalInformation()
         {
             var result = AdditionalInformation.Create("Additional information");
 

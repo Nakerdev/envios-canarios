@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using LanguageExt;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
@@ -7,21 +7,51 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private string value;
         
-        public static Either<PromotionCodeValidationError, PromotionCode> Create(Option<string> value)
+        public static Validation<ValidationError<PromotionCodeValidationErrorCode>, PromotionCode> Create(
+            Option<string> value)
         {
-            return value
-                .Map(v => new PromotionCode(v))
-                .ToEither(() => PromotionCodeValidationError.Required);
+            return
+                from promotionCode in ValidateRequire(value)
+                from _1 in ValidateLenght(promotionCode)
+                select promotionCode;
+
+            Validation<ValidationError<PromotionCodeValidationErrorCode>, PromotionCode> ValidateRequire(
+                Option<string> val)
+            {
+                return val
+                    .Map(v => new PromotionCode(v))
+                    .ToValidation(CreateValidationError(PromotionCodeValidationErrorCode.Required));
+            }
+            
+            Validation<ValidationError<PromotionCodeValidationErrorCode>, PromotionCode> ValidateLenght(
+                PromotionCode promotionCode)
+            {
+                const int maxAllowedLenght = 50;
+                if (promotionCode.value.Length > maxAllowedLenght)
+                {
+                    return CreateValidationError(PromotionCodeValidationErrorCode.WrongLength);
+                }
+                return promotionCode;
+            }
+
+            ValidationError<PromotionCodeValidationErrorCode> CreateValidationError(
+                PromotionCodeValidationErrorCode errorCode)
+            {
+                return new ValidationError<PromotionCodeValidationErrorCode>(
+                    fieldId: nameof(PromotionCode), 
+                    errorCode: errorCode);
+            }
         }
 
-        public PromotionCode(string value)
+        private PromotionCode(string value)
         {
             this.value = value;
         }
     }
 
-    public enum PromotionCodeValidationError
+    public enum PromotionCodeValidationErrorCode
     {
-        Required
+        Required,
+        WrongLength
     }
 }

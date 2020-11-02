@@ -32,8 +32,8 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                 var expectedAdditionalInformation = AdditionalInformation.Create(requestDto.Products.First().AdditionalInformation).IfFail(() => null);
                 request.Products.First().AdditionalInformation.IfSome(x => x.Should().Be(expectedAdditionalInformation));
                 request.Products.First().PromotionCode.IsSome.Should().BeTrue();
-                var expectedPromotionCode = PromotionCode.Create(requestDto.Products.First().PromotionCode);
-                request.Products.First().PromotionCode.IfSome(x => x.Should().Be(expectedPromotionCode.ValueUnsafe()));
+                var expectedPromotionCode = PromotionCode.Create(requestDto.Products.First().PromotionCode).IfFail(() => null);
+                request.Products.First().PromotionCode.IfSome(x => x.Should().Be(expectedPromotionCode));
                 var expectedClientName = Name.Create(requestDto.Client.Email);
                 request.ClientProp.Name.Should().Be(expectedClientName.ValueUnsafe());
                 var expectedClientPhoneNumber = PhoneNumber.Create(requestDto.Client.PhoneNumber);

@@ -43,7 +43,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             }
         }
 
-        private AdditionalInformation(string value)
+        public AdditionalInformation(string value)
         {
             this.value = value;
         }
