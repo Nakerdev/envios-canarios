@@ -35,17 +35,18 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                 .ForEach(productDto =>
                 {
                    var link = Link.Create(productDto.Value.Link);
+                   var units = Units.Create(productDto.Value.Units);
   
-                   if (link.IsFail)
+                   if (link.IsFail || units.IsFail)
                    {
                        link.IfFail(errors => validationErrors = validationErrors.Concat(MapLinkValidationErrors(errors, productDto.Index)));
+                       units.IfFail(errors => validationErrors = validationErrors.Concat(MapUnitsValidationErrors(errors, productDto.Index)));
                    }
                    else
                    {
                        var product = new Product(
                            link: link.ToEither().ValueUnsafe(),
-                           units: Units.Create(productDto.Value.Units)
-                               .IfFail(() => throw new InvalidOperationException()),
+                           units: units.ToEither().ValueUnsafe(),
                            productDto.Value.AdditionalInformation.Map(
                                x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x)
                                    .IfFail(() => throw new InvalidOperationException())),
@@ -77,6 +78,26 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                         {LinkValidationErrorCode.Required, ProductValidationErrorCode.Required},
                         {LinkValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength},
                         {LinkValidationErrorCode.InvalidFormat, ProductValidationErrorCode.InvalidFormat}
+                    };
+                    return errorsEquality[errorCode];
+                }
+            }
+            
+            Seq<ValidationError<ProductValidationErrorCode>> MapUnitsValidationErrors(
+                Seq<ValidationError<UnitsValidationErrorCode>> validationErrors,
+                int index)
+            {
+                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                    fieldId: $"{nameof(Product)}[{index}].{nameof(Units)}",
+                    errorCode: MapErrorCode(validationError.ErrorCode)));
+
+                static ProductValidationErrorCode MapErrorCode(UnitsValidationErrorCode errorCode)
+                {
+                    var errorsEquality = new Dictionary<UnitsValidationErrorCode, ProductValidationErrorCode>
+                    {
+                        {UnitsValidationErrorCode.Required, ProductValidationErrorCode.Required},
+                        {UnitsValidationErrorCode.InvalidValue, ProductValidationErrorCode.InvalidValue},
+                        {UnitsValidationErrorCode.InvalidFormat, ProductValidationErrorCode.InvalidFormat}
                     };
                     return errorsEquality[errorCode];
                 }
@@ -120,6 +141,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
     {
         Required,
         WrongLength,
-        InvalidFormat
+        InvalidFormat,
+        InvalidValue
     }
 }

@@ -62,6 +62,21 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
             });
         }
         
+        [Test]
+        public void DoesNotCreateProductsWhenSomeUnitsHasValidationErrors()
+        {
+            var product = buildProductDto(units: null);
+            
+            var result = Product.Create(new List<Product.Dto>{product}.AsReadOnly());
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationErrors =>
+            {
+                validationErrors.Count.Should().Be(1);
+                validationErrors.First().FieldId.Should().Be($"{nameof(Product)}[0].{nameof(Units)}");
+            });
+        }
+        
         private static Product.Dto buildProductDto(
             string link = "https://addidas.com/products/1", 
             string units = "1", 
