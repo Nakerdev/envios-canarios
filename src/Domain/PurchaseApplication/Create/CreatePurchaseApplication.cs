@@ -30,7 +30,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             return new PurchaseApplication(
                 id: Id.Create(),
                 products: purchaseApplicationCreationRequest.Products.Map((BuildProduct)).ToList().AsReadOnly(),
-                client: BuildClient(),
+                client: purchaseApplicationCreationRequest.ClientProp,
                 additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
                 creationDateTime: timeService.UtcNow());
 
@@ -41,14 +41,6 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                     units: product.Units,
                     additionalInformation: product.AdditionalInformation,
                     promotionCode: product.PromotionCode);
-            }
-
-            Client BuildClient()
-            {
-                return new Client(
-                    name: purchaseApplicationCreationRequest.ClientProp.Name,
-                    phoneNumber: purchaseApplicationCreationRequest.ClientProp.PhoneNumber,
-                    email: purchaseApplicationCreationRequest.ClientProp.Email);
             }
         }
     }

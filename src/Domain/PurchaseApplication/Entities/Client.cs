@@ -93,7 +93,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
             }
         }
 
-        public Client(
+        private Client(
             Name name, 
             PhoneNumber phoneNumber, 
             Email email)

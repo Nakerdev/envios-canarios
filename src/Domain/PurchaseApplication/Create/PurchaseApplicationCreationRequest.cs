@@ -30,10 +30,11 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
 
             Client BuildClient()
             {
-                return new Client(
-                    name: Name.Create(creationRequestDto.Client.Name).IfFail(() => throw new InvalidOperationException()),
-                    phoneNumber: PhoneNumber.Create(creationRequestDto.Client.PhoneNumber).IfFail(() => throw new InvalidOperationException()),
-                    email: Email.Create(creationRequestDto.Client.Email).IfFail(() => throw new InvalidOperationException()));
+                var dto = new Client.Dto(                    
+                    name: creationRequestDto.Client.Name,
+                    phoneNumber: creationRequestDto.Client.PhoneNumber,
+                    email: creationRequestDto.Client.Email);
+                return Client.Create(dto).IfFail(() => throw new InvalidOperationException());
             }
         }
 
@@ -45,23 +46,6 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             Products = products;
             ClientProp = clientProp;
             AdditionalInformation = additionalInformation;
-        }
-
-        public sealed class Client
-        {
-            public Name Name { get; }
-            public PhoneNumber PhoneNumber { get; }
-            public Email Email { get; }
-    
-            public Client(
-                Name name, 
-                PhoneNumber phoneNumber, 
-                Email email)
-            {
-                Name = name;
-                PhoneNumber = phoneNumber;
-                Email = email;
-            }
         }
     }
     
