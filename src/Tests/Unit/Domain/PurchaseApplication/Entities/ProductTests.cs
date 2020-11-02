@@ -4,6 +4,7 @@ using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using FluentAssertions;
 using NUnit.Framework;
+using PluralizeService.Core;
 
 namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
 {
@@ -30,6 +31,19 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
                 var expectedPromotionCode = PromotionCode.Create(productDto.PromotionCode).IfFail(() => null);
                 products.First().PromotionCode.IsSome.Should().BeTrue();
                 products.First().PromotionCode.IfSome(x => x.Should().Be(expectedPromotionCode));
+            });
+        }
+        
+        [Test]
+        public void DoesNotCreateProductsWhenThereAreNotProducts()
+        {
+            var result = Product.Create(new List<Product.Dto>().AsReadOnly());
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationError =>
+            {
+                validationError.First().FieldId.Should().Be(PluralizationProvider.Pluralize(nameof(Product)));
+                validationError.First().ErrorCode.Should().Be(ProductValidationErrorCode.Required);
             });
         }
         

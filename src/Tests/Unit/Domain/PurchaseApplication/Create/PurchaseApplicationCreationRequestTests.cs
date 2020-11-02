@@ -46,22 +46,6 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
             });
         }
 
-        [Test]
-        public void DoesNotCreatePurchaseApplicationRequestWhenThereAreNotProducts()
-        {
-            var requestDto = BuildPurchaseApplicationCreationRequestDto(isProductListEmpty: true);
-
-            var result = PurchaseApplicationCreationRequest.Create(requestDto);
-
-            result.IsFail.Should().BeTrue();
-            result.IfFail(validationError =>
-            {
-                validationError.First().FieldId.Should().Be(PluralizationProvider.Pluralize(nameof(Product)));
-                validationError.First().ErrorCode.Should().Be(PurchaseApplicationCreationRequestValidationError.Required);
-            });
-        }
-        
-
         private static PurchaseApplicationCreationRequestDto BuildPurchaseApplicationCreationRequestDto(
             bool isProductListEmpty = false,
             string productLink = "https://addidas.com/any/product")

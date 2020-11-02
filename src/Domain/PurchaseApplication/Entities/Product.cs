@@ -17,14 +17,14 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
         public Option<PromotionCode> PromotionCode { get; }
 
         public static Validation<
-            ValidationError<ProductValidationError>, 
+            ValidationError<ProductValidationErrorCode>, 
             IReadOnlyList<Product>> Create(IReadOnlyList<Dto> productsDto)
         {
             if (productsDto.Count == 0)
             {
-                return new ValidationError<ProductValidationError>(
+                return new ValidationError<ProductValidationErrorCode>(
                     fieldId: PluralizationProvider.Pluralize(nameof(Product)),
-                    errorCode: ProductValidationError.Required);
+                    errorCode: ProductValidationErrorCode.Required);
             }
 
             return productsDto
@@ -72,7 +72,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
         }
     }
 
-    public enum ProductValidationError
+    public enum ProductValidationErrorCode
     {
         Required
     }
