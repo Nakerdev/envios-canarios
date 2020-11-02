@@ -51,12 +51,12 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
     
     public sealed class PurchaseApplicationCreationRequestDto
     {
-        public List<Product.ProductDto> Products { get; }
+        public List<Product.Dto> Products { get; }
         public ClientDto Client { get; }
         public Option<string> AdditionalInformation { get; }
 
         public PurchaseApplicationCreationRequestDto(
-            List<Product.ProductDto> products, 
+            List<Product.Dto> products, 
             ClientDto client, 
             Option<string> additionalInformation)
         {

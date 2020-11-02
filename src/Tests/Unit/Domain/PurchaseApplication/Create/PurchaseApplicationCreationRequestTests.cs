@@ -28,11 +28,11 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                 request.Products.First().Link.Should().Be(expectedLink);
                 var expectedUnits = Units.Create(requestDto.Products.First().Units).IfFail(() => null);
                 request.Products.First().Units.Should().Be(expectedUnits);
-                request.Products.First().AdditionalInformation.IsSome.Should().BeTrue();
                 var expectedAdditionalInformation = AdditionalInformation.Create(requestDto.Products.First().AdditionalInformation).IfFail(() => null);
+                request.Products.First().AdditionalInformation.IsSome.Should().BeTrue();
                 request.Products.First().AdditionalInformation.IfSome(x => x.Should().Be(expectedAdditionalInformation));
-                request.Products.First().PromotionCode.IsSome.Should().BeTrue();
                 var expectedPromotionCode = PromotionCode.Create(requestDto.Products.First().PromotionCode).IfFail(() => null);
+                request.Products.First().PromotionCode.IsSome.Should().BeTrue();
                 request.Products.First().PromotionCode.IfSome(x => x.Should().Be(expectedPromotionCode));
                 var expectedClientName = Name.Create(requestDto.Client.Email).IfFail(() => null);
                 request.ClientProp.Name.Should().Be(expectedClientName);
@@ -40,8 +40,8 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                 request.ClientProp.PhoneNumber.Should().Be(expectedClientPhoneNumber);
                 var expectedClientEmail = Email.Create(requestDto.Client.Email).IfFail(() => null);
                 request.ClientProp.Email.Should().Be(expectedClientEmail);
-                request.AdditionalInformation.IsSome.Should().BeTrue();
                 var expectedPurchaseApplicationAdditionalInformation = AdditionalInformation.Create(requestDto.AdditionalInformation).IfFail(() => null);
+                request.AdditionalInformation.IsSome.Should().BeTrue();
                 request.AdditionalInformation.IfSome(x => x.Should().Be(expectedPurchaseApplicationAdditionalInformation));    
             });
         }
@@ -74,13 +74,13 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                     email: "alfredo@elguapo.com"),
                 additionalInformation: "Purchase application additional information");
 
-            List<Product.ProductDto> BuildProducts()
+            List<Product.Dto> BuildProducts()
             {
                 return isProductListEmpty 
-                    ? new List<Product.ProductDto>() 
-                    : new List<Product.ProductDto>
+                    ? new List<Product.Dto>() 
+                    : new List<Product.Dto>
                     {
-                        new Product.ProductDto(
+                        new Product.Dto(
                             link: productLink,
                             units: "1",
                             additionalInformation: "Product additional product",

@@ -68,9 +68,9 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
         private static PurchaseApplicationCreationRequest BuildPurchaseApplicationCreationRequest()
         {
             var requestDto = new PurchaseApplicationCreationRequestDto(
-                products: new List<Product.ProductDto>
+                products: new List<Product.Dto>
                 {
-                    new Product.ProductDto(
+                    new Product.Dto(
                         link: "https://addidas.com/any/product",
                         units: "1",
                         additionalInformation: "Product additional product",

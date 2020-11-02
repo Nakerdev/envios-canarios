@@ -18,7 +18,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
 
         public static Validation<
             ValidationError<ProductValidationError>, 
-            IReadOnlyList<Product>> Create(IReadOnlyList<ProductDto> productsDto)
+            IReadOnlyList<Product>> Create(IReadOnlyList<Dto> productsDto)
         {
             if (productsDto.Count == 0)
             {
@@ -51,14 +51,14 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
             PromotionCode = promotionCode;
         }
         
-        public class ProductDto
+        public class Dto
         {
             public Option<string> Link { get; }
             public Option<string> Units { get; }
             public Option<string> AdditionalInformation { get; }
             public Option<string> PromotionCode { get; }
 
-            public ProductDto(
+            public Dto(
                 Option<string> link, 
                 Option<string> units, 
                 Option<string> additionalInformation, 
