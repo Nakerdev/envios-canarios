@@ -33,7 +33,23 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             {
                 validationErrors.Count.Should().Be(1);
                 validationErrors.First().FieldId.Should().Be(nameof(Link));
-                validationErrors.First().ErrorCode.Should().Be(LinkValidationError.Required);
+                validationErrors.First().ErrorCode.Should().Be(LinkValidationErrorCode.Required);
+            });
+        }
+        
+        [Test]
+        public void DoesNotCreateALinkWhenValueIsNotAValidLinkFormat()
+        {
+            const string link = "https-not-valid-link";
+            
+            var result = Link.Create(link);
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationErrors =>
+            {
+                validationErrors.Count.Should().Be(1);
+                validationErrors.First().FieldId.Should().Be(nameof(Link));
+                validationErrors.First().ErrorCode.Should().Be(LinkValidationErrorCode.InvalidFormat);
             });
         }
     }
