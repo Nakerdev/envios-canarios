@@ -13,7 +13,8 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
         {
             return
                 from link in ValidateRequire(value)
-                from _ in ValidateFormat(link)
+                from _1 in ValidateLenght(link)
+                from _2 in ValidateFormat(link)
                 select link;
 
             Validation<ValidationError<LinkValidationErrorCode>, Link> ValidateRequire(Option<string> val)
@@ -25,9 +26,21 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                         errorCode: LinkValidationErrorCode.Required));
             }
             
+            Validation<ValidationError<LinkValidationErrorCode>, Link> ValidateLenght(Link link)
+            {
+                const int maxAllowedLenght = 1000;
+                if (link.value.Length > maxAllowedLenght)
+                {
+                    return new ValidationError<LinkValidationErrorCode>(
+                        fieldId: nameof(Link),
+                        errorCode: LinkValidationErrorCode.WrongLength);
+                }
+                return link;
+            }
+            
             Validation<ValidationError<LinkValidationErrorCode>, Link> ValidateFormat(Link link)
             {
-                if (!link.IsValidLinkFormat())
+                if (!Uri.IsWellFormedUriString(link.value, UriKind.Absolute))
                 {
                     return new ValidationError<LinkValidationErrorCode>(
                         fieldId: nameof(Link),
@@ -41,16 +54,12 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
         {
             this.value = value;
         }
-
-        private bool IsValidLinkFormat()
-        {
-            return Uri.IsWellFormedUriString(value, UriKind.Absolute);
-        }
     }
 
     public enum LinkValidationErrorCode
     {
         Required,
-        InvalidFormat
+        InvalidFormat,
+        WrongLength
     }
 }

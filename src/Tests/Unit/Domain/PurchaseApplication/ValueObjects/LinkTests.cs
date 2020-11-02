@@ -38,9 +38,25 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
         }
         
         [Test]
+        public void DoesNotCreateALinkWhenValueIsTooLong()
+        {
+            var link = new string('a', 1001);
+            
+            var result = Link.Create(link);
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationErrors =>
+            {
+                validationErrors.Count.Should().Be(1);
+                validationErrors.First().FieldId.Should().Be(nameof(Link));
+                validationErrors.First().ErrorCode.Should().Be(LinkValidationErrorCode.WrongLength);
+            });
+        }
+        
+        [Test]
         public void DoesNotCreateALinkWhenValueIsNotAValidLinkFormat()
         {
-            const string link = "https-not-valid-link";
+            const string link = "https//not-valid-link";
             
             var result = Link.Create(link);
 
