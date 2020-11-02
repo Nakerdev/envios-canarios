@@ -41,6 +41,36 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
                 validationErrors.First().FieldId.Should().Be($"{nameof(Client)}.{nameof(Name)}");
             });
         }
+        
+        [Test]
+        public void DoesNotCreateClientWhenPhoneNumberHasValidationErrors()
+        {
+            var clientDto = buildClientDto(phoneNumber: null);
+            
+            var result = Client.Create(clientDto);
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationErrors =>
+            {
+                validationErrors.Count.Should().Be(1);
+                validationErrors.First().FieldId.Should().Be($"{nameof(Client)}.{nameof(PhoneNumber)}");
+            });
+        }
+        
+        [Test]
+        public void DoesNotCreateClientWhenEmailHasValidationErrors()
+        {
+            var clientDto = buildClientDto(email: null);
+            
+            var result = Client.Create(clientDto);
+
+            result.IsFail.Should().BeTrue();
+            result.IfFail(validationErrors =>
+            {
+                validationErrors.Count.Should().Be(1);
+                validationErrors.First().FieldId.Should().Be($"{nameof(Client)}.{nameof(Email)}");
+            });
+        }
 
         private static Client.Dto buildClientDto(
             string name = "Alfredo",
