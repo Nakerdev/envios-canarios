@@ -16,11 +16,6 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             var result = Link.Create(link);
 
             result.IsSuccess.Should().BeTrue();
-            result.IfSuccess(createdLink =>
-            {
-                var expectedLink = new Link(link);
-                createdLink.Should().Be(expectedLink);
-            });
         }
         
         [Test]

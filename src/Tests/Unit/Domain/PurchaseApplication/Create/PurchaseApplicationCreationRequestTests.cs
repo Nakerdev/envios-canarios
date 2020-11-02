@@ -20,11 +20,11 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
 
             var result = PurchaseApplicationCreationRequest.Create(requestDto);
 
-            result .IsSuccess.Should().BeTrue();
-            result .IfSuccess(request =>
+            result.IsSuccess.Should().BeTrue();
+            result.IfSuccess(request =>
             {
                 request.Products.Count.Should().Be(requestDto.Products.Count);
-                var expectedLink = new Link(requestDto.Products.First().Link.ValueUnsafe());
+                var expectedLink = Link.Create(requestDto.Products.First().Link.ValueUnsafe()).IfFail(() => null);
                 request.Products.First().Link.Should().Be(expectedLink);
                 var expectedUnits = Units.Create(requestDto.Products.First().Units);
                 request.Products.First().Units.Should().Be(expectedUnits.ValueUnsafe());

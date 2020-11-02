@@ -48,7 +48,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             }
         }
 
-        public Link(string value)
+        private Link(string value)
         {
             this.value = value;
         }
