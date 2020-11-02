@@ -5,10 +5,9 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class Name : Record<Name>
     {
-        private string value;
+        private readonly string Value;
         
-        public static Validation<ValidationError<NameValidationErrorCode>, Name> Create(
-            Option<string> value)
+        public static Validation<ValidationError<NameValidationErrorCode>, Name> Create(Option<string> value)
         {
             return
                 from name in ValidateRequire(value)
@@ -27,7 +26,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                 Name name)
             {
                 const int maxAllowedLenght = 255;
-                if (name.value.Length > maxAllowedLenght)
+                if (name.Value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(NameValidationErrorCode.WrongLength);
                 }
@@ -45,7 +44,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 
         private Name(string value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 

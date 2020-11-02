@@ -6,7 +6,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class Link : Record<Link>
     {
-        private string value;
+        private readonly string Value;
         
         public static Validation<ValidationError<LinkValidationErrorCode>, Link> Create(Option<string> value)
         {
@@ -26,7 +26,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             Validation<ValidationError<LinkValidationErrorCode>, Link> ValidateLenght(Link link)
             {
                 const int maxAllowedLenght = 1000;
-                if (link.value.Length > maxAllowedLenght)
+                if (link.Value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(LinkValidationErrorCode.WrongLength);
                 }
@@ -35,7 +35,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             
             Validation<ValidationError<LinkValidationErrorCode>, Link> ValidateFormat(Link link)
             {
-                if (!Uri.IsWellFormedUriString(link.value, UriKind.Absolute))
+                if (!Uri.IsWellFormedUriString(link.Value, UriKind.Absolute))
                 {
                     return CreateValidationError(LinkValidationErrorCode.InvalidFormat);
                 }
@@ -50,7 +50,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 
         private Link(string value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 

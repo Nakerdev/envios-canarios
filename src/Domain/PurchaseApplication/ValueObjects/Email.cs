@@ -4,7 +4,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class Email : Record<Email>
     {
-        private string value;
+        private readonly string Value;
         
         public static Either<EmailValidationError, Email> Create(Option<string> value)
         {
@@ -15,7 +15,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 
         private Email(string value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 

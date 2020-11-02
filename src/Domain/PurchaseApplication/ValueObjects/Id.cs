@@ -5,7 +5,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class Id : Record<Id>
     {
-        private Guid value;
+        private readonly Guid Value;
 
         public static Id Create()
         {
@@ -14,7 +14,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 
         private Id(Guid value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 }

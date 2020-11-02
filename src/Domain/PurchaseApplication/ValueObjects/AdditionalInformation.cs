@@ -5,7 +5,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class AdditionalInformation : Record<AdditionalInformation>
     {
-        private string value;
+        private readonly string Value;
         
         public static Validation<ValidationError<AdditionalInformationValidationErrorCode>, AdditionalInformation> Create(
             Option<string> value)
@@ -27,7 +27,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                 AdditionalInformation additionalInformation)
             {
                 const int maxAllowedLenght = 1000;
-                if (additionalInformation.value.Length > maxAllowedLenght)
+                if (additionalInformation.Value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(AdditionalInformationValidationErrorCode.WrongLength);
                 }
@@ -43,9 +43,9 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             }
         }
 
-        public AdditionalInformation(string value)
+        private AdditionalInformation(string value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 

@@ -6,7 +6,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class Units : Record<Units>
     {
-        private int value;
+        private readonly int Value;
 
         public static Validation<ValidationError<UnitsValidationErrorCode>, Units> Create(Option<string> value)
         {
@@ -35,7 +35,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             
             Validation<ValidationError<UnitsValidationErrorCode>, Units> ValidateValue(Units units)
             {
-                if (units.value <= 0)
+                if (units.Value <= 0)
                 {
                     return CreateValidationError(UnitsValidationErrorCode.InvalidValue);
                 };
@@ -50,7 +50,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 
         private Units(int value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 

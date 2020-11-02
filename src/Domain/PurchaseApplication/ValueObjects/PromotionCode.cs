@@ -5,7 +5,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 {
     public sealed class PromotionCode : Record<PromotionCode>
     {
-        private string value;
+        private readonly string Value;
         
         public static Validation<ValidationError<PromotionCodeValidationErrorCode>, PromotionCode> Create(
             Option<string> value)
@@ -27,7 +27,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                 PromotionCode promotionCode)
             {
                 const int maxAllowedLenght = 50;
-                if (promotionCode.value.Length > maxAllowedLenght)
+                if (promotionCode.Value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(PromotionCodeValidationErrorCode.WrongLength);
                 }
@@ -45,7 +45,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
 
         private PromotionCode(string value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 

@@ -32,7 +32,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             {
                 return new Client(
                     name: Name.Create(creationRequestDto.Client.Name).IfFail(() => throw new InvalidOperationException()),
-                    phoneNumber: PhoneNumber.Create(creationRequestDto.Client.PhoneNumber).ValueUnsafe(),
+                    phoneNumber: PhoneNumber.Create(creationRequestDto.Client.PhoneNumber).IfFail(() => throw new InvalidOperationException()),
                     email: Email.Create(creationRequestDto.Client.Email).ValueUnsafe());
             }
         }
