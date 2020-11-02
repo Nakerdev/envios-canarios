@@ -6,7 +6,6 @@ using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using FluentAssertions;
 using LanguageExt.UnsafeValueAccess;
 using NUnit.Framework;
-using PluralizeService.Core;
 
 namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
 {
