@@ -18,12 +18,12 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
         
         public static Validation<ValidationError<ClientValidationErrorCode>, Client> Create(Dto dto)
         {
-            var name = CreateName(dto.Name);
+            var name = Name.Create(dto.Name);
 
             if (!name.IsSuccess)
             {
                 var validationErrors = Seq<ValidationError<ClientValidationErrorCode>>();
-                name.IfFail(errors => validationErrors = validationErrors.Concat(errors));
+                name.IfFail(errors => validationErrors = validationErrors.Concat(MapNameValidationErrors(errors)));
                 return validationErrors;
             }
                 
@@ -32,13 +32,11 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                 phoneNumber: PhoneNumber.Create(dto.PhoneNumber).IfFail(() => null),
                 email: Email.Create(dto.Email).IfFail(() => null));
 
-            Validation<ValidationError<ClientValidationErrorCode>, Name> CreateName(Option<string> name)
+            Seq<ValidationError<ClientValidationErrorCode>> MapNameValidationErrors(Seq<ValidationError<NameValidationErrorCode>> validationErrors)
             {
-                return Name
-                    .Create(name)
-                    .MapFail(validationError => new ValidationError<ClientValidationErrorCode>(
-                        fieldId: $"{nameof(Client)}.{nameof(Name)}",
-                        errorCode: MapErrorCode(validationError.ErrorCode)));
+                return validationErrors.Map(validationError => new ValidationError<ClientValidationErrorCode>(
+                    fieldId: $"{nameof(Client)}.{nameof(Name)}",
+                    errorCode: MapErrorCode(validationError.ErrorCode)));
 
                 static ClientValidationErrorCode MapErrorCode(NameValidationErrorCode errorCode)
                 {
