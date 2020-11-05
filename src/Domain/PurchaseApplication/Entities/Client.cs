@@ -1,7 +1,6 @@
 using System;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
-using LanguageExt.UnsafeValueAccess;
 using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.Entities

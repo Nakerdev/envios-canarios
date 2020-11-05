@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
-using LanguageExt.UnsafeValueAccess;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.Create
 {
-    public sealed class PurchaseApplicationCreationRequest
+    public sealed class CreatePurchaseApplicationCommand
     {
         public IReadOnlyList<Product> Products { get; }
         public Client ClientProp { get; }
@@ -15,11 +14,11 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
 
         public static Validation<
             ValidationError<GenericValidationErrorCode>, 
-            PurchaseApplicationCreationRequest> Create(PurchaseApplicationCreationRequestDto creationRequestDto)
+            CreatePurchaseApplicationCommand> Create(Dto commandDto)
         {
-            var products = Product.Create(creationRequestDto.Products);
-            var client = Client.Create(creationRequestDto.Client);
-            var additionalInformation = creationRequestDto.AdditionalInformation.Map(x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x));
+            var products = Product.Create(commandDto.Products);
+            var client = Client.Create(commandDto.Client);
+            var additionalInformation = commandDto.AdditionalInformation.Map(x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x));
             
             if (products.IsFail 
                 || client.IsFail 
@@ -33,7 +32,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                 return validationErrors;
             }
 
-            return new PurchaseApplicationCreationRequest(
+            return new CreatePurchaseApplicationCommand(
                 products: products.IfFail(() => throw new InvalidOperationException()),
                 clientProp: client.IfFail(() => throw new InvalidOperationException()),
                 additionalInformation: additionalInformation.Match(
@@ -41,7 +40,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                     Some: x => x.IfFail(() => throw new InvalidOperationException())));
         }
 
-        private PurchaseApplicationCreationRequest(
+        private CreatePurchaseApplicationCommand(
             IReadOnlyList<Product> products, 
             Client clientProp, 
             Option<AdditionalInformation> additionalInformation)
@@ -50,22 +49,23 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             ClientProp = clientProp;
             AdditionalInformation = additionalInformation;
         }
-    }
-    
-    public sealed class PurchaseApplicationCreationRequestDto
-    {
-        public List<Product.Dto> Products { get; }
-        public Client.Dto Client { get; }
-        public Option<string> AdditionalInformation { get; }
-
-        public PurchaseApplicationCreationRequestDto(
-            List<Product.Dto> products, 
-            Client.Dto client, 
-            Option<string> additionalInformation)
+        
+        public sealed class Dto
         {
-            Products = products;
-            Client = client;
-            AdditionalInformation = additionalInformation;
+            public List<Product.Dto> Products { get; }
+            public Client.Dto Client { get; }
+            public Option<string> AdditionalInformation { get; }
+    
+            public Dto(
+                List<Product.Dto> products, 
+                Client.Dto client, 
+                Option<string> additionalInformation)
+            {
+                Products = products;
+                Client = client;
+                AdditionalInformation = additionalInformation;
+            }
         }
     }
+    
 }

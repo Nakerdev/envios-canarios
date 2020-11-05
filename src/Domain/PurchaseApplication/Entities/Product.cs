@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
-using LanguageExt.UnsafeValueAccess;
 using PluralizeService.Core;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.Entities

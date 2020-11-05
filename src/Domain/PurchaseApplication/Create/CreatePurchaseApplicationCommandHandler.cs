@@ -3,12 +3,12 @@ using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.Create
 {
-    public sealed class CreatePurchaseApplication
+    public sealed class CreatePurchaseApplicationCommandHandler
     {
         private readonly PurchaseApplicationRepository purchaseApplicationRepository;
         private readonly TimeService timeService;
 
-        public CreatePurchaseApplication(
+        public CreatePurchaseApplicationCommandHandler(
             PurchaseApplicationRepository purchaseApplicationRepository,
             TimeService timeService)
         {
@@ -16,20 +16,20 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             this.timeService = timeService;
         }
 
-        public PurchaseApplication Create(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
+        public PurchaseApplication Create(CreatePurchaseApplicationCommand command)
         {
-            var purchaseApplication = BuildPurchaseApplication(purchaseApplicationCreationRequest);
+            var purchaseApplication = BuildPurchaseApplication(command);
             purchaseApplicationRepository.Create(purchaseApplication);
             return purchaseApplication;
         }
 
-        private PurchaseApplication BuildPurchaseApplication(PurchaseApplicationCreationRequest purchaseApplicationCreationRequest)
+        private PurchaseApplication BuildPurchaseApplication(CreatePurchaseApplicationCommand command)
         {
             return new PurchaseApplication(
                 id: Id.Create(),
-                products: purchaseApplicationCreationRequest.Products,
-                client: purchaseApplicationCreationRequest.ClientProp,
-                additionalInformation: purchaseApplicationCreationRequest.AdditionalInformation,
+                products: command.Products,
+                client: command.ClientProp,
+                additionalInformation: command.AdditionalInformation,
                 creationDateTime: timeService.UtcNow());
         }
     }
