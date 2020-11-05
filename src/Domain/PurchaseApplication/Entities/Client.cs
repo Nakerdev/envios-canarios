@@ -1,3 +1,4 @@
+using System;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
 using LanguageExt.UnsafeValueAccess;
@@ -27,9 +28,9 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
             }
                 
             return new Client(
-                name: name.ToEither().ValueUnsafe(),
-                phoneNumber: phoneNumber.ToEither().ValueUnsafe(),
-                email: email.ToEither().ValueUnsafe());
+                name: name.IfFail(() => throw new InvalidOperationException()),
+                phoneNumber: phoneNumber.IfFail(() => throw new InvalidOperationException()),
+                email: email.IfFail(() => throw new InvalidOperationException()));
 
             Seq<ValidationError<GenericValidationErrorCode>> MapNameValidationErrors(
                 Seq<ValidationError<GenericValidationErrorCode>> validationErrors)

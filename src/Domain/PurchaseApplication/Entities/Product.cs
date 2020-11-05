@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
@@ -53,11 +54,16 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                    }
                    else
                    {
-                       products.Add(new Product(
-                          link: link.ToEither().ValueUnsafe(),
-                          units: units.ToEither().ValueUnsafe(),
-                          additionalInformation: additionalInformation.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe()),
-                          promotionCode: promotionCode.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe())));
+                       var product = new Product(
+                           link: link.IfFail(() => throw new InvalidOperationException()),
+                           units: units.IfFail(() => throw new InvalidOperationException()),
+                           additionalInformation: additionalInformation.Match(
+                               None: () => null, 
+                               Some: x => x.IfFail(() => throw new InvalidOperationException())),
+                           promotionCode: promotionCode.Match(
+                               None: () => null, 
+                               Some: x => x.IfFail(() => throw new InvalidOperationException())));
+                       products.Add(product);
                    }                  
                 });
 

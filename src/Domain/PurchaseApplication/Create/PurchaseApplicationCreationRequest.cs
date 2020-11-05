@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
@@ -33,9 +34,11 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             }
 
             return new PurchaseApplicationCreationRequest(
-                products: products.ToEither().ValueUnsafe(),
-                clientProp: client.ToEither().ValueUnsafe(),
-                additionalInformation: additionalInformation.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe()));
+                products: products.IfFail(() => throw new InvalidOperationException()),
+                clientProp: client.IfFail(() => throw new InvalidOperationException()),
+                additionalInformation: additionalInformation.Match(
+                    None: () => null, 
+                    Some: x => x.IfFail(() => throw new InvalidOperationException())));
         }
 
         private PurchaseApplicationCreationRequest(
