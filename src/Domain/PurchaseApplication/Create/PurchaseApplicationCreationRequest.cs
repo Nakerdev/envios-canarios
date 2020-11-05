@@ -18,15 +18,20 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             PurchaseApplicationCreationRequest> Create(PurchaseApplicationCreationRequestDto creationRequestDto)
         {
             var products = Product.Create(creationRequestDto.Products);
-            return products
-                .Map(p => new PurchaseApplicationCreationRequest(
-                    products: p,
-                    clientProp: BuildClient(),
-                    additionalInformation: creationRequestDto.AdditionalInformation.Map(
-                        value => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(value).IfFail(() => throw new InvalidOperationException()))))
-                .MapFail(error => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
-                        fieldId: error.FieldId,
-                        errorCode: PurchaseApplicationCreationRequestValidationError.Required));
+            
+            if (products.IsFail)
+            {
+                var validationErrors = Prelude.Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>>();
+                products.IfFail(errors => validationErrors = validationErrors.Concat(MapProductValidationErrors(errors)));
+                return validationErrors;
+            }
+
+            return new PurchaseApplicationCreationRequest(
+                products: products.ToEither().ValueUnsafe(),
+                clientProp: BuildClient(),
+                additionalInformation: creationRequestDto.AdditionalInformation.Map(
+                    value => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(value)
+                        .IfFail(() => throw new InvalidOperationException())));
 
             Client BuildClient()
             {
@@ -35,6 +40,26 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                     phoneNumber: creationRequestDto.Client.PhoneNumber,
                     email: creationRequestDto.Client.Email);
                 return Client.Create(dto).IfFail(() => throw new InvalidOperationException());
+            }
+            
+            Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>> MapProductValidationErrors(
+                Seq<ValidationError<ProductValidationErrorCode>> validationErrors)
+            {
+                return validationErrors.Map(validationError => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
+                    fieldId: $"{nameof(Client)}.{nameof(Name)}",
+                    errorCode: MapErrorCode(validationError.ErrorCode)));
+
+                static PurchaseApplicationCreationRequestValidationError MapErrorCode(ProductValidationErrorCode errorCode)
+                {
+                    var errorsEquality = new Dictionary<ProductValidationErrorCode, PurchaseApplicationCreationRequestValidationError >
+                    {
+                        {ProductValidationErrorCode.Required, PurchaseApplicationCreationRequestValidationError.Required},
+                        {ProductValidationErrorCode.InvalidFormat, PurchaseApplicationCreationRequestValidationError.InvalidFormat},
+                        {ProductValidationErrorCode.InvalidValue, PurchaseApplicationCreationRequestValidationError.InvalidValue},
+                        {ProductValidationErrorCode.WrongLength, PurchaseApplicationCreationRequestValidationError.WrongLength}
+                    };
+                    return errorsEquality[errorCode];
+                }
             }
         }
 
@@ -96,6 +121,9 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
     }
      public enum PurchaseApplicationCreationRequestValidationError
     {
-        Required
+        Required,
+        InvalidFormat,
+        InvalidValue,
+        WrongLength
     }
 }
