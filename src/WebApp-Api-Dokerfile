@@ -1,0 +1,16 @@
+#Builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS builder
+
+COPY . /Project
+
+RUN dotnet restore ./Project/WebApp/backend/Api/Api.csproj
+RUN dotnet build ./Project/WebApp/backend/Api/Api.csproj -c Debug -o ./build
+
+RUN dotnet publish ./Project/WebApp/backend/Api/Api.csproj -c Debug -o ./publish
+
+#Server
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 as server
+
+COPY --from=builder /publish .
+
+ENTRYPOINT ["dotnet", "Api.dll"]

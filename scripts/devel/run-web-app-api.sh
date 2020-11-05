@@ -6,22 +6,22 @@ NC='\033[0m'
 
 trap ctrl_c INT
 
-function moveToWebAppApiFolder() {
-    cd ../../src/WebApp/backend
+function moveToProjectFolder() {
+    cd ../../src
 }
 
-function runWebAppApi() {
-    echo -e "$GREEN[!] Building WebAppApi image...$NC"
+function runApis() {
+    echo -e "$GREEN[!] Building Apis image...$NC"
     docker-compose build --no-cache
-    echo -e "$GREEN[!] Running WebAppApi...$NC"
+    echo -e "$GREEN[!] Running Apis...$NC"
     docker-compose up --force-recreate
 }
 
 function ctrl_c() {
-    echo -e "$GREEN[!] Stopping WebAppApi...$NC"
+    echo -e "$GREEN[!] Stopping Apis...$NC"
     docker-compose down
     exit 1
 }
 
-moveToWebAppApiFolder
-runWebAppApi
+moveToProjectFolder
+runApis

@@ -3,8 +3,9 @@ services:
 
     api:
         build:
-            context: ./WebAppApi
-        container_name: WebAppApi
+            context: ./
+            dockerfile: ./WebApp-Api-Dokerfile
+        container_name: api
         restart: always
         environment: 
             - "ASPNETCORE_ENVIRONMENT=Development"
@@ -20,7 +21,7 @@ services:
 
     ##database:
      ##   image: mcr.microsoft.com/mssql/server:2017-latest
-      ##  container_name: WebAppDatabase
+      ##  container_name: database
       ##  restart: always
       ##  ports: 
       ##      - 127.0.0.1:1433:1433
