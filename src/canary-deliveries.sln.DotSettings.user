@@ -26,6 +26,7 @@
       &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities.ProductTests&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Create.PurchaseApplicationCreationRequestTests.DoesNotCreatePurchaseApplicationCreationRequestWhenProductsHaveValidationErrors&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Create.PurchaseApplicationCreationRequestTests.DoesNotCreatePurchaseApplicationCreationRequestWhenClientHasValidationErrors&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.Domain.PurchaseApplication.Create.PurchaseApplicationCreationRequestTests.DoesNotCreatePurchaseApplicationCreationRequestWhenAdditionalInformationHasValidationErrors&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

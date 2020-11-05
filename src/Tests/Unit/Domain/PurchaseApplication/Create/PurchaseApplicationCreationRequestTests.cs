@@ -64,11 +64,22 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
 
             result.IsFail.Should().BeTrue();
         }
+        
+        [Test]
+        public void DoesNotCreatePurchaseApplicationCreationRequestWhenAdditionalInformationHasValidationErrors()
+        {
+            var requestDto = BuildPurchaseApplicationCreationRequestDto(additionalInformation: new string('a', 1001));
+
+            var result = PurchaseApplicationCreationRequest.Create(requestDto);
+
+            result.IsFail.Should().BeTrue();
+        }
 
         private static PurchaseApplicationCreationRequestDto BuildPurchaseApplicationCreationRequestDto(
             bool isProductListEmpty = false,
-            string productLink = "https://addidas.com/any/product",
-            string clientName = "Alfredo")
+            string productLink = "https://addidas.com/products/1",
+            string clientName = "Alfredo",
+            string additionalInformation = "Purchase application additional information")
         {
             return new PurchaseApplicationCreationRequestDto(
                 products: BuildProducts(),
@@ -76,7 +87,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                     name: clientName,
                     phoneNumber: "123123123",
                     email: "alfredo@elguapo.com"),
-                additionalInformation: "Purchase application additional information");
+                additionalInformation: additionalInformation);
 
             List<Product.Dto> BuildProducts()
             {
