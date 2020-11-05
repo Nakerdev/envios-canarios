@@ -1,4 +1,3 @@
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using LanguageExt;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
@@ -7,7 +6,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private readonly string Value;
         
-        public static Validation<ValidationError<AdditionalInformationValidationErrorCode>, AdditionalInformation> Create(
+        public static Validation<ValidationError<GenericValidationErrorCode>, AdditionalInformation> Create(
             Option<string> value)
         {
             return
@@ -15,29 +14,29 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                 from _1 in ValidateLenght(additionalInformation )
                 select additionalInformation;
 
-            Validation<ValidationError<AdditionalInformationValidationErrorCode>, AdditionalInformation> ValidateRequire(
+            Validation<ValidationError<GenericValidationErrorCode>, AdditionalInformation> ValidateRequire(
                 Option<string> val)
             {
                 return val
                     .Map(v => new AdditionalInformation(v))
-                    .ToValidation(CreateValidationError(AdditionalInformationValidationErrorCode.Required));
+                    .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<AdditionalInformationValidationErrorCode>, AdditionalInformation> ValidateLenght(
+            Validation<ValidationError<GenericValidationErrorCode>, AdditionalInformation> ValidateLenght(
                 AdditionalInformation additionalInformation)
             {
                 const int maxAllowedLenght = 1000;
                 if (additionalInformation.Value.Length > maxAllowedLenght)
                 {
-                    return CreateValidationError(AdditionalInformationValidationErrorCode.WrongLength);
+                    return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
                 return additionalInformation;
             }
 
-            ValidationError<AdditionalInformationValidationErrorCode> CreateValidationError(
-                AdditionalInformationValidationErrorCode errorCode)
+            ValidationError<GenericValidationErrorCode> CreateValidationError(
+                GenericValidationErrorCode errorCode)
             {
-                return new ValidationError<AdditionalInformationValidationErrorCode>(
+                return new ValidationError<GenericValidationErrorCode>(
                     fieldId: nameof(AdditionalInformation), 
                     errorCode: errorCode);
             }
@@ -47,11 +46,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
         {
             Value = value;
         }
-    }
-
-    public enum AdditionalInformationValidationErrorCode
-    {
-        Required,
-        WrongLength
     }
 }

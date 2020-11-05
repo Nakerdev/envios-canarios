@@ -1,4 +1,3 @@
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using LanguageExt;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
@@ -7,7 +6,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private readonly string Value;
         
-        public static Validation<ValidationError<EmailValidationErrorCode>, Email> Create(Option<string> value)
+        public static Validation<ValidationError<GenericValidationErrorCode>, Email> Create(Option<string> value)
         {
             return
                 from email in ValidateRequire(value)
@@ -15,15 +14,15 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                 from _2 in ValidateLenght(email)
                 select email;
 
-            Validation<ValidationError<EmailValidationErrorCode>, Email> ValidateRequire(
+            Validation<ValidationError<GenericValidationErrorCode>, Email> ValidateRequire(
                 Option<string> val)
             {
                 return val
                     .Map(v => new Email(v))
-                    .ToValidation(CreateValidationError(EmailValidationErrorCode.Required));
+                    .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<EmailValidationErrorCode>, Email> ValidateFormat(Email email)
+            Validation<ValidationError<GenericValidationErrorCode>, Email> ValidateFormat(Email email)
              {
                  try
                  {
@@ -31,24 +30,24 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                      return email;
                  }
                  catch {
-                     return CreateValidationError(EmailValidationErrorCode.InvalidFormat);
+                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                  }
              }
             
-            Validation<ValidationError<EmailValidationErrorCode>, Email> ValidateLenght(Email email)
+            Validation<ValidationError<GenericValidationErrorCode>, Email> ValidateLenght(Email email)
             {
                 const int maxAllowedLenght = 255;
                 if (email.Value.Length > maxAllowedLenght)
                 {
-                    return CreateValidationError(EmailValidationErrorCode.WrongLength);
+                    return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
                 return email;
             }
 
-            ValidationError<EmailValidationErrorCode> CreateValidationError(
-                EmailValidationErrorCode errorCode)
+            ValidationError<GenericValidationErrorCode> CreateValidationError(
+                GenericValidationErrorCode errorCode)
             {
-                return new ValidationError<EmailValidationErrorCode>(
+                return new ValidationError<GenericValidationErrorCode>(
                     fieldId: nameof(Email), 
                     errorCode: errorCode);
             }
@@ -58,12 +57,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
         {
             Value = value;
         }
-    }
-
-    public enum EmailValidationErrorCode
-    {
-        Required,
-        WrongLength,
-        InvalidFormat
     }
 }

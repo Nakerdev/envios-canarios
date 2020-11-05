@@ -20,21 +20,21 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             result.IsSuccess.Should().BeTrue();
         }
         
-        private readonly IReadOnlyList<ValidationErrorTestCase<LinkValidationErrorCode, Link>> _validationErrorTestCases =
-            new List<ValidationErrorTestCase<LinkValidationErrorCode, Link>>
+        private readonly IReadOnlyList<ValidationErrorTestCase<GenericValidationErrorCode, Link>> _validationErrorTestCases =
+            new List<ValidationErrorTestCase<GenericValidationErrorCode, Link>>
             {
-                new ValidationErrorTestCase<LinkValidationErrorCode, Link>(
+                new ValidationErrorTestCase<GenericValidationErrorCode, Link>(
                     builder: () => Link.Create(None),
                     expectedFieldId: nameof(Link),
-                    expectedErrorCode: LinkValidationErrorCode.Required),
-                new ValidationErrorTestCase<LinkValidationErrorCode, Link>(
+                    expectedErrorCode: GenericValidationErrorCode.Required),
+                new ValidationErrorTestCase<GenericValidationErrorCode, Link>(
                     builder: () => Link.Create(new string('a', 1001)),
                     expectedFieldId: nameof(Link),
-                    expectedErrorCode: LinkValidationErrorCode.WrongLength),
-                new ValidationErrorTestCase<LinkValidationErrorCode, Link>(
+                    expectedErrorCode: GenericValidationErrorCode.WrongLength),
+                new ValidationErrorTestCase<GenericValidationErrorCode, Link>(
                     builder: () => Link.Create("https//not-valid-link"),
                     expectedFieldId: nameof(Link),
-                    expectedErrorCode: LinkValidationErrorCode.InvalidFormat)
+                    expectedErrorCode: GenericValidationErrorCode.InvalidFormat)
             }.AsReadOnly();
 
         [Test]

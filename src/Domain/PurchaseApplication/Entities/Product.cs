@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
 using LanguageExt.UnsafeValueAccess;
@@ -16,17 +15,17 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
         public Option<PromotionCode> PromotionCode { get; }
 
         public static Validation<
-            ValidationError<ProductValidationErrorCode>, 
+            ValidationError<GenericValidationErrorCode>, 
             IReadOnlyList<Product>> Create(IReadOnlyList<Dto> productsDto)
         {
             if (productsDto.Count == 0)
             {
-                return new ValidationError<ProductValidationErrorCode>(
+                return new ValidationError<GenericValidationErrorCode>(
                     fieldId: PluralizationProvider.Pluralize(nameof(Product)),
-                    errorCode: ProductValidationErrorCode.Required);
+                    errorCode: GenericValidationErrorCode.Required);
             }
            
-            var validationErrors = new Seq<ValidationError<ProductValidationErrorCode>>();
+            var validationErrors = new Seq<ValidationError<GenericValidationErrorCode>>();
             var products = new List<Product>();
             productsDto
                 .Select((productDto, index) => new {Value = productDto, Index = index} )
@@ -68,82 +67,40 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
             }
             return products.ToList().AsReadOnly();
             
-            Seq<ValidationError<ProductValidationErrorCode>> MapLinkValidationErrors(
-                Seq<ValidationError<LinkValidationErrorCode>> validationErrors,
+            Seq<ValidationError<GenericValidationErrorCode>> MapLinkValidationErrors(
+                Seq<ValidationError<GenericValidationErrorCode>> validationErrors,
                 int index)
             {
-                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                return validationErrors.Map(validationError => new ValidationError<GenericValidationErrorCode>(
                     fieldId: $"{nameof(Product)}[{index}].{nameof(Link)}",
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static ProductValidationErrorCode MapErrorCode(LinkValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<LinkValidationErrorCode, ProductValidationErrorCode>
-                    {
-                        {LinkValidationErrorCode.Required, ProductValidationErrorCode.Required},
-                        {LinkValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength},
-                        {LinkValidationErrorCode.InvalidFormat, ProductValidationErrorCode.InvalidFormat}
-                    };
-                    return errorsEquality[errorCode];
-                }
+                    errorCode: validationError.ErrorCode));
             }
             
-            Seq<ValidationError<ProductValidationErrorCode>> MapUnitsValidationErrors(
-                Seq<ValidationError<UnitsValidationErrorCode>> validationErrors,
+            Seq<ValidationError<GenericValidationErrorCode>> MapUnitsValidationErrors(
+                Seq<ValidationError<GenericValidationErrorCode>> validationErrors,
                 int index)
             {
-                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                return validationErrors.Map(validationError => new ValidationError<GenericValidationErrorCode>(
                     fieldId: $"{nameof(Product)}[{index}].{nameof(Units)}",
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static ProductValidationErrorCode MapErrorCode(UnitsValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<UnitsValidationErrorCode, ProductValidationErrorCode>
-                    {
-                        {UnitsValidationErrorCode.Required, ProductValidationErrorCode.Required},
-                        {UnitsValidationErrorCode.InvalidValue, ProductValidationErrorCode.InvalidValue},
-                        {UnitsValidationErrorCode.InvalidFormat, ProductValidationErrorCode.InvalidFormat}
-                    };
-                    return errorsEquality[errorCode];
-                }
+                    errorCode: validationError.ErrorCode));
             }
             
-            Seq<ValidationError<ProductValidationErrorCode>> MapAdditionalInformationValidationErrors(
-                Seq<ValidationError<AdditionalInformationValidationErrorCode>> validationErrors,
+            Seq<ValidationError<GenericValidationErrorCode>> MapAdditionalInformationValidationErrors(
+                Seq<ValidationError<GenericValidationErrorCode>> validationErrors,
                 int index)
             {
-                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                return validationErrors.Map(validationError => new ValidationError<GenericValidationErrorCode>(
                     fieldId: $"{nameof(Product)}[{index}].{nameof(AdditionalInformation)}",
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static ProductValidationErrorCode MapErrorCode(AdditionalInformationValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<AdditionalInformationValidationErrorCode, ProductValidationErrorCode>
-                    {
-                        {AdditionalInformationValidationErrorCode.Required, ProductValidationErrorCode.Required},
-                        {AdditionalInformationValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
+                    errorCode: validationError.ErrorCode));
             }
             
-            Seq<ValidationError<ProductValidationErrorCode>> MapPromotionCodeValidationErrors(
-                Seq<ValidationError<PromotionCodeValidationErrorCode>> validationErrors,
+            Seq<ValidationError<GenericValidationErrorCode>> MapPromotionCodeValidationErrors(
+                Seq<ValidationError<GenericValidationErrorCode>> validationErrors,
                 int index)
             {
-                return validationErrors.Map(validationError => new ValidationError<ProductValidationErrorCode>(
+                return validationErrors.Map(validationError => new ValidationError<GenericValidationErrorCode>(
                     fieldId: $"{nameof(Product)}[{index}].{nameof(PromotionCode)}",
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static ProductValidationErrorCode MapErrorCode(PromotionCodeValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<PromotionCodeValidationErrorCode, ProductValidationErrorCode>
-                    {
-                        {PromotionCodeValidationErrorCode.Required, ProductValidationErrorCode.Required},
-                        {PromotionCodeValidationErrorCode.WrongLength, ProductValidationErrorCode.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
+                    errorCode: validationError.ErrorCode));
             }
         }
 
@@ -178,13 +135,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                 PromotionCode = promotionCode;
             } 
         }
-    }
-
-    public enum ProductValidationErrorCode
-    {
-        Required,
-        WrongLength,
-        InvalidFormat,
-        InvalidValue
     }
 }

@@ -1,4 +1,3 @@
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using LanguageExt;
 
 namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
@@ -7,36 +6,36 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private readonly string Value;
         
-        public static Validation<ValidationError<NameValidationErrorCode>, Name> Create(Option<string> value)
+        public static Validation<ValidationError<GenericValidationErrorCode>, Name> Create(Option<string> value)
         {
             return
                 from name in ValidateRequire(value)
                 from _1 in ValidateLenght(name)
                 select name;
 
-            Validation<ValidationError<NameValidationErrorCode>, Name> ValidateRequire(
+            Validation<ValidationError<GenericValidationErrorCode>, Name> ValidateRequire(
                 Option<string> val)
             {
                 return val
                     .Map(v => new Name(v))
-                    .ToValidation(CreateValidationError(NameValidationErrorCode.Required));
+                    .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<NameValidationErrorCode>, Name> ValidateLenght(
+            Validation<ValidationError<GenericValidationErrorCode>, Name> ValidateLenght(
                 Name name)
             {
                 const int maxAllowedLenght = 255;
                 if (name.Value.Length > maxAllowedLenght)
                 {
-                    return CreateValidationError(NameValidationErrorCode.WrongLength);
+                    return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
                 return name;
             }
 
-            ValidationError<NameValidationErrorCode> CreateValidationError(
-                NameValidationErrorCode errorCode)
+            ValidationError<GenericValidationErrorCode> CreateValidationError(
+                GenericValidationErrorCode errorCode)
             {
-                return new ValidationError<NameValidationErrorCode>(
+                return new ValidationError<GenericValidationErrorCode>(
                     fieldId: nameof(Name), 
                     errorCode: errorCode);
             }
@@ -46,11 +45,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
         {
             Value = value;
         }
-    }
-
-    public enum NameValidationErrorCode
-    {
-        Required,
-        WrongLength
     }
 }

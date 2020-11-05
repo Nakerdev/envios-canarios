@@ -18,21 +18,21 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             result.IsSuccess.Should().BeTrue();
         }
         
-        private readonly IReadOnlyList<ValidationErrorTestCase<EmailValidationErrorCode, Email>> _validationErrorTestCases =
-            new List<ValidationErrorTestCase<EmailValidationErrorCode, Email>>
+        private readonly IReadOnlyList<ValidationErrorTestCase<GenericValidationErrorCode, Email>> _validationErrorTestCases =
+            new List<ValidationErrorTestCase<GenericValidationErrorCode, Email>>
             {
-                new ValidationErrorTestCase<EmailValidationErrorCode, Email>(
+                new ValidationErrorTestCase<GenericValidationErrorCode, Email>(
                     builder: () => Email.Create(None),
                     expectedFieldId: nameof(Email),
-                    expectedErrorCode: EmailValidationErrorCode.Required),
-                new ValidationErrorTestCase<EmailValidationErrorCode, Email>(
+                    expectedErrorCode: GenericValidationErrorCode.Required),
+                new ValidationErrorTestCase<GenericValidationErrorCode, Email>(
                     builder: () => Email.Create("not-valid-email"),
                     expectedFieldId: nameof(Email),
-                    expectedErrorCode: EmailValidationErrorCode.InvalidFormat),
-                new ValidationErrorTestCase<EmailValidationErrorCode, Email>(
+                    expectedErrorCode: GenericValidationErrorCode.InvalidFormat),
+                new ValidationErrorTestCase<GenericValidationErrorCode, Email>(
                     builder: () => Email.Create(new string('a', 256)),
                     expectedFieldId: nameof(Email),
-                    expectedErrorCode: EmailValidationErrorCode.WrongLength),
+                    expectedErrorCode: GenericValidationErrorCode.WrongLength),
             }.AsReadOnly();
 
         [Test]

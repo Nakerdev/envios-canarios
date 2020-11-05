@@ -7,7 +7,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private readonly string Value;
         
-        public static Validation<ValidationError<PromotionCodeValidationErrorCode>, PromotionCode> Create(
+        public static Validation<ValidationError<GenericValidationErrorCode>, PromotionCode> Create(
             Option<string> value)
         {
             return
@@ -15,29 +15,29 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                 from _1 in ValidateLenght(promotionCode)
                 select promotionCode;
 
-            Validation<ValidationError<PromotionCodeValidationErrorCode>, PromotionCode> ValidateRequire(
+            Validation<ValidationError<GenericValidationErrorCode>, PromotionCode> ValidateRequire(
                 Option<string> val)
             {
                 return val
                     .Map(v => new PromotionCode(v))
-                    .ToValidation(CreateValidationError(PromotionCodeValidationErrorCode.Required));
+                    .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<PromotionCodeValidationErrorCode>, PromotionCode> ValidateLenght(
+            Validation<ValidationError<GenericValidationErrorCode>, PromotionCode> ValidateLenght(
                 PromotionCode promotionCode)
             {
                 const int maxAllowedLenght = 50;
                 if (promotionCode.Value.Length > maxAllowedLenght)
                 {
-                    return CreateValidationError(PromotionCodeValidationErrorCode.WrongLength);
+                    return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
                 return promotionCode;
             }
 
-            ValidationError<PromotionCodeValidationErrorCode> CreateValidationError(
-                PromotionCodeValidationErrorCode errorCode)
+            ValidationError<GenericValidationErrorCode> CreateValidationError(
+                GenericValidationErrorCode errorCode)
             {
-                return new ValidationError<PromotionCodeValidationErrorCode>(
+                return new ValidationError<GenericValidationErrorCode>(
                     fieldId: nameof(PromotionCode), 
                     errorCode: errorCode);
             }
@@ -47,11 +47,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
         {
             Value = value;
         }
-    }
-
-    public enum PromotionCodeValidationErrorCode
-    {
-        Required,
-        WrongLength
     }
 }

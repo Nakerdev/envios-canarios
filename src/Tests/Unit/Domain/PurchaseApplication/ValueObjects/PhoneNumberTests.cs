@@ -18,21 +18,21 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             result.IsSuccess.Should().BeTrue();
         }
         
-        private readonly IReadOnlyList<ValidationErrorTestCase<PhoneNumberValidationErrorCode, PhoneNumber>> _validationErrorTestCases =
-            new List<ValidationErrorTestCase<PhoneNumberValidationErrorCode, PhoneNumber>>
+        private readonly IReadOnlyList<ValidationErrorTestCase<GenericValidationErrorCode, PhoneNumber>> _validationErrorTestCases =
+            new List<ValidationErrorTestCase<GenericValidationErrorCode, PhoneNumber>>
             {
-                new ValidationErrorTestCase<PhoneNumberValidationErrorCode, PhoneNumber>(
+                new ValidationErrorTestCase<GenericValidationErrorCode, PhoneNumber>(
                     builder: () => PhoneNumber.Create(None),
                     expectedFieldId: nameof(PhoneNumber),
-                    expectedErrorCode: PhoneNumberValidationErrorCode.Required),
-                new ValidationErrorTestCase<PhoneNumberValidationErrorCode, PhoneNumber>(
+                    expectedErrorCode: GenericValidationErrorCode.Required),
+                new ValidationErrorTestCase<GenericValidationErrorCode, PhoneNumber>(
                     builder: () => PhoneNumber.Create("not-a-number"),
                     expectedFieldId: nameof(PhoneNumber),
-                    expectedErrorCode: PhoneNumberValidationErrorCode.InvalidFormat),
-                new ValidationErrorTestCase<PhoneNumberValidationErrorCode, PhoneNumber>(
+                    expectedErrorCode: GenericValidationErrorCode.InvalidFormat),
+                new ValidationErrorTestCase<GenericValidationErrorCode, PhoneNumber>(
                     builder: () => PhoneNumber.Create(new string('1', 16)),
                     expectedFieldId: nameof(PhoneNumber),
-                    expectedErrorCode: PhoneNumberValidationErrorCode.WrongLenght)
+                    expectedErrorCode: GenericValidationErrorCode.WrongLength)
             }.AsReadOnly();
 
         [Test]

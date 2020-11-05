@@ -1,4 +1,3 @@
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using LanguageExt;
 using static LanguageExt.Prelude;
 
@@ -8,7 +7,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
     {
         private readonly int Value;
 
-        public static Validation<ValidationError<UnitsValidationErrorCode>, Units> Create(Option<string> value)
+        public static Validation<ValidationError<GenericValidationErrorCode>, Units> Create(Option<string> value)
         {
             return
                 from unitsUnparsedValue in ValidateRequire(value)
@@ -16,35 +15,35 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
                 from _ in ValidateValue(units)
                 select units;
 
-            Validation<ValidationError<UnitsValidationErrorCode>, string> ValidateRequire(Option<string> val)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(Option<string> val)
             {
                 return val.Match(
-                    None: () => Fail<ValidationError<UnitsValidationErrorCode>, string>(
-                        CreateValidationError(UnitsValidationErrorCode.Required)),
-                    Some: Success<ValidationError<UnitsValidationErrorCode>, string>);
+                    None: () => Fail<ValidationError<GenericValidationErrorCode>, string>(
+                        CreateValidationError(GenericValidationErrorCode.Required)),
+                    Some: Success<ValidationError<GenericValidationErrorCode>, string>);
             }
             
-            Validation<ValidationError<UnitsValidationErrorCode>, Units> ValidateFormat(string val)
+            Validation<ValidationError<GenericValidationErrorCode>, Units> ValidateFormat(string val)
             {
                 if (!int.TryParse(val, out var parsedValue))
                 {
-                    return CreateValidationError(UnitsValidationErrorCode.InvalidFormat);
+                    return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                 };
                 return new Units(parsedValue);
             }
             
-            Validation<ValidationError<UnitsValidationErrorCode>, Units> ValidateValue(Units units)
+            Validation<ValidationError<GenericValidationErrorCode>, Units> ValidateValue(Units units)
             {
                 if (units.Value <= 0)
                 {
-                    return CreateValidationError(UnitsValidationErrorCode.InvalidValue);
+                    return CreateValidationError(GenericValidationErrorCode.InvalidValue);
                 };
                 return units;
             }
 
-            ValidationError<UnitsValidationErrorCode > CreateValidationError(UnitsValidationErrorCode errorCode)
+            ValidationError<GenericValidationErrorCode> CreateValidationError(GenericValidationErrorCode errorCode)
             {
-                return new ValidationError<UnitsValidationErrorCode>(fieldId: nameof(Units), errorCode: errorCode);
+                return new ValidationError<GenericValidationErrorCode>(fieldId: nameof(Units), errorCode: errorCode);
             }
         }
 
@@ -52,12 +51,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
         {
             Value = value;
         }
-    }
-
-    public enum UnitsValidationErrorCode
-    {
-        Required,
-        InvalidFormat,
-        InvalidValue
     }
 }

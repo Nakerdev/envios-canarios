@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using CanaryDeliveries.Domain.PurchaseApplication.Entities;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
@@ -14,7 +13,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
         public Option<AdditionalInformation> AdditionalInformation { get; }
 
         public static Validation<
-            ValidationError<PurchaseApplicationCreationRequestValidationError>, 
+            ValidationError<GenericValidationErrorCode>, 
             PurchaseApplicationCreationRequest> Create(PurchaseApplicationCreationRequestDto creationRequestDto)
         {
             var products = Product.Create(creationRequestDto.Products);
@@ -26,11 +25,10 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                 || additionalInformation.Match(None: () => false, Some: x => x.IsFail)
 )
             {
-                var validationErrors = Prelude.Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>>();
-                products.IfFail(errors => validationErrors = validationErrors.Concat(MapProductValidationErrors(errors)));
-                client.IfFail(errors => validationErrors = validationErrors.Concat(MapClientValidationErrors(errors)));
-                additionalInformation.IfSome(result =>
-                    result.IfFail(errors => validationErrors = validationErrors.Concat(MapAdditionalInformationValidationErrors(errors))));
+                var validationErrors = Prelude.Seq<ValidationError<GenericValidationErrorCode>>();
+                products.IfFail(errors => validationErrors = validationErrors.Concat(errors));
+                client.IfFail(errors => validationErrors = validationErrors.Concat(errors));
+                additionalInformation.IfSome(result => result.IfFail(errors => validationErrors = validationErrors.Concat(errors)));
                 return validationErrors;
             }
 
@@ -38,63 +36,6 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                 products: products.ToEither().ValueUnsafe(),
                 clientProp: client.ToEither().ValueUnsafe(),
                 additionalInformation: additionalInformation.Match(None: () => null, Some: x => x.ToEither().ValueUnsafe()));
-            
-            Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>> MapProductValidationErrors(
-                Seq<ValidationError<ProductValidationErrorCode>> validationErrors)
-            {
-                return validationErrors.Map(validationError => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
-                    fieldId: validationError.FieldId,
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static PurchaseApplicationCreationRequestValidationError MapErrorCode(ProductValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<ProductValidationErrorCode, PurchaseApplicationCreationRequestValidationError >
-                    {
-                        {ProductValidationErrorCode.Required, PurchaseApplicationCreationRequestValidationError.Required},
-                        {ProductValidationErrorCode.InvalidFormat, PurchaseApplicationCreationRequestValidationError.InvalidFormat},
-                        {ProductValidationErrorCode.InvalidValue, PurchaseApplicationCreationRequestValidationError.InvalidValue},
-                        {ProductValidationErrorCode.WrongLength, PurchaseApplicationCreationRequestValidationError.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
-            }
-            
-            Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>> MapClientValidationErrors(
-                Seq<ValidationError<ClientValidationErrorCode>> validationErrors)
-            {
-                return validationErrors.Map(validationError => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
-                    fieldId: validationError.FieldId,
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static PurchaseApplicationCreationRequestValidationError MapErrorCode(ClientValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<ClientValidationErrorCode, PurchaseApplicationCreationRequestValidationError >
-                    {
-                        {ClientValidationErrorCode.Required, PurchaseApplicationCreationRequestValidationError.Required},
-                        {ClientValidationErrorCode.InvalidFormat, PurchaseApplicationCreationRequestValidationError.InvalidFormat},
-                        {ClientValidationErrorCode.WrongLength, PurchaseApplicationCreationRequestValidationError.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
-            }
-            
-            Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>> MapAdditionalInformationValidationErrors(
-                Seq<ValidationError<AdditionalInformationValidationErrorCode>> validationErrors)
-            {
-                return validationErrors.Map(validationError => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
-                    fieldId: validationError.FieldId,
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static PurchaseApplicationCreationRequestValidationError MapErrorCode(AdditionalInformationValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<AdditionalInformationValidationErrorCode, PurchaseApplicationCreationRequestValidationError >
-                    {
-                        {AdditionalInformationValidationErrorCode.Required, PurchaseApplicationCreationRequestValidationError.Required},
-                        {AdditionalInformationValidationErrorCode.WrongLength, PurchaseApplicationCreationRequestValidationError.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
-            }
         }
 
         private PurchaseApplicationCreationRequest(
@@ -123,13 +64,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             Client = client;
             AdditionalInformation = additionalInformation;
         }
-    }
-
-    public enum PurchaseApplicationCreationRequestValidationError
-    {
-        Required,
-        InvalidFormat,
-        InvalidValue,
-        WrongLength
     }
 }

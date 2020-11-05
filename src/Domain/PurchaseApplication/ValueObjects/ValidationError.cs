@@ -11,4 +11,12 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
             ErrorCode = errorCode;
         }
     }
+
+    public enum GenericValidationErrorCode
+    {
+        Required,
+        InvalidValue,
+        InvalidFormat,
+        WrongLength
+    }
 }

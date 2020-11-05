@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
 using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
 using LanguageExt;
 using LanguageExt.UnsafeValueAccess;
@@ -13,7 +11,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
         public PhoneNumber PhoneNumber { get; }
         public Email Email { get; }
         
-        public static Validation<ValidationError<ClientValidationErrorCode>, Client> Create(Dto dto)
+        public static Validation<ValidationError<GenericValidationErrorCode>, Client> Create(Dto dto)
         {
             var name = Name.Create(dto.Name);
             var phoneNumber = PhoneNumber.Create(dto.PhoneNumber);
@@ -21,7 +19,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
 
             if (name.IsFail || phoneNumber.IsFail || email.IsFail)
             {
-                var validationErrors = Seq<ValidationError<ClientValidationErrorCode>>();
+                var validationErrors = Seq<ValidationError<GenericValidationErrorCode>>();
                 name.IfFail(errors => validationErrors = validationErrors.Concat(MapNameValidationErrors(errors)));
                 phoneNumber.IfFail(errors => validationErrors = validationErrors.Concat(MapPhoneNumberValidationErrors(errors)));
                 email.IfFail(errors => validationErrors = validationErrors.Concat(MapEmailValidationErrors(errors)));
@@ -33,60 +31,28 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                 phoneNumber: phoneNumber.ToEither().ValueUnsafe(),
                 email: email.ToEither().ValueUnsafe());
 
-            Seq<ValidationError<ClientValidationErrorCode>> MapNameValidationErrors(
-                Seq<ValidationError<NameValidationErrorCode>> validationErrors)
+            Seq<ValidationError<GenericValidationErrorCode>> MapNameValidationErrors(
+                Seq<ValidationError<GenericValidationErrorCode>> validationErrors)
             {
-                return validationErrors.Map(validationError => new ValidationError<ClientValidationErrorCode>(
+                return validationErrors.Map(validationError => new ValidationError<GenericValidationErrorCode>(
                     fieldId: $"{nameof(Client)}.{nameof(Name)}",
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static ClientValidationErrorCode MapErrorCode(NameValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<NameValidationErrorCode, ClientValidationErrorCode>
-                    {
-                        {NameValidationErrorCode.Required, ClientValidationErrorCode.Required},
-                        {NameValidationErrorCode.WrongLength, ClientValidationErrorCode.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
+                    errorCode: validationError.ErrorCode));
             }
             
-            Seq<ValidationError<ClientValidationErrorCode>> MapPhoneNumberValidationErrors(
-                Seq<ValidationError<PhoneNumberValidationErrorCode>> validationErrors)
+            Seq<ValidationError<GenericValidationErrorCode>> MapPhoneNumberValidationErrors(
+                Seq<ValidationError<GenericValidationErrorCode>> validationErrors)
             {
-                return validationErrors.Map(validationError => new ValidationError<ClientValidationErrorCode>(
+                return validationErrors.Map(validationError => new ValidationError<GenericValidationErrorCode>(
                     fieldId: $"{nameof(Client)}.{nameof(PhoneNumber)}",
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static ClientValidationErrorCode MapErrorCode(PhoneNumberValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<PhoneNumberValidationErrorCode, ClientValidationErrorCode>
-                    {
-                        {PhoneNumberValidationErrorCode.Required, ClientValidationErrorCode.Required},
-                        {PhoneNumberValidationErrorCode.InvalidFormat, ClientValidationErrorCode.InvalidFormat},
-                        {PhoneNumberValidationErrorCode.WrongLenght, ClientValidationErrorCode.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
+                    errorCode: validationError.ErrorCode));
             }
             
-            Seq<ValidationError<ClientValidationErrorCode>> MapEmailValidationErrors(
-                Seq<ValidationError<EmailValidationErrorCode>> validationErrors)
+            Seq<ValidationError<GenericValidationErrorCode>> MapEmailValidationErrors(
+                Seq<ValidationError<GenericValidationErrorCode>> validationErrors)
             {
-                return validationErrors.Map(validationError => new ValidationError<ClientValidationErrorCode>(
+                return validationErrors.Map(validationError => new ValidationError<GenericValidationErrorCode>(
                     fieldId: $"{nameof(Client)}.{nameof(Email)}",
-                    errorCode: MapErrorCode(validationError.ErrorCode)));
-
-                static ClientValidationErrorCode MapErrorCode(EmailValidationErrorCode errorCode)
-                {
-                    var errorsEquality = new Dictionary<EmailValidationErrorCode, ClientValidationErrorCode>
-                    {
-                        {EmailValidationErrorCode.Required, ClientValidationErrorCode.Required},
-                        {EmailValidationErrorCode.InvalidFormat, ClientValidationErrorCode.InvalidFormat},
-                        {EmailValidationErrorCode.WrongLength, ClientValidationErrorCode.WrongLength}
-                    };
-                    return errorsEquality[errorCode];
-                }
+                    errorCode: validationError.ErrorCode));
             }
         }
 
@@ -116,12 +82,5 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                 Email = email;
             }
         }
-    }
-
-    public enum ClientValidationErrorCode
-    {
-        Required,
-        WrongLength,
-        InvalidFormat
     }
 }

@@ -18,21 +18,21 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             result.IsSuccess.Should().BeTrue();
         }
         
-        private readonly IReadOnlyList<ValidationErrorTestCase<UnitsValidationErrorCode, Units>> _validationErrorTestCases =
-            new List<ValidationErrorTestCase<UnitsValidationErrorCode, Units>>
+        private readonly IReadOnlyList<ValidationErrorTestCase<GenericValidationErrorCode, Units>> _validationErrorTestCases =
+            new List<ValidationErrorTestCase<GenericValidationErrorCode, Units>>
             {
-                new ValidationErrorTestCase<UnitsValidationErrorCode, Units>(
+                new ValidationErrorTestCase<GenericValidationErrorCode, Units>(
                     builder: () => Units.Create(None),
                     expectedFieldId: nameof(Units),
-                    expectedErrorCode: UnitsValidationErrorCode.Required),
-                new ValidationErrorTestCase<UnitsValidationErrorCode, Units>(
+                    expectedErrorCode: GenericValidationErrorCode.Required),
+                new ValidationErrorTestCase<GenericValidationErrorCode, Units>(
                     builder: () => Units.Create("not-a-number"),
                     expectedFieldId: nameof(Units),
-                    expectedErrorCode: UnitsValidationErrorCode.InvalidFormat),
-                new ValidationErrorTestCase<UnitsValidationErrorCode, Units>(
+                    expectedErrorCode: GenericValidationErrorCode.InvalidFormat),
+                new ValidationErrorTestCase<GenericValidationErrorCode, Units>(
                     builder: () => Units.Create("0"),
                     expectedFieldId: nameof(Units),
-                    expectedErrorCode: UnitsValidationErrorCode.InvalidValue)
+                    expectedErrorCode: GenericValidationErrorCode.InvalidValue)
             }.AsReadOnly();
 
         [Test]

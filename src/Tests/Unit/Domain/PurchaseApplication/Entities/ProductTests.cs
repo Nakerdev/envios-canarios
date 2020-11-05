@@ -43,7 +43,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
             result.IfFail(validationError =>
             {
                 validationError.First().FieldId.Should().Be(PluralizationProvider.Pluralize(nameof(Product)));
-                validationError.First().ErrorCode.Should().Be(ProductValidationErrorCode.Required);
+                validationError.First().ErrorCode.Should().Be(GenericValidationErrorCode.Required);
             });
         }
         

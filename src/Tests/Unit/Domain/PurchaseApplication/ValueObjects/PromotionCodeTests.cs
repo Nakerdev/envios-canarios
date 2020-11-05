@@ -18,17 +18,17 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.ValueObjects
             result.IsSuccess.Should().BeTrue();
         }
         
-        private readonly IReadOnlyList<ValidationErrorTestCase<PromotionCodeValidationErrorCode, PromotionCode>> _validationErrorTestCases =
-            new List<ValidationErrorTestCase<PromotionCodeValidationErrorCode, PromotionCode>>
+        private readonly IReadOnlyList<ValidationErrorTestCase<GenericValidationErrorCode, PromotionCode>> _validationErrorTestCases =
+            new List<ValidationErrorTestCase<GenericValidationErrorCode, PromotionCode>>
             {
-                new ValidationErrorTestCase<PromotionCodeValidationErrorCode, PromotionCode>(
+                new ValidationErrorTestCase<GenericValidationErrorCode, PromotionCode>(
                     builder: () => PromotionCode.Create(None),
                     expectedFieldId: nameof(PromotionCode),
-                    expectedErrorCode: PromotionCodeValidationErrorCode.Required),
-                new ValidationErrorTestCase<PromotionCodeValidationErrorCode, PromotionCode>(
+                    expectedErrorCode: GenericValidationErrorCode.Required),
+                new ValidationErrorTestCase<GenericValidationErrorCode, PromotionCode>(
                     builder: () => PromotionCode.Create(new string('a', 51)),
                     expectedFieldId: nameof(PromotionCode),
-                    expectedErrorCode: PromotionCodeValidationErrorCode.WrongLength),
+                    expectedErrorCode: GenericValidationErrorCode.WrongLength),
             }.AsReadOnly();
 
         [Test]
