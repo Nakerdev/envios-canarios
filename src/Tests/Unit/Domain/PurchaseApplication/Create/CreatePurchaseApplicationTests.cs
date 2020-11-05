@@ -76,7 +76,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
                         additionalInformation: "Product additional product",
                         promotionCode: "ADDIDAS-123")
                 },
-                client: new PurchaseApplicationCreationRequestDto.ClientDto(
+                client: new Client.Dto(
                     name: "Alfredo",
                     phoneNumber: "123123123",
                     email: "alfredo@elguapo.com"),

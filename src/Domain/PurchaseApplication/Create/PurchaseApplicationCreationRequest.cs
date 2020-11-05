@@ -18,17 +18,19 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
             PurchaseApplicationCreationRequest> Create(PurchaseApplicationCreationRequestDto creationRequestDto)
         {
             var products = Product.Create(creationRequestDto.Products);
+            var client = Client.Create(creationRequestDto.Client);
             
-            if (products.IsFail)
+            if (products.IsFail || client.IsFail)
             {
                 var validationErrors = Prelude.Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>>();
                 products.IfFail(errors => validationErrors = validationErrors.Concat(MapProductValidationErrors(errors)));
+                client.IfFail(errors => validationErrors = validationErrors.Concat(MapClientValidationErrors(errors)));
                 return validationErrors;
             }
 
             return new PurchaseApplicationCreationRequest(
                 products: products.ToEither().ValueUnsafe(),
-                clientProp: BuildClient(),
+                clientProp: client.ToEither().ValueUnsafe(),
                 additionalInformation: creationRequestDto.AdditionalInformation.Map(
                     value => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(value)
                         .IfFail(() => throw new InvalidOperationException())));
@@ -46,7 +48,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                 Seq<ValidationError<ProductValidationErrorCode>> validationErrors)
             {
                 return validationErrors.Map(validationError => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
-                    fieldId: $"{nameof(Client)}.{nameof(Name)}",
+                    fieldId: validationError.FieldId,
                     errorCode: MapErrorCode(validationError.ErrorCode)));
 
                 static PurchaseApplicationCreationRequestValidationError MapErrorCode(ProductValidationErrorCode errorCode)
@@ -57,6 +59,25 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
                         {ProductValidationErrorCode.InvalidFormat, PurchaseApplicationCreationRequestValidationError.InvalidFormat},
                         {ProductValidationErrorCode.InvalidValue, PurchaseApplicationCreationRequestValidationError.InvalidValue},
                         {ProductValidationErrorCode.WrongLength, PurchaseApplicationCreationRequestValidationError.WrongLength}
+                    };
+                    return errorsEquality[errorCode];
+                }
+            }
+            
+            Seq<ValidationError<PurchaseApplicationCreationRequestValidationError>> MapClientValidationErrors(
+                Seq<ValidationError<ClientValidationErrorCode>> validationErrors)
+            {
+                return validationErrors.Map(validationError => new ValidationError<PurchaseApplicationCreationRequestValidationError>(
+                    fieldId: validationError.FieldId,
+                    errorCode: MapErrorCode(validationError.ErrorCode)));
+
+                static PurchaseApplicationCreationRequestValidationError MapErrorCode(ClientValidationErrorCode errorCode)
+                {
+                    var errorsEquality = new Dictionary<ClientValidationErrorCode , PurchaseApplicationCreationRequestValidationError >
+                    {
+                        {ClientValidationErrorCode.Required, PurchaseApplicationCreationRequestValidationError.Required},
+                        {ClientValidationErrorCode.InvalidFormat, PurchaseApplicationCreationRequestValidationError.InvalidFormat},
+                        {ClientValidationErrorCode.WrongLength, PurchaseApplicationCreationRequestValidationError.WrongLength}
                     };
                     return errorsEquality[errorCode];
                 }
@@ -77,34 +98,17 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
     public sealed class PurchaseApplicationCreationRequestDto
     {
         public List<Product.Dto> Products { get; }
-        public ClientDto Client { get; }
+        public Client.Dto Client { get; }
         public Option<string> AdditionalInformation { get; }
 
         public PurchaseApplicationCreationRequestDto(
             List<Product.Dto> products, 
-            ClientDto client, 
+            Client.Dto client, 
             Option<string> additionalInformation)
         {
             Products = products;
             Client = client;
             AdditionalInformation = additionalInformation;
-        }
-        
-        public sealed class ClientDto
-        {
-            public Option<string> Name { get; }
-            public Option<string> PhoneNumber { get; }
-            public Option<string> Email { get; }
-
-            public ClientDto(
-                Option<string> name, 
-                Option<string> phoneNumber, 
-                Option<string> email)
-            {
-                Name = name;
-                PhoneNumber = phoneNumber;
-                Email = email;
-            }
         }
     }
 

@@ -54,15 +54,26 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
 
             result.IsFail.Should().BeTrue();
         }
+        
+        [Test]
+        public void DoesNotCreatePurchaseApplicationCreationRequestWhenClientHasValidationErrors()
+        {
+            var requestDto = BuildPurchaseApplicationCreationRequestDto(clientName: null);
+
+            var result = PurchaseApplicationCreationRequest.Create(requestDto);
+
+            result.IsFail.Should().BeTrue();
+        }
 
         private static PurchaseApplicationCreationRequestDto BuildPurchaseApplicationCreationRequestDto(
             bool isProductListEmpty = false,
-            string productLink = "https://addidas.com/any/product")
+            string productLink = "https://addidas.com/any/product",
+            string clientName = "Alfredo")
         {
             return new PurchaseApplicationCreationRequestDto(
                 products: BuildProducts(),
-                client: new PurchaseApplicationCreationRequestDto.ClientDto(
-                    name: "Alfredo",
+                client: new Client.Dto(
+                    name: clientName,
                     phoneNumber: "123123123",
                     email: "alfredo@elguapo.com"),
                 additionalInformation: "Purchase application additional information");
