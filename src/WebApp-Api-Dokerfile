@@ -13,4 +13,4 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 as server
 
 COPY --from=builder /publish .
 
-ENTRYPOINT ["dotnet", "Api.dll"]
+ENTRYPOINT ["dotnet", "CanaryDeliveries.WebApp.Api.dll"]
