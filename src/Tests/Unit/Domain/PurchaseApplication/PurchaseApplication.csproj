@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
-        <AssemblyName>CanaryDeliveries.Tests.Domain.PurchaseApplication</AssemblyName>
-        <RootNamespace>CanaryDeliveries.Tests.Domain.PurchaseApplication</RootNamespace>
+        <AssemblyName>CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain</AssemblyName>
+        <RootNamespace>CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

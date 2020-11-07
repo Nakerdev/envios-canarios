@@ -7,7 +7,7 @@ using FluentAssertions;
 using LanguageExt.UnsafeValueAccess;
 using NUnit.Framework;
 
-namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
+namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain.Create
 {
     [TestFixture]
     public sealed class CreatePurchaseApplicationCommandTests

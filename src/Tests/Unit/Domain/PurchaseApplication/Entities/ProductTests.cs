@@ -6,7 +6,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using PluralizeService.Core;
 
-namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Entities
+namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain.Entities
 {
     public class ProductTests
     {
