@@ -5,9 +5,7 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=414310f0_002D2fc4_002D4eeb_002Dbdb2_002D92d103ea1916/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DoesNotCreatePhoneNumberWhenThereIsValidationError #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjects.PhoneNumberTests.DoesNotCreatePhoneNumberWhenThereIsValidationError&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Project Location="/home/naker90/Desktop/Projects/envios-canarios/src" Presentation="&amp;lt;Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8d6ee6dc_002D5fa1_002D4f53_002D884c_002D8c7b26fea4e7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreatePurchaseApplicationTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;

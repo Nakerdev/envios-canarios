@@ -5,3 +5,4 @@
 # JetBrains folders
 .idea/
 packages/
+*.DotSettings.user
