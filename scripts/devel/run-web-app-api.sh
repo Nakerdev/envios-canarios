@@ -7,18 +7,22 @@ NC='\033[0m'
 trap ctrl_c INT
 
 function moveToProjectFolder() {
-    cd ../../src
+    if [ -z "${CANARY_DELIVERIES_HOME}" ]; then
+        echo -e "$RED[ERR] CANARY_DELIVERIES_HOME env var does not exist$NC"
+        exit 1
+    fi
+    cd $CANARY_DELIVERIES_HOME/src
 }
 
 function runApis() {
-    echo -e "$GREEN[!] Building Apis image...$NC"
+    echo -e "$GREEN[INFO] Building Apis image...$NC"
     docker-compose build --no-cache
-    echo -e "$GREEN[!] Running Apis...$NC"
+    echo -e "$GREEN[INFO] Running Apis...$NC"
     docker-compose up --force-recreate
 }
 
 function ctrl_c() {
-    echo -e "$GREEN[!] Stopping Apis...$NC"
+    echo -e "$GREEN[INFO] Stopping Apis...$NC"
     docker-compose down
     exit 1
 }

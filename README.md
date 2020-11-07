@@ -2,12 +2,13 @@
 
 ## Requirements
 - Docker
+- **CANARY_DELIVERY_HOME** envirement var decalared with the project root path
 
 ## WebApp
 
 ### BackEnd
 
-To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-web-app-api.sh` script.
+To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-web-app-api.sh` script. To execute the script need the **CANARY_DELIVERY_HOME** enviroment var declared, see the Requirements sections for more info.
 
 If the script execution finished successfuly, the Api is running in `http://127.0.0.1:5000`
 
