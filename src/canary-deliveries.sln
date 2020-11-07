@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppApi", "Tests\Unit\Web
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{0FB62824-F21B-472F-81AB-02C578E9A559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseApplication", "Tests\Unit\Domain\PurchaseApplication\PurchaseApplication.csproj", "{6D415D03-C853-46CF-953C-A1787B5B2375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainTests", "Tests\Unit\Domain\DomainTests\DomainTests.csproj", "{6D415D03-C853-46CF-953C-A1787B5B2375}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PurchaseApplication", "PurchaseApplication", "{7587870E-20FC-4EF4-9651-55EAD7EBC1B2}"
 EndProject

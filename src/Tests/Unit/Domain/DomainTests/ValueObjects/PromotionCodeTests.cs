@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
-using CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain.Utils;
+using CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Utils;
 using FluentAssertions;
 using NUnit.Framework;
 using static LanguageExt.Prelude;
 
-namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain.ValueObjects
+namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjects
 {
     [TestFixture]
     public sealed class PromotionCodeTests

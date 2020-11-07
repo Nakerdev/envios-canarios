@@ -4,7 +4,7 @@ using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using FluentAssertions;
 using LanguageExt;
 
-namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain.Utils
+namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Utils
 {
     public static class ValidationErrorTestsRunner
     {

@@ -3,7 +3,7 @@ using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Domain.Entities
+namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Entities
 {
     [TestFixture]
     public sealed class ClientTests
