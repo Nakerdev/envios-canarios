@@ -1,4 +1,4 @@
-namespace CanaryDeliveries.Domain.PurchaseApplication.ValueObjects
+namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class ValidationError<T>
     {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CanaryDeliveries.Domain.PurchaseApplication;
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
-using CanaryDeliveries.Domain.PurchaseApplication.Entities;
-using CanaryDeliveries.Domain.PurchaseApplication.Services;
+using CanaryDeliveries.PurchaseApplication.Domain;
+using CanaryDeliveries.PurchaseApplication.Domain.Create;
+using CanaryDeliveries.PurchaseApplication.Domain.Entities;
+using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -51,7 +51,7 @@ namespace CanaryDeliveries.Tests.Domain.PurchaseApplication.Create
             createdPurchaseApplication.AdditionalInformation.Equals(command.AdditionalInformation).Should().BeTrue();
             createdPurchaseApplication.CreationDateTime.Should().Be(now);
             purchaseApplicationRepository
-                .Verify(x => x.Create(It.Is<CanaryDeliveries.Domain.PurchaseApplication.PurchaseApplication>(y => 
+                .Verify(x => x.Create(It.Is<CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication>(y => 
                     y.Id != null
                     && y.Products.Count == command.Products.Count
                     && y.Products.First().Link == command.Products.First().Link

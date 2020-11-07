@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using CanaryDeliveries.Tests.Domain.PurchaseApplication.Utils;
 using FluentAssertions;
 using NUnit.Framework;

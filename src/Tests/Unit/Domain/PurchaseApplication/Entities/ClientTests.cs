@@ -1,5 +1,5 @@
-using CanaryDeliveries.Domain.PurchaseApplication.Entities;
-using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.PurchaseApplication.Domain.Entities;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using FluentAssertions;
 using NUnit.Framework;
 

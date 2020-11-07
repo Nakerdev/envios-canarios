@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using LanguageExt;
 using PluralizeService.Core;
 
-namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
+namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 {
     public sealed class Product
     {
@@ -35,9 +35,9 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
                    var link = Link.Create(productDto.Value.Link);
                    var units = Units.Create(productDto.Value.Units);
                    var additionalInformation = productDto.Value.AdditionalInformation
-                       .Map(x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x));
+                       .Map(x => ValueObjects.AdditionalInformation.Create(x));
                    var promotionCode = productDto.Value.PromotionCode
-                        .Map(x => Domain.PurchaseApplication.ValueObjects.PromotionCode.Create(x));
+                        .Map(x => ValueObjects.PromotionCode.Create(x));
   
                    if (link.IsFail 
                        || units.IsFail 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using CanaryDeliveries.Domain.PurchaseApplication.Create;
-using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using FluentAssertions;
 using LanguageExt;
 

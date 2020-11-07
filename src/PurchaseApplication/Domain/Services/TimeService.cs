@@ -1,6 +1,6 @@
 using System;
 
-namespace CanaryDeliveries.Domain.PurchaseApplication.Services
+namespace CanaryDeliveries.PurchaseApplication.Domain.Services
 {
     public interface TimeService
     {

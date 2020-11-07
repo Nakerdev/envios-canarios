@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using CanaryDeliveries.Domain.PurchaseApplication.Entities;
-using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.PurchaseApplication.Domain.Entities;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using LanguageExt;
 
-namespace CanaryDeliveries.Domain.PurchaseApplication.Create
+namespace CanaryDeliveries.PurchaseApplication.Domain.Create
 {
     public sealed class CreatePurchaseApplicationCommand
     {
@@ -18,7 +18,7 @@ namespace CanaryDeliveries.Domain.PurchaseApplication.Create
         {
             var products = Product.Create(commandDto.Products);
             var client = Client.Create(commandDto.Client);
-            var additionalInformation = commandDto.AdditionalInformation.Map(x => Domain.PurchaseApplication.ValueObjects.AdditionalInformation.Create(x));
+            var additionalInformation = commandDto.AdditionalInformation.Map(x => ValueObjects.AdditionalInformation.Create(x));
             
             if (products.IsFail 
                 || client.IsFail 

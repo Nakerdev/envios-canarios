@@ -1,9 +1,9 @@
 using System;
-using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using LanguageExt;
 using static LanguageExt.Prelude;
 
-namespace CanaryDeliveries.Domain.PurchaseApplication.Entities
+namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 {
     public sealed class Client
     {

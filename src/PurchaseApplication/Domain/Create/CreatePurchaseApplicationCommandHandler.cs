@@ -1,7 +1,7 @@
-using CanaryDeliveries.Domain.PurchaseApplication.Services;
-using CanaryDeliveries.Domain.PurchaseApplication.ValueObjects;
+using CanaryDeliveries.PurchaseApplication.Domain.Services;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 
-namespace CanaryDeliveries.Domain.PurchaseApplication.Create
+namespace CanaryDeliveries.PurchaseApplication.Domain.Create
 {
     public sealed class CreatePurchaseApplicationCommandHandler
     {
