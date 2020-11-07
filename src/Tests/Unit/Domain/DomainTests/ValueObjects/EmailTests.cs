@@ -30,7 +30,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjec
                     expectedFieldId: nameof(Email),
                     expectedErrorCode: GenericValidationErrorCode.InvalidFormat),
                 new ValidationErrorTestCase<GenericValidationErrorCode, Email>(
-                    builder: () => Email.Create(new string('a', 256)),
+                    builder: () => Email.Create(new string('a', 256) + "@email.com"),
                     expectedFieldId: nameof(Email),
                     expectedErrorCode: GenericValidationErrorCode.WrongLength),
             }.AsReadOnly();

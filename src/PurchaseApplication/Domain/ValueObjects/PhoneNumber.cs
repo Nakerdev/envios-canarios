@@ -19,14 +19,13 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(Option<string> val)
             {
                 return val.Match(
-                    None: () => Fail<ValidationError<GenericValidationErrorCode>, string>(
-                        CreateValidationError(GenericValidationErrorCode.Required)),
+                    None: () => CreateValidationError(GenericValidationErrorCode.Required),
                     Some: Success<ValidationError<GenericValidationErrorCode>, string>);
             }
             
             Validation<ValidationError<GenericValidationErrorCode>, PhoneNumber> ValidateFormat(string val)
             {
-                if (Regex.Match(val, @"^(\[0-9])$").Success)
+                if (!Regex.Match(val, @"^[0-9]*$").Success)
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                 };
@@ -38,8 +37,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
                 const int maxAllowedLenght = 15;
                 if (phoneNumber.Value.Length > maxAllowedLenght)
                 {
-                    return CreateValidationError(GenericValidationErrorCode.WrongLength);
-                };
+                    return CreateValidationError(GenericValidationErrorCode.WrongLength); };
                 return phoneNumber;
             }
 
