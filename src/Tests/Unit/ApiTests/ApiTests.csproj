@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyName>CanaryDeliveries.Tests.Unit.WebApp.Api</AssemblyName>
-    <RootNamespace>CanaryDeliveries.Tests.Unit.WebApp.Api</RootNamespace>
+    <AssemblyName>CanaryDeliveries.Tests.WebApp.Unit.ApiTests</AssemblyName>
+    <RootNamespace>CanaryDeliveries.Tests.WebApp.Unit.ApiTests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.12.0" />

@@ -4,6 +4,7 @@
     &lt;Project Location="/home/naker90/Desktop/Projects/envios-canarios/src/Tests/Unit/WebAppApi" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;WebApp&amp;gt;\&amp;lt;WebAppApi&amp;gt;" /&gt;
     &lt;Project Location="/home/naker90/Desktop/Projects/envios-canarios/src/Tests/Unit/Domain/PurchaseApplication" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;PurchaseApplication&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;PurchaseApplication&amp;gt;" /&gt;
     &lt;Project Location="/home/naker90/Desktop/Projects/envios-canarios/src/Tests/Unit/Domain/DomainTests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;PurchaseApplication&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;DomainTests&amp;gt;" /&gt;
+    &lt;Project Location="/home/naker90/Desktop/Projects/envios-canarios/src/Tests/Unit/ApiTests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;WebApp&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;ApiTests&amp;gt;" /&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	

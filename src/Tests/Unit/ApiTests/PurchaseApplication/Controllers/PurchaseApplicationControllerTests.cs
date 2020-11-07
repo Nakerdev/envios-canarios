@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
-namespace CanaryDeliveries.Tests.Unit.WebApp.Api.PurchaseApplication.Controllers
+namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Controllers
 {
     public class PurchaseApplicationControllerTests
     {
