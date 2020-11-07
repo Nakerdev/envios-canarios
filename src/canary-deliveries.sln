@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseApplication", "Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PurchaseApplication", "PurchaseApplication", "{7587870E-20FC-4EF4-9651-55EAD7EBC1B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseApplication\Domain", "PurchaseApplication\Domain\Domain.csproj", "{DBE9931F-4B11-4053-9A1F-36C8A20A2CDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "PurchaseApplication\Domain\Domain.csproj", "{DBE9931F-4B11-4053-9A1F-36C8A20A2CDB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{E3D9AE43-ECED-45E7-A431-E07D72E054B7}"
 EndProject
