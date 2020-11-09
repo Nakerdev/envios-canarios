@@ -13,7 +13,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjec
         [Test]
         public void CreatesEmail()
         {
-            var result = Email.Create("user@email.com");
+            var result = Email.Create(null);
 
             result.IsSuccess.Should().BeTrue();
         }
