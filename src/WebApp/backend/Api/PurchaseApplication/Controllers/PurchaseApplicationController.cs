@@ -7,6 +7,7 @@ using CanaryDeliveries.PurchaseApplication.Domain.Create;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation;
 using CanaryDeliveries.WebApp.Api.Utils;
+using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
@@ -34,7 +35,21 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
         public ActionResult Execute([FromBody] PurchaseApplicationRequest request)
         {
-            var command = CreatePurchaseApplicationCommand.Create(new CreatePurchaseApplicationCommand.Dto(
+            var command = BuildCreatePurchaseApplicationCommand(request);
+            return command.Match(
+                Fail: errors => throw new NotImplementedException(),
+                Succ: comm =>
+                {
+                    commandHandler.Create(comm);
+                    return Ok();
+                });
+        }
+
+        private static Validation<
+            CanaryDeliveries.PurchaseApplication.Domain.ValueObjects.ValidationError<GenericValidationErrorCode>, 
+            CreatePurchaseApplicationCommand> BuildCreatePurchaseApplicationCommand(PurchaseApplicationRequest request)
+        {
+            var commandDto = new CreatePurchaseApplicationCommand.Dto(
                 products: request.Products.Map(product =>
                     new CanaryDeliveries.PurchaseApplication.Domain.Entities.Product.Dto(
                         link: product.Link,
@@ -45,11 +60,8 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
                     name: request.Client.Name,
                     phoneNumber: request.Client.PhoneNumber,
                     email: request.Client.Email),
-                additionalInformation: request.AdditionalInformation));
-            command.Match(
-                Fail: errors => throw new NotImplementedException(),
-                Succ: comm => commandHandler.Create(comm));
-            return Ok();
+                additionalInformation: request.AdditionalInformation);
+            return CreatePurchaseApplicationCommand.Create(commandDto);
         }
 
         public sealed class PurchaseApplicationRequest
