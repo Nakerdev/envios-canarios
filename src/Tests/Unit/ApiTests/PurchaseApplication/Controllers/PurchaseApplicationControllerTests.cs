@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.Domain;
@@ -6,6 +7,7 @@ using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders;
 using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
+using CanaryDeliveries.WebApp.Api.Utils;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,8 +55,25 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
                     && y.AdditionalInformation == AdditionalInformation.Create(request.AdditionalInformation).IfFail(() => null))),
                     Times.Once);
         }
+        
+        [Test]
+        public void DoesNotCreatePurchaseApplicationWhenCommandCreationHasValidationErrors()
+        {
+            var request = BuildPurchaseApplicationRequest(clientName: null);
 
-        private static PurchaseApplicationController.PurchaseApplicationRequest BuildPurchaseApplicationRequest()
+            var response = controller.Execute(request) as ObjectResult;
+
+            response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+            var badRequestResponseModel = ((BadRequestResponseModel<GenericValidationErrorCode>) response.Value);
+            badRequestResponseModel.ValidationErrors.Should().NotBeNull();
+            badRequestResponseModel.OperationError.Should().BeNull();
+            createPurchaseApplicationCommandHandler
+                .Verify(x => x.Create(It.IsAny<CreatePurchaseApplicationCommand>()),
+                    Times.Never);
+        }
+
+        private static PurchaseApplicationController.PurchaseApplicationRequest BuildPurchaseApplicationRequest(
+            string clientName = "Alfredo")
         {
             return new PurchaseApplicationController.PurchaseApplicationRequest
             {
@@ -70,7 +89,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
                 },
                 Client = new  PurchaseApplicationController.Client
                 {
-                    Name = "Alfredo",
+                    Name = clientName,
                     PhoneNumber = "123123123",
                     Email = "alfredo@elguapo.com"
                 },

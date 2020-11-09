@@ -37,12 +37,8 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
         {
             var command = BuildCreatePurchaseApplicationCommand(request);
             return command.Match(
-                Fail: errors => throw new NotImplementedException(),
-                Succ: comm =>
-                {
-                    commandHandler.Create(comm);
-                    return Ok();
-                });
+                Fail: BuildValidationErrorResponse,
+                Succ: ExecuteCommandHandler);
         }
 
         private static Validation<
@@ -62,6 +58,21 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
                     email: request.Client.Email),
                 additionalInformation: request.AdditionalInformation);
             return CreatePurchaseApplicationCommand.Create(commandDto);
+        }
+        
+        private ActionResult BuildValidationErrorResponse(
+            Seq<CanaryDeliveries.PurchaseApplication.Domain.ValueObjects.ValidationError<GenericValidationErrorCode>> errors)
+        {
+            var validationErrors = errors.Map(error => new Utils.ValidationError<GenericValidationErrorCode>(
+                fieldId: error.FieldId,
+                errorCode: error.ErrorCode)).ToList();
+            return BadRequest(BadRequestResponseModel<GenericValidationErrorCode>.CreateValidationErrorResponse(validationErrors));
+        }
+        
+        private ActionResult ExecuteCommandHandler(CreatePurchaseApplicationCommand comm)
+        {
+            commandHandler.Create(comm);
+            return Ok();
         }
 
         public sealed class PurchaseApplicationRequest
