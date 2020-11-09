@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,7 +28,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(summary: "Creates a purchase application")]
         [SwaggerResponse(statusCode: 200, description: "The purchase application was created successfully")]
-        [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors. It response never returns an operation error", type: typeof(BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode>))]
+        [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors. It response never returns an operation error", type: typeof(BadRequestResponseModel))]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(PurchaseApplicationRequest), typeof(PurchaseApplicationRequestExample))]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
@@ -42,7 +41,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
         }
 
         private static Validation<
-            CanaryDeliveries.PurchaseApplication.Domain.ValueObjects.ValidationError<GenericValidationErrorCode>, 
+            ValidationError<GenericValidationErrorCode>, 
             CreatePurchaseApplicationCommand> BuildCreatePurchaseApplicationCommand(PurchaseApplicationRequest request)
         {
             var commandDto = new CreatePurchaseApplicationCommand.Dto(
@@ -60,13 +59,14 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
             return CreatePurchaseApplicationCommand.Create(commandDto);
         }
         
-        private ActionResult BuildValidationErrorResponse(
-            Seq<CanaryDeliveries.PurchaseApplication.Domain.ValueObjects.ValidationError<GenericValidationErrorCode>> errors)
+        private ActionResult BuildValidationErrorResponse(Seq<ValidationError<GenericValidationErrorCode>> errors)
         {
-            var validationErrors = errors.Map(error => new Utils.ValidationError<GenericValidationErrorCode>(
-                fieldId: error.FieldId,
-                errorCode: error.ErrorCode)).ToList();
-            return BadRequest(BadRequestResponseModel<GenericValidationErrorCode>.CreateValidationErrorResponse(validationErrors));
+            var validationErrors = errors.Map(error => 
+                new ValidationError(
+                    fieldId: error.FieldId,
+                    errorCode: error.ErrorCode.ToString()))
+                .ToList();
+            return BadRequest(BadRequestResponseModel.CreateValidationErrorResponse(validationErrors));
         }
         
         private ActionResult ExecuteCommandHandler(CreatePurchaseApplicationCommand comm)
@@ -120,13 +120,5 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
             [Required]            
             public string Email { get; set; }
         }
-    }
-
-    public enum PurchaseApplicationCreationRequestErrorCode 
-    {
-        Required,
-        InvalidFormat,
-        WrongLength,
-        InvalidValue
     }
 }

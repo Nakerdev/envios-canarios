@@ -4,29 +4,29 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CanaryDeliveries.WebApp.Api.Utils
 {
-    public sealed class BadRequestResponseModel<ValidationErrorCode> where ValidationErrorCode : Enum
+    public sealed class BadRequestResponseModel
     {
-        public List<ValidationError<ValidationErrorCode>> ValidationErrors { get; }
+        public List<ValidationError> ValidationErrors { get; }
         public string OperationError { get; }
 
-        public static BadRequestResponseModel<ValidationErrorCode> CreateValidationErrorResponse(
-            List<ValidationError<ValidationErrorCode>> validationErrors)
+        public static BadRequestResponseModel CreateValidationErrorResponse(
+            List<ValidationError> validationErrors)
         {
-            return new BadRequestResponseModel<ValidationErrorCode>(
+            return new BadRequestResponseModel(
                 validationErrors: validationErrors,
                 operationError: null);
         }
 
-        public static BadRequestResponseModel<ValidationErrorCode> CreateOperationErrorResponse(
+        public static BadRequestResponseModel CreateOperationErrorResponse(
             string operationError)
         {
-            return new BadRequestResponseModel<ValidationErrorCode>(
+            return new BadRequestResponseModel(
                 validationErrors: null,
                 operationError: operationError);
         }
 
         private BadRequestResponseModel(
-            List<ValidationError<ValidationErrorCode>> validationErrors, 
+            List<ValidationError> validationErrors, 
             string operationError)
         {
             this.ValidationErrors = validationErrors;
@@ -34,9 +34,8 @@ namespace CanaryDeliveries.WebApp.Api.Utils
         }
     }
 
-    public sealed class ValidationError<ValidationErrorCode> where ValidationErrorCode : Enum
+    public sealed class ValidationError
     {
-
         [Required]            
         public string FieldId { get; }
 
@@ -45,10 +44,10 @@ namespace CanaryDeliveries.WebApp.Api.Utils
 
         public ValidationError(
             string fieldId, 
-            ValidationErrorCode errorCode)
+            string errorCode)
         {
-            this.FieldId = fieldId;
-            this.ErrorCode = errorCode.ToString();
+            FieldId = fieldId;
+            ErrorCode = errorCode;
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.Domain;
@@ -64,7 +63,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
             var response = controller.Execute(request) as ObjectResult;
 
             response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
-            var badRequestResponseModel = ((BadRequestResponseModel<GenericValidationErrorCode>) response.Value);
+            var badRequestResponseModel = ((BadRequestResponseModel) response.Value);
             badRequestResponseModel.ValidationErrors.Should().NotBeNull();
             badRequestResponseModel.OperationError.Should().BeNull();
             createPurchaseApplicationCommandHandler

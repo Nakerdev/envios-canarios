@@ -4,32 +4,32 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation
 {
-    public sealed class BadRequestResponseModelExampleForValidationsError : IExamplesProvider<BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode>>
+    public sealed class BadRequestResponseModelExampleForValidationsError : IExamplesProvider<BadRequestResponseModel>
     {
-        public BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode> GetExamples()
+        public BadRequestResponseModel GetExamples()
         {
-            return BadRequestResponseModel<PurchaseApplicationCreationRequestErrorCode>.CreateValidationErrorResponse(
-                validationErrors: new List<ValidationError<PurchaseApplicationCreationRequestErrorCode>>
+            return BadRequestResponseModel.CreateValidationErrorResponse(
+                validationErrors: new List<ValidationError>
                 {
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products", errorCode: PurchaseApplicationCreationRequestErrorCode.Required),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].Link", errorCode: PurchaseApplicationCreationRequestErrorCode.Required),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].Link", errorCode: PurchaseApplicationCreationRequestErrorCode.InvalidFormat),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].Link", errorCode: PurchaseApplicationCreationRequestErrorCode.WrongLength),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].Units", errorCode: PurchaseApplicationCreationRequestErrorCode.Required),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].Units", errorCode: PurchaseApplicationCreationRequestErrorCode.InvalidFormat),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].Units", errorCode: PurchaseApplicationCreationRequestErrorCode.InvalidValue),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].AdditionalInformation", errorCode: PurchaseApplicationCreationRequestErrorCode.WrongLength),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Products[0].PromotionCode", errorCode: PurchaseApplicationCreationRequestErrorCode.WrongLength),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client", errorCode: PurchaseApplicationCreationRequestErrorCode.Required),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.Name", errorCode: PurchaseApplicationCreationRequestErrorCode.Required),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.Name", errorCode: PurchaseApplicationCreationRequestErrorCode.WrongLength),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.TelephoneNumber", errorCode: PurchaseApplicationCreationRequestErrorCode.Required),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.TelephoneNumber", errorCode: PurchaseApplicationCreationRequestErrorCode.InvalidFormat),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.TelephoneNumber", errorCode: PurchaseApplicationCreationRequestErrorCode.WrongLength),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.Email", errorCode: PurchaseApplicationCreationRequestErrorCode.Required),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.Email", errorCode: PurchaseApplicationCreationRequestErrorCode.InvalidFormat),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "Client.Email", errorCode: PurchaseApplicationCreationRequestErrorCode.WrongLength),
-                    new ValidationError<PurchaseApplicationCreationRequestErrorCode>(fieldId: "AdditionalInformation", errorCode: PurchaseApplicationCreationRequestErrorCode.WrongLength),
+                    new ValidationError(fieldId: "Products", errorCode: "Required"),
+                    new ValidationError(fieldId: "Products[0].Link", errorCode: "Required"),
+                    new ValidationError(fieldId: "Products[0].Link", errorCode: "InvalidFormat"),
+                    new ValidationError(fieldId: "Products[0].Link", errorCode: "WrongLength"),
+                    new ValidationError(fieldId: "Products[0].Units", errorCode: "Required"),
+                    new ValidationError(fieldId: "Products[0].Units", errorCode: "InvalidFormat"),
+                    new ValidationError(fieldId: "Products[0].Units", errorCode: "InvalidValue"),
+                    new ValidationError(fieldId: "Products[0].AdditionalInformation", errorCode: "WrongLength"),
+                    new ValidationError(fieldId: "Products[0].PromotionCode", errorCode: "WrongLength"),
+                    new ValidationError(fieldId: "Client", errorCode: "Required"),
+                    new ValidationError(fieldId: "Client.Name", errorCode: "Required"),
+                    new ValidationError(fieldId: "Client.Name", errorCode: "WrongLength"),
+                    new ValidationError(fieldId: "Client.TelephoneNumber", errorCode: "Required"),
+                    new ValidationError(fieldId: "Client.TelephoneNumber", errorCode: "InvalidFormat"),
+                    new ValidationError(fieldId: "Client.TelephoneNumber", errorCode: "WrongLength"),
+                    new ValidationError(fieldId: "Client.Email", errorCode: "Required"),
+                    new ValidationError(fieldId: "Client.Email", errorCode: "InvalidFormat"),
+                    new ValidationError(fieldId: "Client.Email", errorCode: "WrongLength"),
+                    new ValidationError(fieldId: "AdditionalInformation", errorCode: "WrongLength"),
                 }
             );
         }
