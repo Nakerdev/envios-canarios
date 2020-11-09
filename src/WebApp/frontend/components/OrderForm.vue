@@ -35,7 +35,7 @@
         md="6"
       >
         <v-text-field
-          v-model="order.client.phone"
+          v-model="order.client.phoneNumber"
           placeholder="Número de teléfono"
           dark
           filled
@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Client } from '../services/purchase-aplication/models/purchase-aplication.models'
 
 export default Vue.extend({
   name: 'OrderForm',
@@ -93,8 +94,11 @@ export default Vue.extend({
     return {
       isValid: true,
       order: {
-        client: {},
-        information: ''
+        client: {
+          name: '',
+          email: ''
+        } as Client,
+        additionalInformation: ''
       }
     }
   },
@@ -103,8 +107,11 @@ export default Vue.extend({
       if (this.isValid) {
         this.$emit('onRequest', this.order)
         this.order = {
-          client: {},
-          information: ''
+          client: {
+            name: '',
+            email: ''
+          },
+          additionalInformation: ''
         }
       }
     }

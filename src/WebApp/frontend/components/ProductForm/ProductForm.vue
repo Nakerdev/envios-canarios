@@ -87,6 +87,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { emptyProductVm } from './product.helpers'
 
 export default Vue.extend({
   name: 'ProductForm',
@@ -94,7 +95,7 @@ export default Vue.extend({
     product: {
       required: false,
       type: Object,
-      default: () => ({})
+      default: () => (emptyProductVm())
     }
   },
   data () {

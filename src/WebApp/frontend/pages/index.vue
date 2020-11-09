@@ -42,11 +42,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import Navbar from '../components/Navbar.vue'
-import ProductForm from '../components/ProductForm.vue'
+import ProductForm from '../components/ProductForm/ProductForm.vue'
+import { ProductVm } from '../components/ProductForm/product.model'
+import { emptyProductVm } from '../components/ProductForm//product.helpers'
 import Table from '../components/Table.vue'
 import OrderForm from '../components/OrderForm.vue'
-import * as PurchaseAplicationService from '../services/puchase-aplication/purchase-aplication-service'
-import { PurchaseAplication } from '../models/purchase-aplication.models'
+import * as PurchaseAplicationService from '../services/purchase-aplication/purchase-aplication-service'
+import { PurchaseAplication, Product } from '../services/purchase-aplication/models/purchase-aplication.models'
 
 export default Vue.extend({
   components: {
@@ -57,34 +59,34 @@ export default Vue.extend({
   },
   data () {
     return {
-      products: [] as any[],
-      selectedProduct: {} as any,
+      products: [] as ProductVm[],
+      selectedProduct: emptyProductVm() as ProductVm,
       headers: [
         { text: 'Enlace', value: 'link' },
         { text: 'Unidades', value: 'units' },
-        { text: 'Código de promoción', value: 'promoCode' },
-        { text: 'Información', value: 'information' },
+        { text: 'Código de promoción', value: 'promotionCode' },
+        { text: 'Información', value: 'additionalInformation' },
         { text: 'Actions', value: 'actions', sortable: false }
       ]
     }
   },
   methods: {
-    setProduct (product: any) {
+    setProduct (product: ProductVm) {
       this.selectedProduct = { ...product }
     },
-    addProduct (product: any) {
+    addProduct (product: ProductVm) {
       this.products.push(product)
 
-      this.selectedProduct = {}
+      this.selectedProduct = emptyProductVm()
     },
-    editProduct (product: any) {
-      const productIndex = this.products.findIndex((p: any) => product.id === p.id)
+    editProduct (product: ProductVm) {
+      const productIndex = this.products.findIndex((p: ProductVm) => product.id === p.id)
       this.products.splice(productIndex, 1, product)
 
-      this.selectedProduct = {}
+      this.selectedProduct = emptyProductVm()
     },
-    deleteProduct (id: any) {
-      const productIndex = this.products.findIndex((p: any) => id === p.id)
+    deleteProduct (id: number) {
+      const productIndex = this.products.findIndex((p: ProductVm) => id === p.id)
       this.products.splice(productIndex, 1)
     },
     requestPurchase (order: any) {
@@ -92,11 +94,11 @@ export default Vue.extend({
         const finalOrder: PurchaseAplication = {
           ...order,
           products: [
-            ...this.products.map(({ link, units, promoCode, information }) => ({
+            ...this.products.map(({ link, units, promotionCode, additionalInformation }: Product) => ({
               link,
               units,
-              promoCode,
-              information
+              promotionCode,
+              additionalInformation
             }))
           ]
         }
@@ -106,7 +108,7 @@ export default Vue.extend({
           body: finalOrder
         }).then(() => {
           this.products = []
-          this.selectedProduct = {}
+          this.selectedProduct = emptyProductVm()
         })
       }
     }
