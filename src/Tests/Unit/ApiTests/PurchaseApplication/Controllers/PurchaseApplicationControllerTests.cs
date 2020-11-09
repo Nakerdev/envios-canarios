@@ -1,14 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.Domain;
 using CanaryDeliveries.PurchaseApplication.Domain.Create;
-using CanaryDeliveries.PurchaseApplication.Domain.Entities;
 using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
+using CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders;
 using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
 using FluentAssertions;
-using LanguageExt.ClassInstances;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -37,23 +35,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
             var request = BuildPurchaseApplicationRequest();
             createPurchaseApplicationCommandHandler
                 .Setup(x => x.Create(It.IsAny<CreatePurchaseApplicationCommand>()))
-                .Returns(() => new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication(
-                    new PersistenceState(
-                        id: new Id.PersistenceState("3F2504E0-4F89-11D3-9A0C-0305E82C3301"),
-                        products: new List<Product.PersistenceState>
-                        {
-                            new Product.PersistenceState(
-                                link: new Link.PersistenceState("https://addidas.com/products/1"),
-                                units: new Units.PersistenceState(1),
-                                additionalInformation: new AdditionalInformation.PersistenceState("size: 30, color: red"),
-                                promotionCode: new PromotionCode.PersistenceState("ADDIDAS-123"))
-                        },
-                        client: new Client.PersistenceState(
-                            name: new Name.PersistenceState("Alfredo"),
-                            phoneNumber: new PhoneNumber.PersistenceState("610232323"),
-                            email: new Email.PersistenceState("alfredo@email.com")),
-                        additionalInformation: new AdditionalInformation.PersistenceState("Purchase additional information"),
-                        creationDate: new DateTime(2020, 10, 10, 12, 30, 00))));
+                .Returns(PurchaseApplicationBuilder.Build);
 
             var response = controller.Execute(request) as StatusCodeResult;
 

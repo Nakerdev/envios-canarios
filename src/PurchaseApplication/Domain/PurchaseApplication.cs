@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using CanaryDeliveries.PurchaseApplication.Domain.Entities;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using LanguageExt;
-using LanguageExt.ClassInstances;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain
 {
@@ -39,28 +37,29 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             AdditionalInformation = persistenceState.AdditionalInformation.Map(x => new AdditionalInformation(x));
             CreationDateTime = persistenceState.CreationDate;
         }
-    }
-
-    public sealed class PersistenceState
-    {
-        public Id.PersistenceState Id { get; }
-        public List<Product.PersistenceState> Products { get; }
-        public Client.PersistenceState Client { get; }
-        public Option<AdditionalInformation.PersistenceState> AdditionalInformation { get; }
-        public DateTime CreationDate { get; }
-
-        public PersistenceState(
-            Id.PersistenceState id, 
-            List<Product.PersistenceState> products, 
-            Client.PersistenceState client, 
-            Option<AdditionalInformation.PersistenceState> additionalInformation, 
-            DateTime creationDate)
+        
+        public sealed class PersistenceState
         {
-            Id = id;
-            Products = products;
-            Client = client;
-            AdditionalInformation = additionalInformation;
-            CreationDate = creationDate;
+            public Id.PersistenceState Id { get; }
+            public List<Product.PersistenceState> Products { get; }
+            public Client.PersistenceState Client { get; }
+            public Option<AdditionalInformation.PersistenceState> AdditionalInformation { get; }
+            public DateTime CreationDate { get; }
+    
+            public PersistenceState(
+                Id.PersistenceState id, 
+                List<Product.PersistenceState> products, 
+                Client.PersistenceState client, 
+                Option<AdditionalInformation.PersistenceState> additionalInformation, 
+                DateTime creationDate)
+            {
+                Id = id;
+                Products = products;
+                Client = client;
+                AdditionalInformation = additionalInformation;
+                CreationDate = creationDate;
+            }
         }
     }
+    
 }

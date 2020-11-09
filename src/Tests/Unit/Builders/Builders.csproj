@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <AssemblyName>CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders</AssemblyName>
+        <RootNamespace>CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\PurchaseApplication\Domain\Domain.csproj" />
+    </ItemGroup>
+
+</Project>
