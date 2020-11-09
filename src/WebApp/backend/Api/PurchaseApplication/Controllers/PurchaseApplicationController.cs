@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation;
 using CanaryDeliveries.WebApp.Api.Utils;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
@@ -11,6 +12,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
 {
     [ApiController]
     [Route("/v1/purchase-application")]
+    [EnableCors]
     public class PurchaseApplicationController : ControllerBase
     {
         [HttpPost]

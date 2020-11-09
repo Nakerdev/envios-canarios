@@ -19,6 +19,7 @@ namespace CanaryDeliveries.WebApp.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers(config => {
                 config.Filters.Add(new HttpResponseExceptionFilter());
             });
@@ -32,6 +33,9 @@ namespace CanaryDeliveries.WebApp.Api
         {
             if (env.IsDevelopment())
             {
+                app.UseCors(
+                    options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
+                );
                 app.UseDeveloperExceptionPage();
                 SwaggerConfiguration.Configure(app);
             }
