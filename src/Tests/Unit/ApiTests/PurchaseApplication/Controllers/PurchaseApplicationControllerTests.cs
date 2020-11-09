@@ -71,10 +71,10 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
                     Times.Never);
         }
 
-        private static PurchaseApplicationController.PurchaseApplicationRequest BuildPurchaseApplicationRequest(
+        private static PurchaseApplicationController.PurchaseApplicationCreationRequest BuildPurchaseApplicationRequest(
             string clientName = "Alfredo")
         {
-            return new PurchaseApplicationController.PurchaseApplicationRequest
+            return new PurchaseApplicationController.PurchaseApplicationCreationRequest
             {
                 Products = new List<PurchaseApplicationController.Product>
                 {

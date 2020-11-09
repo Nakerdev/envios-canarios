@@ -30,11 +30,11 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
         [SwaggerResponse(statusCode: 200, description: "The purchase application was created successfully")]
         [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors. It response never returns an operation error", type: typeof(BadRequestResponseModel))]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
-        [SwaggerRequestExample(typeof(PurchaseApplicationRequest), typeof(PurchaseApplicationRequestExample))]
+        [SwaggerRequestExample(typeof(PurchaseApplicationCreationRequest), typeof(PurchaseApplicationRequestExample))]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
-        public ActionResult Execute([FromBody] PurchaseApplicationRequest request)
+        public ActionResult Execute([FromBody] PurchaseApplicationCreationRequest creationRequest)
         {
-            var command = BuildCreatePurchaseApplicationCommand(request);
+            var command = BuildCreatePurchaseApplicationCommand(creationRequest);
             return command.Match(
                 Fail: BuildValidationErrorResponse,
                 Succ: ExecuteCommandHandler);
@@ -42,20 +42,20 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
 
         private static Validation<
             ValidationError<GenericValidationErrorCode>, 
-            CreatePurchaseApplicationCommand> BuildCreatePurchaseApplicationCommand(PurchaseApplicationRequest request)
+            CreatePurchaseApplicationCommand> BuildCreatePurchaseApplicationCommand(PurchaseApplicationCreationRequest creationRequest)
         {
             var commandDto = new CreatePurchaseApplicationCommand.Dto(
-                products: request.Products.Map(product =>
+                products: creationRequest.Products.Map(product =>
                     new CanaryDeliveries.PurchaseApplication.Domain.Entities.Product.Dto(
                         link: product.Link,
                         units: product.Units,
                         additionalInformation: product.AdditionalInformation,
                         promotionCode: product.PromotionCode)).ToList(),
                 client: new CanaryDeliveries.PurchaseApplication.Domain.Entities.Client.Dto(
-                    name: request.Client.Name,
-                    phoneNumber: request.Client.PhoneNumber,
-                    email: request.Client.Email),
-                additionalInformation: request.AdditionalInformation);
+                    name: creationRequest.Client.Name,
+                    phoneNumber: creationRequest.Client.PhoneNumber,
+                    email: creationRequest.Client.Email),
+                additionalInformation: creationRequest.AdditionalInformation);
             return CreatePurchaseApplicationCommand.Create(commandDto);
         }
         
@@ -75,7 +75,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
             return Ok();
         }
 
-        public sealed class PurchaseApplicationRequest
+        public sealed class PurchaseApplicationCreationRequest
         {
             [SwaggerSchema("List of products that the client want to purchase")]            
             [Required]            

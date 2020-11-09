@@ -3,11 +3,11 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation
 {
-    public sealed class PurchaseApplicationRequestExample : IExamplesProvider<PurchaseApplicationController.PurchaseApplicationRequest>
+    public sealed class PurchaseApplicationRequestExample : IExamplesProvider<PurchaseApplicationController.PurchaseApplicationCreationRequest>
     {
-        public PurchaseApplicationController.PurchaseApplicationRequest GetExamples()
+        public PurchaseApplicationController.PurchaseApplicationCreationRequest GetExamples()
         {
-            return new PurchaseApplicationController.PurchaseApplicationRequest
+            return new PurchaseApplicationController.PurchaseApplicationCreationRequest
             {
                 Products = new List<PurchaseApplicationController.Product>
                 {
