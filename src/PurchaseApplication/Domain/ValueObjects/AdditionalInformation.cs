@@ -4,7 +4,9 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class AdditionalInformation : Record<AdditionalInformation>
     {
-        private readonly string Value;
+        public PersistenceState State => new PersistenceState(value);
+        
+        private readonly string value;
         
         public static Validation<ValidationError<GenericValidationErrorCode>, AdditionalInformation> Create(
             Option<string> value)
@@ -26,7 +28,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
                 AdditionalInformation additionalInformation)
             {
                 const int maxAllowedLenght = 1000;
-                if (additionalInformation.Value.Length > maxAllowedLenght)
+                if (additionalInformation.value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
@@ -41,10 +43,25 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
                     errorCode: errorCode);
             }
         }
-
+        
+        public AdditionalInformation(PersistenceState persistenceState)
+        {
+            value = persistenceState.Value;
+        }
+        
         private AdditionalInformation(string value)
         {
-            Value = value;
+            this.value = value;
+        }
+
+        public sealed class PersistenceState
+        {
+            public string Value { get; }
+
+            public PersistenceState(string value)
+            {
+                Value = value;
+            }
         }
     }
 }

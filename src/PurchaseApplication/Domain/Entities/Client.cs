@@ -10,6 +10,10 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
         public Name Name { get; }
         public PhoneNumber PhoneNumber { get; }
         public Email Email { get; }
+        public PersistenceState State => new PersistenceState(
+            name: Name.State,
+            phoneNumber: PhoneNumber.State,
+            email: Email.State);
         
         public static Validation<ValidationError<GenericValidationErrorCode>, Client> Create(Dto dto)
         {
@@ -56,6 +60,13 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
             }
         }
 
+        public Client(PersistenceState persistenceState)
+        {
+            Name = new Name(persistenceState.Name);
+            PhoneNumber = new PhoneNumber(persistenceState.PhoneNumber);
+            Email = new Email(persistenceState.Email);
+        }
+
         private Client(
             Name name, 
             PhoneNumber phoneNumber, 
@@ -76,6 +87,23 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
                 Option<string> name, 
                 Option<string> phoneNumber, 
                 Option<string> email)
+            {
+                Name = name;
+                PhoneNumber = phoneNumber;
+                Email = email;
+            }
+        }
+
+        public sealed class PersistenceState
+        {
+            public Name.PersistenceState Name { get; }
+            public PhoneNumber.PersistenceState PhoneNumber { get; }
+            public Email.PersistenceState Email { get; }
+
+            public PersistenceState(
+                Name.PersistenceState name, 
+                PhoneNumber.PersistenceState phoneNumber, 
+                Email.PersistenceState email)
             {
                 Name = name;
                 PhoneNumber = phoneNumber;

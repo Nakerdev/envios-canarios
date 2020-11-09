@@ -6,6 +6,7 @@
     <RootNamespace>CanaryDeliveries.Tests.WebApp.Unit.ApiTests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Moq" Version="4.13.0" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />

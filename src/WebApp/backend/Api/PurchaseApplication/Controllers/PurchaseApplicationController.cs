@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Mime;
+using CanaryDeliveries.PurchaseApplication.Domain.Create;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation;
 using CanaryDeliveries.WebApp.Api.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +17,13 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
     [Route("/v1/purchase-application")]
     public class PurchaseApplicationController : ControllerBase
     {
+        private readonly CreatePurchaseApplicationCommandHandler commandHandler;
+
+        public PurchaseApplicationController(CreatePurchaseApplicationCommandHandler commandHandler)
+        {
+            this.commandHandler = commandHandler;
+        }
+
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(summary: "Creates a purchase application")]
@@ -23,6 +34,21 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
         public ActionResult Execute([FromBody] PurchaseApplicationRequest request)
         {
+            var command = CreatePurchaseApplicationCommand.Create(new CreatePurchaseApplicationCommand.Dto(
+                products: request.Products.Map(product =>
+                    new CanaryDeliveries.PurchaseApplication.Domain.Entities.Product.Dto(
+                        link: product.Link,
+                        units: product.Units,
+                        additionalInformation: product.AdditionalInformation,
+                        promotionCode: product.PromotionCode)).ToList(),
+                client: new CanaryDeliveries.PurchaseApplication.Domain.Entities.Client.Dto(
+                    name: request.Client.Name,
+                    phoneNumber: request.Client.PhoneNumber,
+                    email: request.Client.Email),
+                additionalInformation: request.AdditionalInformation));
+            command.Match(
+                Fail: errors => throw new NotImplementedException(),
+                Succ: comm => commandHandler.Create(comm));
             return Ok();
         }
 

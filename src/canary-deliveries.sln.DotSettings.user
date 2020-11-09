@@ -1,9 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0482df7d_002D42fe_002D4571_002Dabf8_002D8f41ec91b7aa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DoesNotCreatePhoneNumberWhenThereIsValidationError" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjects.PhoneNumberTests.DoesNotCreatePhoneNumberWhenThereIsValidationError&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::6D415D03-C853-46CF-953C-A1787B5B2375::.NETCoreApp,Version=v3.0::CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjects.EmailTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=414310f0_002D2fc4_002D4eeb_002Dbdb2_002D92d103ea1916/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DoesNotCreatePhoneNumberWhenThereIsValidationError #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/naker90/Desktop/Projects/envios-canarios/src" Presentation="&amp;lt;Tests&amp;gt;" /&gt;

@@ -1,11 +1,14 @@
 using System;
+using System.Runtime;
 using LanguageExt;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class Link : Record<Link>
     {
-        private readonly string Value;
+        public PersistenceState State => new PersistenceState(value);
+        
+        private readonly string value;
         
         public static Validation<ValidationError<GenericValidationErrorCode>, Link> Create(Option<string> value)
         {
@@ -25,7 +28,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             Validation<ValidationError<GenericValidationErrorCode>, Link> ValidateLenght(Link link)
             {
                 const int maxAllowedLenght = 1000;
-                if (link.Value.Length > maxAllowedLenght)
+                if (link.value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
@@ -34,7 +37,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             
             Validation<ValidationError<GenericValidationErrorCode>, Link> ValidateFormat(Link link)
             {
-                if (!Uri.IsWellFormedUriString(link.Value, UriKind.Absolute))
+                if (!Uri.IsWellFormedUriString(link.value, UriKind.Absolute))
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                 }
@@ -46,10 +49,25 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
                 return new ValidationError<GenericValidationErrorCode>(fieldId: nameof(Link), errorCode: errorCode);
             }
         }
+        
+        public Link(PersistenceState persistenceState)
+        {
+            value = persistenceState.Value;
+        }
 
         private Link(string value)
         {
-            Value = value;
+            this.value = value;
+        }
+
+        public sealed class PersistenceState
+        {
+            public string Value { get; }
+
+            public PersistenceState(string value)
+            {
+                Value = value;
+            }
         }
     }
 }

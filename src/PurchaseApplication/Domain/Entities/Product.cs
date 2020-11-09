@@ -13,6 +13,11 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
         public Units Units { get; }
         public Option<AdditionalInformation> AdditionalInformation { get; }
         public Option<PromotionCode> PromotionCode { get; }
+        public PersistenceState State => new PersistenceState(
+            Link.State,
+            Units.State,
+            AdditionalInformation.Map(x => x.State),
+            PromotionCode.Map(x => x.State));
 
         public static Validation<
             ValidationError<GenericValidationErrorCode>, 
@@ -109,6 +114,14 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
             }
         }
 
+        public Product(PersistenceState persistenceState)
+        {
+            Link = new Link(persistenceState.Link);
+            Units = new Units(persistenceState.Units);
+            AdditionalInformation = persistenceState.AdditionalInformation.Map(x => new AdditionalInformation(x));
+            PromotionCode = persistenceState.PromotionCode.Map(x => new PromotionCode(x));
+        }
+
         private Product(
             Link link, 
             Units units, 
@@ -139,6 +152,26 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
                 AdditionalInformation = additionalInformation;
                 PromotionCode = promotionCode;
             } 
+        }
+
+        public sealed class PersistenceState
+        {
+            public Link.PersistenceState Link { get; }
+            public Units.PersistenceState Units { get; }
+            public Option<AdditionalInformation.PersistenceState> AdditionalInformation { get; }
+            public Option<PromotionCode.PersistenceState> PromotionCode { get; }
+
+            public PersistenceState(
+                Link.PersistenceState link, 
+                Units.PersistenceState units, 
+                Option<AdditionalInformation.PersistenceState> additionalInformation, 
+                Option<PromotionCode.PersistenceState> promotionCode)
+            {
+                Link = link;
+                Units = units;
+                AdditionalInformation = additionalInformation;
+                PromotionCode = promotionCode;
+            }
         }
     }
 }

@@ -4,7 +4,9 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class Email : Record<Email>
     {
-        private readonly string Value;
+        public PersistenceState State => new PersistenceState(value);
+        
+        private readonly string value;
         
         public static Validation<ValidationError<GenericValidationErrorCode>, Email> Create(Option<string> value)
         {
@@ -26,7 +28,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
              {
                  try
                  {
-                     var mailAddress = new System.Net.Mail.MailAddress(email.Value);
+                     var mailAddress = new System.Net.Mail.MailAddress(email.value);
                      return email;
                  }
                  catch {
@@ -37,7 +39,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             Validation<ValidationError<GenericValidationErrorCode>, Email> ValidateLenght(Email email)
             {
                 const int maxAllowedLenght = 255;
-                if (email.Value.Length > maxAllowedLenght)
+                if (email.value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
@@ -53,9 +55,24 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             }
         }
 
+        public Email(PersistenceState persistenceState)
+        {
+            value = persistenceState.Value;
+        }
+
         private Email(string value)
         {
-            Value = value;
+            this.value = value;
+        }
+
+        public sealed class PersistenceState
+        {
+            public string Value { get; }
+
+            public PersistenceState(string value)
+            {
+                Value = value;
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.Create
 {
-    public sealed class CreatePurchaseApplicationCommandHandler
+    public class CreatePurchaseApplicationCommandHandler
     {
         private readonly PurchaseApplicationRepository purchaseApplicationRepository;
         private readonly TimeService timeService;
@@ -16,7 +16,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Create
             this.timeService = timeService;
         }
 
-        public PurchaseApplication Create(CreatePurchaseApplicationCommand command)
+        public virtual PurchaseApplication Create(CreatePurchaseApplicationCommand command)
         {
             var purchaseApplication = BuildPurchaseApplication(command);
             purchaseApplicationRepository.Create(purchaseApplication);

@@ -6,7 +6,9 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class PhoneNumber : Record<PhoneNumber>
     {
-        private readonly string Value;
+        public PersistenceState State => new PersistenceState(value);
+        
+        private readonly string value;
         
         public static Validation<ValidationError<GenericValidationErrorCode>, PhoneNumber> Create(Option<string> value)
         {
@@ -35,7 +37,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             Validation<ValidationError<GenericValidationErrorCode>, PhoneNumber> ValidateLenght(PhoneNumber phoneNumber)
             {
                 const int maxAllowedLenght = 15;
-                if (phoneNumber.Value.Length > maxAllowedLenght)
+                if (phoneNumber.value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength); };
                 return phoneNumber;
@@ -49,9 +51,24 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             }
         }
 
+        public PhoneNumber(PersistenceState persistenceState)
+        {
+            value = persistenceState.Value;
+        }
+
         private PhoneNumber(string value)
         {
-            Value = value;
+            this.value = value;
+        }
+
+        public sealed class PersistenceState
+        {
+            public string Value { get; }
+
+            public PersistenceState(string value)
+            {
+                Value = value;
+            }
         }
     }
 }

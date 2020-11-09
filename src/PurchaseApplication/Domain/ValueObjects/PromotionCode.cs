@@ -4,6 +4,8 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class PromotionCode : Record<PromotionCode>
     {
+        public PersistenceState State => new PersistenceState(Value);
+        
         private readonly string Value;
         
         public static Validation<ValidationError<GenericValidationErrorCode>, PromotionCode> Create(
@@ -42,9 +44,24 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             }
         }
 
+        public PromotionCode(PersistenceState persistenceState)
+        {
+            Value = persistenceState.Value;
+        }
+
         private PromotionCode(string value)
         {
             Value = value;
+        }
+
+        public sealed class PersistenceState
+        {
+            public string Value { get; }
+
+            public PersistenceState(string value)
+            {
+                Value = value;
+            }
         }
     }
 }

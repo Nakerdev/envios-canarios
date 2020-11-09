@@ -4,7 +4,9 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class Name : Record<Name>
     {
-        private readonly string Value;
+        public PersistenceState State => new PersistenceState(value);
+        
+        private readonly string value;
         
         public static Validation<ValidationError<GenericValidationErrorCode>, Name> Create(Option<string> value)
         {
@@ -25,7 +27,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
                 Name name)
             {
                 const int maxAllowedLenght = 255;
-                if (name.Value.Length > maxAllowedLenght)
+                if (name.value.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
@@ -41,9 +43,24 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             }
         }
 
+        public Name(PersistenceState persistenceState)
+        {
+            value = persistenceState.Value;
+        }
+
         private Name(string value)
         {
-            Value = value;
+            this.value = value;
+        }
+
+        public sealed class PersistenceState
+        {
+            public string Value { get; }
+
+            public PersistenceState(string value)
+            {
+                Value = value;
+            }
         }
     }
 }
