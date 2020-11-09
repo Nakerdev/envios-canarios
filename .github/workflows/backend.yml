@@ -30,25 +30,25 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
 
     - name: Notify Success Execution
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        if: success()
-        with:
-            severity: info
-            details: Test Succeeded!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      uses: rjstone/discord-webhook-notify@v1.0.4
+      if: success()
+      with:
+        severity: info
+        details: Test Succeeded!
+        webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
     - name: Notify Error Execution
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        if: failure()
-        with:
-            severity: error
-            details: Test Failed!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      uses: rjstone/discord-webhook-notify@v1.0.4
+      if: failure()
+      with:
+        severity: error
+        details: Test Failed!
+        webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
     - name: Notify Cancelled Execution
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        if: cancelled()
-        with:
-            severity: warn
-            details: Test Cancelled!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      uses: rjstone/discord-webhook-notify@v1.0.4
+      if: cancelled()
+      with:
+        severity: warn
+        details: Test Cancelled!
+        webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
