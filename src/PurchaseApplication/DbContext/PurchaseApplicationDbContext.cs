@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CanaryDeliveries.PurchaseApplication.DbContext
 {
@@ -8,19 +10,19 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext
         public DbSet<Client> Clients { get; set; } 
         //public DbSet<Product> Products { get; set; } 
         
-        private readonly string connectionString;
-
-        public PurchaseApplicationDbContext(string connectionString) : base()
-        {
-            this.connectionString = connectionString;
-        }
+        private readonly IConfigurationRoot configuration;
 
         public PurchaseApplicationDbContext() : base()
         {
+            configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var connectionString = configuration.GetConnectionString("CanaryDeliveriesDbConnectionString");
             optionsBuilder.UseSqlServer(connectionString);
         }
     }
