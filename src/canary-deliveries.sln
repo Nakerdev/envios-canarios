@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "WebApp\backend\Api\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{74F941F2-7474-45E7-968F-135D3192057B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTests", "Tests\Unit\ApiTests\ApiTests.csproj", "{4D520B65-9A2E-498B-847A-894A3AFCFD8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTests", "Tests\WebApp\Unit\ApiTests\ApiTests.csproj", "{4D520B65-9A2E-498B-847A-894A3AFCFD8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainTests", "Tests\Unit\Domain\DomainTests\DomainTests.csproj", "{6D415D03-C853-46CF-953C-A1787B5B2375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainTests", "Tests\PurchaseApplication\Unit\Domain\DomainTests\DomainTests.csproj", "{6D415D03-C853-46CF-953C-A1787B5B2375}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PurchaseApplication", "PurchaseApplication", "{7587870E-20FC-4EF4-9651-55EAD7EBC1B2}"
 EndProject
@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{19578E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{08172081-A27D-41B3-8736-4AA957F12668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builders", "Tests\Unit\Builders\Builders.csproj", "{899688B8-A72C-4420-9E6C-0D3F082E5ECD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builders", "Tests\PurchaseApplication\Unit\Builders\Builders.csproj", "{899688B8-A72C-4420-9E6C-0D3F082E5ECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

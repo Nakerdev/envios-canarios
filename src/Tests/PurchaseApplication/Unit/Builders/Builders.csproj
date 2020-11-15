@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\PurchaseApplication\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\..\..\PurchaseApplication\Domain\Domain.csproj" />
     </ItemGroup>
 
 </Project>
