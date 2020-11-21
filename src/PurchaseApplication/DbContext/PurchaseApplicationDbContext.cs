@@ -25,5 +25,16 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext
             var connectionString = configuration.GetConnectionString("CanaryDeliveriesDbConnectionString");
             optionsBuilder.UseSqlServer(connectionString);
         }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            
+            const string DB_CONTEXT_PREFIX = "PurchaseApplication_";
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                entityType.SetTableName($"{DB_CONTEXT_PREFIX }{entityType.GetTableName()}");
+            }
+        }
     }
 }
