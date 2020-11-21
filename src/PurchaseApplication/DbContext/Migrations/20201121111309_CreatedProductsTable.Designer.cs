@@ -3,14 +3,16 @@ using CanaryDeliveries.PurchaseApplication.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CanaryDeliveries.PurchaseApplication.DbContext.Migrations
 {
     [DbContext(typeof(PurchaseApplicationDbContext))]
-    partial class PurchaseApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201121111309_CreatedProductsTable")]
+    partial class CreatedProductsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
