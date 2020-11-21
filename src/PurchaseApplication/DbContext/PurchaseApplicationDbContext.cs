@@ -6,7 +6,7 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext
 {
     public sealed class PurchaseApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        //public DbSet<PurchaseApplication> PurchaseApplications { get; set; } 
+        public DbSet<PurchaseApplication> PurchaseApplications { get; set; } 
         public DbSet<Client> Clients { get; set; } 
         public DbSet<Product> Products { get; set; } 
         
