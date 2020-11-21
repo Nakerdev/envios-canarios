@@ -17,26 +17,28 @@ services:
             - ~/envios-canarios/webappapi-logs:/tmp/webappapi-logs
         networks: 
             envioscanariosnet:
-                ipv4_address: 192.168.1.2
-
-    ##database:
-     ##   image: mcr.microsoft.com/mssql/server:2017-latest
-      ##  container_name: database
-      ##  restart: always
-      ##  ports: 
-      ##      - 127.0.0.1:1433:1433
-      ##  environment: 
-      ##      ACCEPT_EULA: "Y"
-        ##    SA_PASSWORD: "saPassword01."
-       ## volumes: 
-        ##    - ~/envios-canarios/db-data:/var/opt/mssql
-       ## networks: 
-        ##    envioscanariosnet:
-     ##           ipv4_address: 192.168.1.3
+                ipv4_address: 192.168.2.2
+    
+    database:
+        build:
+            context: ./
+            dockerfile: ./SqlServer2019-Database-Dockerfile
+        container_name: database
+        restart: always
+        ports: 
+            - 127.0.0.1:1433:1433
+        environment: 
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "saPassword01."
+        volumes: 
+            - ~/envios-canarios/db-data:/var/opt/sqlserver
+        networks: 
+            envioscanariosnet:
+                ipv4_address: 192.168.2.3
         
 networks:
     envioscanariosnet:
         driver: bridge
         ipam: 
             config: 
-                - subnet: 192.168.1.0/24
+                - subnet: 192.168.2.0/24
