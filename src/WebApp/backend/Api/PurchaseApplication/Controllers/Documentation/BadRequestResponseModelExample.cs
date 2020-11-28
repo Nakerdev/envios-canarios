@@ -20,7 +20,6 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentat
                     new ValidationError(fieldId: "Products[0].Units", errorCode: "InvalidValue"),
                     new ValidationError(fieldId: "Products[0].AdditionalInformation", errorCode: "WrongLength"),
                     new ValidationError(fieldId: "Products[0].PromotionCode", errorCode: "WrongLength"),
-                    new ValidationError(fieldId: "Client", errorCode: "Required"),
                     new ValidationError(fieldId: "Client.Name", errorCode: "Required"),
                     new ValidationError(fieldId: "Client.Name", errorCode: "WrongLength"),
                     new ValidationError(fieldId: "Client.TelephoneNumber", errorCode: "Required"),
