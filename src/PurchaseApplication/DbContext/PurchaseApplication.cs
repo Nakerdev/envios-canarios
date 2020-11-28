@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,5 +17,7 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext
         
         [MaxLength(1000)]
         public string AdditionalInformation { get; set; }
+
+        public DateTime CreationDateTime { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders
                     phoneNumber: new PhoneNumber.PersistenceState("610232323"),
                     email: new Email.PersistenceState("alfredo@email.com")),
                 additionalInformation: new AdditionalInformation.PersistenceState("Purchase additional information"),
-                creationDate: new DateTime(2020, 10, 10, 12, 30, 00));
+                creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00));
             return new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication(state);
         }
     }

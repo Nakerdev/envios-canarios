@@ -19,7 +19,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             products: Products.Map(x => x.State).ToList(),
             client: Client.State,
             additionalInformation: AdditionalInformation.Map(x => x.State),
-            creationDate: CreationDateTime);
+            creationDateTime: CreationDateTime);
 
         public PurchaseApplication(
             Id id,
@@ -41,7 +41,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             Products = persistenceState.Products.Map(state => new Product(state)).ToList().AsReadOnly();
             Client = new Client(persistenceState.Client);
             AdditionalInformation = persistenceState.AdditionalInformation.Map(x => new AdditionalInformation(x));
-            CreationDateTime = persistenceState.CreationDate;
+            CreationDateTime = persistenceState.CreationDateTime;
         }
         
         public sealed class PersistenceState
@@ -50,20 +50,20 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             public List<Product.PersistenceState> Products { get; }
             public Client.PersistenceState Client { get; }
             public Option<AdditionalInformation.PersistenceState> AdditionalInformation { get; }
-            public DateTime CreationDate { get; }
+            public DateTime CreationDateTime { get; }
     
             public PersistenceState(
                 Id.PersistenceState id, 
                 List<Product.PersistenceState> products, 
                 Client.PersistenceState client, 
                 Option<AdditionalInformation.PersistenceState> additionalInformation, 
-                DateTime creationDate)
+                DateTime creationDateTime)
             {
                 Id = id;
                 Products = products;
                 Client = client;
                 AdditionalInformation = additionalInformation;
-                CreationDate = creationDate;
+                CreationDateTime = creationDateTime;
             }
         }
     }

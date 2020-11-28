@@ -22,8 +22,8 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
                 Id = state.Id.Value,
                 Products = state.Products.Map(BuildDbProduct).ToList(),
                 Client = BuildDbClient(),
-                AdditionalInformation = state.AdditionalInformation.MatchUnsafe(None: () => null, Some: x => x.Value)
-                //falta el CreationDate
+                AdditionalInformation = state.AdditionalInformation.MatchUnsafe(None: () => null, Some: x => x.Value),
+                CreationDateTime = state.CreationDateTime
             };
 
             Product BuildDbProduct(Domain.Entities.Product.PersistenceState product)
