@@ -1,0 +1,16 @@
+#Builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS builder
+
+COPY . /Project
+
+RUN dotnet restore ./Project/Databases/MigrationManager/MigrationManager.csproj
+RUN dotnet build ./Project/Databases/MigrationManager/MigrationManager.csproj -c Debug -o ./build
+
+RUN dotnet publish ./Project/Databases/MigrationManager/MigrationManager.csproj -c Debug -o ./publish
+
+#Migrations Machine Runner
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
+
+COPY --from=builder /publish .
+
+ENTRYPOINT ["dotnet", "CanaryDeliveries.Databases.MigrationManager.dll"]

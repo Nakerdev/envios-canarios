@@ -20,21 +20,28 @@ services:
                 ipv4_address: 192.168.2.2
     
     database:
-        build:
-            context: ./
-            dockerfile: ./SqlServer2019-Database-Dockerfile
+        image: postgres:13.1
         container_name: database
         restart: always
-        ports: 
-            - 127.0.0.1:1433:1433
         environment: 
-            ACCEPT_EULA: "Y"
-            SA_PASSWORD: "saPassword01."
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "Password01!"
         volumes: 
-            - ~/envios-canarios/db-data:/var/opt/sqlserver
+            - ~/envios-canarios/db-data:/var/lib/postgresql/data
         networks: 
             envioscanariosnet:
                 ipv4_address: 192.168.2.3
+
+    migration-manager:
+        build:
+            context: ./
+            dockerfile: ./MigrationManager-DockerFile
+        container_name: migration-manager
+        networks: 
+            envioscanariosnet:
+                ipv4_address: 192.168.2.4
+        depends_on:
+            - database
         
 networks:
     envioscanariosnet:
