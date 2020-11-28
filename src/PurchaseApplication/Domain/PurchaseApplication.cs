@@ -14,6 +14,12 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
         public Client Client { get; }
         public Option<AdditionalInformation> AdditionalInformation { get; }
         public DateTime CreationDateTime { get; }
+        public PersistenceState State => new PersistenceState(
+            id: Id.State,
+            products: Products.Map(x => x.State).ToList(),
+            client: Client.State,
+            additionalInformation: AdditionalInformation.Map(x => x.State),
+            creationDate: CreationDateTime);
 
         public PurchaseApplication(
             Id id,
