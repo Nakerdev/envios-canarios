@@ -3,15 +3,17 @@ using System;
 using CanaryDeliveries.PurchaseApplication.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CanaryDeliveries.PurchaseApplication.DbContext.Migrations
 {
     [DbContext(typeof(PurchaseApplicationDbContext))]
-    partial class PurchaseApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201128112302_AddedCreationFieldToPurchaseApplicationTable")]
+    partial class AddedCreationFieldToPurchaseApplicationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
