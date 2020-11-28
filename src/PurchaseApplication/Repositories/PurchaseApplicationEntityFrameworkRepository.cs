@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.DbContext;
 using CanaryDeliveries.PurchaseApplication.Domain;
@@ -9,32 +8,45 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
     {
         void PurchaseApplicationRepository.Create(Domain.PurchaseApplication purchaseApplication)
         {
-            using (var dbContext = new PurchaseApplicationDbContext())
+            using var dbContext = new PurchaseApplicationDbContext();
+            var dbEntity = BuildDbPurchaseApplication(purchaseApplication);
+            dbContext.PurchaseApplications.Add(dbEntity);
+            dbContext.SaveChanges();
+        }
+
+        private static DbContext.PurchaseApplication BuildDbPurchaseApplication(Domain.PurchaseApplication purchaseApplication)
+        {
+            var state = purchaseApplication.State;
+            return new DbContext.PurchaseApplication
             {
-                var state = purchaseApplication.State;
-                var dbEntity = new DbContext.PurchaseApplication
+                Id = state.Id.Value,
+                Products = state.Products.Map(BuildDbProduct).ToList(),
+                Client = BuildDbClient(),
+                AdditionalInformation = state.AdditionalInformation.MatchUnsafe(None: () => null, Some: x => x.Value)
+                //falta el CreationDate
+            };
+
+            Product BuildDbProduct(Domain.Entities.Product.PersistenceState product)
+            {
+                return new Product
                 {
-                    Id = state.Id.Value,
-                    Products = state.Products.Map(product => new Product
-                    {
-                        Id = "sa",
-                        Link = product.Link.Value,
-                        Units = product.Units.Value,
-                        PromotionCode = product.PromotionCode.MatchUnsafe(None: () => null, Some: x => x.Value),
-                        AdditionalInformation = product.AdditionalInformation.MatchUnsafe(None: () => null, Some: x => x.Value)
-                    }).ToList(),
-                    Client = new Client
-                    {
-                        Id = "sa",
-                        Email = state.Client.Email.Value,
-                        Name = state.Client.Name.ToString(),
-                        PhoneNumber = state.Client.PhoneNumber.ToString()
-                    },
-                    AdditionalInformation = state.AdditionalInformation.MatchUnsafe(None: () => null, Some: x => x.Value)
-                    //falta el CreationDate
+                    Id = product.Id.Value,
+                    Link = product.Link.Value,
+                    Units = product.Units.Value,
+                    PromotionCode = product.PromotionCode.MatchUnsafe(None: () => null, Some: x => x.Value),
+                    AdditionalInformation = product.AdditionalInformation.MatchUnsafe(None: () => null, Some: x => x.Value)
                 };
-                dbContext.PurchaseApplications.Add(dbEntity);
-                dbContext.SaveChanges();
+            }
+
+            Client BuildDbClient()
+            {
+                return new Client
+                {
+                    Id = state.Client.Id.Value,
+                    Email = state.Client.Email.Value,
+                    Name = state.Client.Name.Value,
+                    PhoneNumber = state.Client.PhoneNumber.Value
+                };
             }
         }
     }

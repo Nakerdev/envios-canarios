@@ -9,15 +9,18 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 {
     public sealed class Product
     {
+        public Id Id { get; }
         public Link Link { get; }
         public Units Units { get; }
         public Option<AdditionalInformation> AdditionalInformation { get; }
         public Option<PromotionCode> PromotionCode { get; }
         public PersistenceState State => new PersistenceState(
+            Id.State,
             Link.State,
             Units.State,
             AdditionalInformation.Map(x => x.State),
             PromotionCode.Map(x => x.State));
+
 
         public static Validation<
             ValidationError<GenericValidationErrorCode>, 
@@ -59,6 +62,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
                    else
                    {
                        var product = new Product(
+                           id: Id.Create(),
                            link: link.IfFail(() => throw new InvalidOperationException()),
                            units: units.IfFail(() => throw new InvalidOperationException()),
                            additionalInformation: additionalInformation.Match(
@@ -116,6 +120,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 
         public Product(PersistenceState persistenceState)
         {
+            Id = new Id(persistenceState.Id);
             Link = new Link(persistenceState.Link);
             Units = new Units(persistenceState.Units);
             AdditionalInformation = persistenceState.AdditionalInformation.Map(x => new AdditionalInformation(x));
@@ -123,11 +128,13 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
         }
 
         private Product(
+            Id id,
             Link link, 
             Units units, 
             Option<AdditionalInformation> additionalInformation, 
             Option<PromotionCode> promotionCode)
         {
+            Id = id;
             Link = link;
             Units = units;
             AdditionalInformation = additionalInformation;
@@ -156,17 +163,20 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 
         public sealed class PersistenceState
         {
+            public Id.PersistenceState Id { get; }
             public Link.PersistenceState Link { get; }
             public Units.PersistenceState Units { get; }
             public Option<AdditionalInformation.PersistenceState> AdditionalInformation { get; }
             public Option<PromotionCode.PersistenceState> PromotionCode { get; }
 
             public PersistenceState(
+                Id.PersistenceState id,
                 Link.PersistenceState link, 
                 Units.PersistenceState units, 
                 Option<AdditionalInformation.PersistenceState> additionalInformation, 
                 Option<PromotionCode.PersistenceState> promotionCode)
             {
+                Id = id;
                 Link = link;
                 Units = units;
                 AdditionalInformation = additionalInformation;

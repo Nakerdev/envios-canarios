@@ -41,10 +41,12 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Create
             
             createdPurchaseApplication.Id.Should().NotBeNull();
             createdPurchaseApplication.Products.Count.Should().Be(command.Products.Count);
+            createdPurchaseApplication.Products.First().Id.Should().NotBeNull();
             createdPurchaseApplication.Products.First().Link.Should().Be(command.Products.First().Link);
             createdPurchaseApplication.Products.First().Units.Should().Be(command.Products.First().Units);
             createdPurchaseApplication.Products.First().AdditionalInformation.Equals(command.Products.First().AdditionalInformation).Should().BeTrue();
             createdPurchaseApplication.Products.First().PromotionCode.Equals(command.Products.First().PromotionCode).Should().BeTrue();
+            createdPurchaseApplication.Client.Id.Should().NotBeNull();
             createdPurchaseApplication.Client.Name.Should().Be(command.ClientProp.Name);
             createdPurchaseApplication.Client.PhoneNumber.Should().Be(command.ClientProp.PhoneNumber);
             createdPurchaseApplication.Client.Email.Should().Be(command.ClientProp.Email);

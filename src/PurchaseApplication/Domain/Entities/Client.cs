@@ -7,14 +7,17 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 {
     public sealed class Client
     {
+        public Id Id { get; }
         public Name Name { get; }
         public PhoneNumber PhoneNumber { get; }
         public Email Email { get; }
         public PersistenceState State => new PersistenceState(
+            id: Id.State,
             name: Name.State,
             phoneNumber: PhoneNumber.State,
             email: Email.State);
-        
+
+
         public static Validation<ValidationError<GenericValidationErrorCode>, Client> Create(Dto dto)
         {
             var name = Name.Create(dto.Name);
@@ -31,6 +34,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
             }
                 
             return new Client(
+                id: Id.Create(),
                 name: name.IfFail(() => throw new InvalidOperationException()),
                 phoneNumber: phoneNumber.IfFail(() => throw new InvalidOperationException()),
                 email: email.IfFail(() => throw new InvalidOperationException()));
@@ -62,16 +66,19 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 
         public Client(PersistenceState persistenceState)
         {
+            Id = new Id(persistenceState.Id);
             Name = new Name(persistenceState.Name);
             PhoneNumber = new PhoneNumber(persistenceState.PhoneNumber);
             Email = new Email(persistenceState.Email);
         }
 
         private Client(
+            Id id,
             Name name, 
             PhoneNumber phoneNumber, 
             Email email)
         {
+            Id = id;
             Name = name;
             PhoneNumber = phoneNumber;
             Email = email;
@@ -96,15 +103,18 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Entities
 
         public sealed class PersistenceState
         {
+            public Id.PersistenceState Id { get; }
             public Name.PersistenceState Name { get; }
             public PhoneNumber.PersistenceState PhoneNumber { get; }
             public Email.PersistenceState Email { get; }
 
             public PersistenceState(
+                Id.PersistenceState id,
                 Name.PersistenceState name, 
-                PhoneNumber.PersistenceState phoneNumber, 
+                PhoneNumber.PersistenceState phoneNumber,
                 Email.PersistenceState email)
             {
+                Id = id;
                 Name = name;
                 PhoneNumber = phoneNumber;
                 Email = email;
