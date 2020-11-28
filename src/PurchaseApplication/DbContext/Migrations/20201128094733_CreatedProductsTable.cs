@@ -7,7 +7,7 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "PurchaseApplication_Products",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -18,14 +18,14 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_PurchaseApplication_Products", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "PurchaseApplication_Products");
         }
     }
 }

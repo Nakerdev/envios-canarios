@@ -8,11 +8,11 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext.Migrations
         {
             migrationBuilder.AddColumn<string>(
                 name: "PurchaseApplicationId",
-                table: "Products",
+                table: "PurchaseApplication_Products",
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "PurchaseApplications",
+                name: "PurchaseApplication_PurchaseApplications",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -21,30 +21,30 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PurchaseApplications", x => x.Id);
+                    table.PrimaryKey("PK_PurchaseApplication_PurchaseApplications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PurchaseApplications_Clients_ClientId",
+                        name: "FK_PurchaseApplication_PurchaseApplications_PurchaseApplicatio~",
                         column: x => x.ClientId,
-                        principalTable: "Clients",
+                        principalTable: "PurchaseApplication_Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_PurchaseApplicationId",
-                table: "Products",
+                name: "IX_PurchaseApplication_Products_PurchaseApplicationId",
+                table: "PurchaseApplication_Products",
                 column: "PurchaseApplicationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseApplications_ClientId",
-                table: "PurchaseApplications",
+                name: "IX_PurchaseApplication_PurchaseApplications_ClientId",
+                table: "PurchaseApplication_PurchaseApplications",
                 column: "ClientId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Products_PurchaseApplications_PurchaseApplicationId",
-                table: "Products",
+                name: "FK_PurchaseApplication_Products_PurchaseApplication_PurchaseAp~",
+                table: "PurchaseApplication_Products",
                 column: "PurchaseApplicationId",
-                principalTable: "PurchaseApplications",
+                principalTable: "PurchaseApplication_PurchaseApplications",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -52,19 +52,19 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Products_PurchaseApplications_PurchaseApplicationId",
-                table: "Products");
+                name: "FK_PurchaseApplication_Products_PurchaseApplication_PurchaseAp~",
+                table: "PurchaseApplication_Products");
 
             migrationBuilder.DropTable(
-                name: "PurchaseApplications");
+                name: "PurchaseApplication_PurchaseApplications");
 
             migrationBuilder.DropIndex(
-                name: "IX_Products_PurchaseApplicationId",
-                table: "Products");
+                name: "IX_PurchaseApplication_Products_PurchaseApplicationId",
+                table: "PurchaseApplication_Products");
 
             migrationBuilder.DropColumn(
                 name: "PurchaseApplicationId",
-                table: "Products");
+                table: "PurchaseApplication_Products");
         }
     }
 }

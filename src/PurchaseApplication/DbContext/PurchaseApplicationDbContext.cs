@@ -23,7 +23,7 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = configuration.GetConnectionString("CanaryDeliveriesDbConnectionString");
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
