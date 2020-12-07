@@ -22,10 +22,10 @@ namespace CanaryDeliveries.Backoffice.Api
             services.AddControllers(config => {
                 config.Filters.Add(new HttpResponseExceptionFilter());
             });
+            AuthenticationConfiguration.Configure(services);
             services.AddMvc().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
-            
             SwaggerConfiguration.ConfigureServices(services);
         }
 
@@ -42,7 +42,7 @@ namespace CanaryDeliveries.Backoffice.Api
             }
 
             app.UseRouting();
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
