@@ -1,6 +1,4 @@
-using CanaryDeliveries.PurchaseApplication.Domain.Create;
-using CanaryDeliveries.PurchaseApplication.Domain.Services;
-using CanaryDeliveries.PurchaseApplication.Repositories;
+using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CanaryDeliveries.WebApp.Api.Configuration
@@ -9,9 +7,7 @@ namespace CanaryDeliveries.WebApp.Api.Configuration
     {
         public static void Resolve(IServiceCollection services)
         {
-            services.AddScoped(provider => new CreatePurchaseApplicationCommandHandler(
-                purchaseApplicationRepository: new PurchaseApplicationEntityFrameworkRepository(),
-                timeService: new SystemTimeService()));
+            services.AddScoped(provider => Factory.CreatePurchaseApplicationCommandHandler());
         }
     }
 }
