@@ -4,7 +4,7 @@ using CanaryDeliveries.PurchaseApplication.Domain;
 
 namespace CanaryDeliveries.PurchaseApplication.Repositories
 {
-    public interface PurchaseApplicationEntityFrameworkRepository : PurchaseApplicationRepository
+    public class PurchaseApplicationEntityFrameworkRepository : PurchaseApplicationRepository
     {
         void PurchaseApplicationRepository.Create(Domain.PurchaseApplication purchaseApplication)
         {

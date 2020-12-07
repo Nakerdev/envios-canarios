@@ -1,3 +1,6 @@
+using CanaryDeliveries.PurchaseApplication.Domain.Create;
+using CanaryDeliveries.PurchaseApplication.Domain.Services;
+using CanaryDeliveries.PurchaseApplication.Repositories;
 using CanaryDeliveries.WebApp.Api.Configuration;
 using CanaryDeliveries.WebApp.Api.Configuration.Filters;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +20,9 @@ namespace CanaryDeliveries.WebApp.Api
             services.AddMvc().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            services.AddScoped(provider => new CreatePurchaseApplicationCommandHandler(
+                purchaseApplicationRepository: new PurchaseApplicationEntityFrameworkRepository(),
+                timeService: new SystemTimeService()));
             SwaggerConfiguration.ConfigureServices(services);
         }
 
