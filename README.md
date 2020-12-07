@@ -33,6 +33,11 @@ If you remove this directory you will lose all your local database data.
 * .NET Core 3.0
 * Postgres 13.1
 
+#### Health Checks (`/health`)
+
+Health checks runs the following infraestructure connections:
+* Postgres
+
 ### FrontEnd
 
 Go to `/src/WebApp/frontend` directory
