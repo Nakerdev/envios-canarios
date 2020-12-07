@@ -15,4 +15,8 @@
       <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Common\Logging\Logging.csproj" />
+    </ItemGroup>
+
 </Project>

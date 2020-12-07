@@ -1,3 +1,4 @@
+using CanaryDeliveries.Backoffice.Api.Configuration.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,13 @@ namespace CanaryDeliveries.Backoffice.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(config => {
+                config.Filters.Add(new HttpResponseExceptionFilter());
+            });
+            services.AddMvc().AddJsonOptions(options => {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -26,14 +33,17 @@ namespace CanaryDeliveries.Backoffice.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
-
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
