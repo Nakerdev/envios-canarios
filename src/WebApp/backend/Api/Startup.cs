@@ -20,9 +20,7 @@ namespace CanaryDeliveries.WebApp.Api
             services.AddMvc().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
-            services.AddScoped(provider => new CreatePurchaseApplicationCommandHandler(
-                purchaseApplicationRepository: new PurchaseApplicationEntityFrameworkRepository(),
-                timeService: new SystemTimeService()));
+            ApiControllersDependenciesResolver.Resolve(services);
             SwaggerConfiguration.ConfigureServices(services);
         }
 
