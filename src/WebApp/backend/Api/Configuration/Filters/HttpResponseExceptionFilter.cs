@@ -1,4 +1,4 @@
-using CanaryDeliveries.WebApp.Api.Logs;
+using CanaryDeliveries.Common.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -6,7 +6,7 @@ namespace CanaryDeliveries.WebApp.Api.Configuration.Filters
 {
     public class HttpResponseExceptionFilter : ExceptionFilterAttribute 
     {
-        private Logger logger = NLogLogger.Create(typeof(HttpResponseExceptionFilter));
+        private readonly Logger logger = NLogLogger.Create(typeof(HttpResponseExceptionFilter));
 
         public override void OnException(ExceptionContext context)
         {

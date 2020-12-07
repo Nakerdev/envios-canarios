@@ -1,7 +1,7 @@
 using System;
 using NLog;
 
-namespace CanaryDeliveries.WebApp.Api.Logs
+namespace CanaryDeliveries.Common.Logging
 {
     public sealed class NLogLogger : Logger
     {

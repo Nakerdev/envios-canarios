@@ -17,6 +17,7 @@
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Logging\Logging.csproj" />
     <ProjectReference Include="..\..\..\PurchaseApplication\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\..\PurchaseApplication\Repositories\Repositories.csproj" />
   </ItemGroup>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <AssemblyName>CanaryDeliveries.Common.Logging</AssemblyName>
+        <RootNamespace>CanaryDeliveries.Common.Logging</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NLog" Version="4.7.0" />
+    </ItemGroup>
+
+</Project>
