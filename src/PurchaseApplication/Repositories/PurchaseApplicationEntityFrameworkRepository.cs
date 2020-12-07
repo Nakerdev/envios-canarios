@@ -6,9 +6,16 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
 {
     public class PurchaseApplicationEntityFrameworkRepository : PurchaseApplicationRepository
     {
+        private readonly string purchaseApplicationDbConnectionString;
+
+        public PurchaseApplicationEntityFrameworkRepository(string purchaseApplicationDbConnectionString)
+        {
+            this.purchaseApplicationDbConnectionString = purchaseApplicationDbConnectionString;
+        }
+
         void PurchaseApplicationRepository.Create(Domain.PurchaseApplication purchaseApplication)
         {
-            using var dbContext = new PurchaseApplicationDbContext();
+            using var dbContext = new PurchaseApplicationDbContext(purchaseApplicationDbConnectionString);
             var dbEntity = BuildDbPurchaseApplication(purchaseApplication);
             dbContext.PurchaseApplications.Add(dbEntity);
             dbContext.SaveChanges();

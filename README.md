@@ -1,20 +1,24 @@
 # Envios Canarios
 
 ## Requirements
+
 - Docker
-- **CANARY_DELIVERIES_HOME** envirement var decalared with the project root path
+- **CANARY_DELIVERIES_HOME** environment var decalared with the project root path
+- **PurchaseApplicationDbConnectionString** environment var declared with the following value: `Host=192.168.2.3;Database=CanaryDeliveries;Username=postgres;Password=Password01!;`
 
 ## WebApp
 
 ### BackEnd
 
-To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-web-app-api.sh` script. To execute the script need the **CANARY_DELIVERIES_HOME** enviroment var declared, see the Requirements sections for more info.
+To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-web-app-api.sh` script. **CANARY_DELIVERIES_HOME** enviroment var is needed to execute the script, see the Requirements sections for more info.
+
+`run-web-app-api.sh` applies the required database migrations automatically.
 
 If the script execution finished successfuly, the Api is running in `http://192.168.2.2`
 
 **To stop the Api press CTRL+C**
 
-### Documentation
+#### Documentation
 
 The Api documentation is created following the OpenApi specification (OAS3), you can view it using the following route: `http://192.168.2.2/_doc`.
 
@@ -22,8 +26,13 @@ The Api documentation is created following the OpenApi specification (OAS3), you
 
 #### Database
 
-To avoid losing the local database data the database container creates a directory that he use as a volume. This directory is located in `~/envios-canarios/db-data`.
+The database container creates a directory that it uses as a volume to avoid losing the local data. This directory is located in `~/envios-canarios/db-data`.
 If you remove this directory you will lose all your local database data.
+
+#### Technology
+
+* .NET Core 3.0
+* Postgres 13.1
 
 ### FrontEnd
 
