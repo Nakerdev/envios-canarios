@@ -10,13 +10,13 @@
 
 To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-web-app-api.sh` script. To execute the script need the **CANARY_DELIVERIES_HOME** enviroment var declared, see the Requirements sections for more info.
 
-If the script execution finished successfuly, the Api is running in `http://127.0.0.1:5000`
+If the script execution finished successfuly, the Api is running in `http://192.168.2.2`
 
 **To stop the Api press CTRL+C**
 
 ### Documentation
 
-The Api documentation is created following the OpenApi specification (OAS3), you can view it using the following route: `http://127.0.0.1:5000/_doc`.
+The Api documentation is created following the OpenApi specification (OAS3), you can view it using the following route: `http://192.168.2.2/_doc`.
 
 **The Api documentations is only available in a development enviroment.**
 
