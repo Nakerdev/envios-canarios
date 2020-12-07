@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace CanaryDeliveries.Backoffice.Api.Configuration
@@ -14,6 +15,10 @@ namespace CanaryDeliveries.Backoffice.Api.Configuration
                 c.EnableAnnotations();
                 c.CustomSchemaIds(schemaIdStrategy);
                 c.ExampleFilters();
+                c.AddSecurityDefinition("Json Web Token", new OpenApiSecurityScheme
+                {   
+                    Type = SecuritySchemeType.Http
+                });
             });
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
         }
