@@ -1,6 +1,3 @@
-using CanaryDeliveries.PurchaseApplication.Domain.Create;
-using CanaryDeliveries.PurchaseApplication.Domain.Services;
-using CanaryDeliveries.PurchaseApplication.Repositories;
 using CanaryDeliveries.WebApp.Api.Configuration;
 using CanaryDeliveries.WebApp.Api.Configuration.Filters;
 using Microsoft.AspNetCore.Builder;
@@ -20,8 +17,8 @@ namespace CanaryDeliveries.WebApp.Api
             services.AddMvc().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
-            services.AddHealthChecks()
-                .AddNpgSql(Environment.PurchaseApplicationDbConnectionString);
+            
+            HealthCheckConfiguration.Configure(services);
             ApiControllersDependenciesResolver.Resolve(services);
             SwaggerConfiguration.ConfigureServices(services);
         }
@@ -45,9 +42,8 @@ namespace CanaryDeliveries.WebApp.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
+                HealthCheckConfiguration.ConfigureEndPoint(endpoints);
             });
-
         }
     }
 }
