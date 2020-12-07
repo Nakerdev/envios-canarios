@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation
+namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers.Documentation
 {
     public sealed class PurchaseApplicationRequestExample : IExamplesProvider<PurchaseApplicationController.PurchaseApplicationCreationRequest>
     {

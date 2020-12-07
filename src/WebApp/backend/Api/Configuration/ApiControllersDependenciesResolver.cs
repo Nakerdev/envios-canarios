@@ -1,4 +1,4 @@
-using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
+using CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CanaryDeliveries.WebApp.Api.Configuration

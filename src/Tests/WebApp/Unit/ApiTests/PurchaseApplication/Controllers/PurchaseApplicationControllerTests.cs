@@ -5,7 +5,7 @@ using CanaryDeliveries.PurchaseApplication.Domain.Create;
 using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders;
-using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers;
+using CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers;
 using CanaryDeliveries.WebApp.Api.Utils;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;

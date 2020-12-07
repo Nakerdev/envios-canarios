@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using CanaryDeliveries.WebApp.Api.Utils;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation
+namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers.Documentation
 {
     public sealed class BadRequestResponseModelExampleForValidationsError : IExamplesProvider<BadRequestResponseModel>
     {

@@ -2,7 +2,7 @@ using CanaryDeliveries.PurchaseApplication.Domain.Create;
 using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using CanaryDeliveries.PurchaseApplication.Repositories;
 
-namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
+namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
 {
     public static class Factory
     {

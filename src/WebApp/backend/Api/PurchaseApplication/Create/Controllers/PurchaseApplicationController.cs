@@ -4,14 +4,14 @@ using System.Linq;
 using System.Net.Mime;
 using CanaryDeliveries.PurchaseApplication.Domain.Create;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
-using CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers.Documentation;
+using CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers.Documentation;
 using CanaryDeliveries.WebApp.Api.Utils;
 using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Controllers
+namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
 {
     [ApiController]
     [Route("/v1/purchase-application")]
