@@ -4,7 +4,6 @@
 
 - Docker
 - **CANARY_DELIVERIES_HOME** environment var decalared with the project root path
-- **PurchaseApplicationDbConnectionString** environment var declared with the following value: `Host=192.168.2.3;Database=CanaryDeliveries;Username=postgres;Password=Password01!;`
 
 ## WebApp
 

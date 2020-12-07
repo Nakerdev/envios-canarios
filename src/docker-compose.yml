@@ -9,6 +9,7 @@ services:
         restart: always
         environment: 
             - "ASPNETCORE_ENVIRONMENT=Development"
+            - "PurchaseApplicationDbConnectionString=Host=192.168.2.3;Database=CanaryDeliveries;Username=postgres;Password=Password01!;"
         ports: 
             - 127.0.0.1:5000:80
         dns: 
@@ -37,6 +38,8 @@ services:
             context: ./
             dockerfile: ./MigrationManager-DockerFile
         container_name: migration-manager
+        environment: 
+            - "PurchaseApplicationDbConnectionString=Host=192.168.2.3;Database=CanaryDeliveries;Username=postgres;Password=Password01!;"
         networks: 
             envioscanariosnet:
                 ipv4_address: 192.168.2.4

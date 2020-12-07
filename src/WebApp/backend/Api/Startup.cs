@@ -20,6 +20,8 @@ namespace CanaryDeliveries.WebApp.Api
             services.AddMvc().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            services.AddHealthChecks()
+                .AddNpgSql(Environment.PurchaseApplicationDbConnectionString);
             ApiControllersDependenciesResolver.Resolve(services);
             SwaggerConfiguration.ConfigureServices(services);
         }
@@ -43,6 +45,7 @@ namespace CanaryDeliveries.WebApp.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
 
         }
