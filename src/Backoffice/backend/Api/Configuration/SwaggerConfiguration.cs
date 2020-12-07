@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace CanaryDeliveries.WebApp.Api.Configuration
+namespace CanaryDeliveries.Backoffice.Api.Configuration
 {
     public static class SwaggerConfiguration
     {
@@ -23,7 +23,7 @@ namespace CanaryDeliveries.WebApp.Api.Configuration
                 app.UseSwagger();
                 app.UseSwaggerUI(c => 
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Canary Deliveries Web App Api");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Canary Deliveries Backoffice Api");
                     c.RoutePrefix = "_doc";
                 });             
         }

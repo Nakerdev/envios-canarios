@@ -1,3 +1,4 @@
+using CanaryDeliveries.Backoffice.Api.Configuration;
 using CanaryDeliveries.Backoffice.Api.Configuration.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +26,7 @@ namespace CanaryDeliveries.Backoffice.Api
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
             
+            SwaggerConfiguration.ConfigureServices(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -32,6 +34,7 @@ namespace CanaryDeliveries.Backoffice.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SwaggerConfiguration.Configure(app);
             }
             else
             {
