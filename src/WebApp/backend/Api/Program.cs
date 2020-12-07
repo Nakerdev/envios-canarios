@@ -21,7 +21,7 @@ namespace CanaryDeliveries.WebApp.Api
                 })
                 .ConfigureLogging(logging => {
                     logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information);
+                    logging.SetMinimumLevel(LogLevel.Information);
                 })
                 .UseNLog();
     }

@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\..\PurchaseApplication\Repositories\Repositories.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Properties" />
     <Folder Include="PurchaseApplication\Create" />
   </ItemGroup>
 </Project>
