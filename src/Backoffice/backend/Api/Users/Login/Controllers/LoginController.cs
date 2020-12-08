@@ -29,16 +29,27 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
         [SwaggerResponse(statusCode: 401, description: "Incorrect user credentials")]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(RequestDto), typeof(LoginRequestExample))]
-        public ActionResult Execute([FromBody] RequestDto creationRequest)
+        public ActionResult Execute([FromBody] RequestDto request)
         {
-            return loginService.Authenticate(new LoginService.LoginRequest(
-                    email: creationRequest.Email,
-                    password: creationRequest.Password))
+            return loginService.Authenticate(BuildLoginRequest(request))
                 .Match(
                     Left: error => throw new NotImplementedException(),
-                    Right: token => new OkObjectResult(new ResponseDto{Token = token.Value}));
+                    Right: BuildSuccessResponse);
+        }
+
+        private static LoginService.LoginRequest BuildLoginRequest(RequestDto request)
+        {
+            return new LoginService.LoginRequest(
+                email: request.Email,
+                password: request.Password);
         }
         
+        private static OkObjectResult BuildSuccessResponse(Token token)
+        {
+            var responseDto = new ResponseDto{Token = token.Value};
+            return new OkObjectResult(responseDto);
+        }
+
         public class RequestDto
         {
             [SwaggerSchema("User email")]            
