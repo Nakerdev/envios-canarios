@@ -21,7 +21,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Services
             return backofficeUserRepository
                 .SearchBy(request.Email)
                 .Match(
-                    None: () => throw new NotImplementedException(),
+                    None: () => false,
                     Some: user =>
                     {
                         var passwordIntentHash = cryptoServiceProvider.ComputeHash(request.Password);

@@ -41,6 +41,18 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Services
             areValidCredentials.Should().BeTrue();
         }
         
+        [Test]
+        public void DoesNotValidateCredentialsWhenUserNotFound()
+        {
+            backofficeUserRepository
+                .Setup(x => x.SearchBy(It.IsAny<string>()))
+                .Returns((BackofficeUser) null);
+            
+            var areValidCredentials = loginService.AreValidCredentials(BuildRequest());
+
+            areValidCredentials.Should().BeFalse();
+        }
+        
         private static LoginService.LoginRequest BuildRequest()
         {
             return new LoginService.LoginRequest(
