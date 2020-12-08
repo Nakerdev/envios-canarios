@@ -33,7 +33,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
         {
             return loginService.Authenticate(BuildLoginRequest(request))
                 .Match(
-                    Left: error => throw new NotImplementedException(),
+                    Left: _ => new UnauthorizedResult(),
                     Right: BuildSuccessResponse);
         }
 
@@ -44,7 +44,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
                 password: request.Password);
         }
         
-        private static OkObjectResult BuildSuccessResponse(Token token)
+        private static ActionResult BuildSuccessResponse(Token token)
         {
             var responseDto = new ResponseDto{Token = token.Value};
             return new OkObjectResult(responseDto);

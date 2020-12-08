@@ -44,6 +44,18 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Controllers
             var responseModel = (LoginController.ResponseDto) response.Value;
             responseModel.Token.Should().Be(token.Value);
         }
+        
+        [Test]
+        public void DoesNotAuthorizeUser()
+        {
+            loginService
+                .Setup(x => x.Authenticate(It.IsAny<LoginService.LoginRequest>()))
+                .Returns(LoginError.InvalidCredentials);
+            
+            var response = controller.Execute(BuildRequest()) as StatusCodeResult;
+
+            response.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
+        }
 
         private static LoginController.RequestDto BuildRequest()
         {
