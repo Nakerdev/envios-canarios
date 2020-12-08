@@ -1,7 +1,3 @@
-using CanaryDeliveries.Backoffice.Api.Auth;
-using CanaryDeliveries.Backoffice.Api.Users.Login.Controllers;
-using CanaryDeliveries.Backoffice.Api.Users.Login.Services;
-using Moq;
 using NUnit.Framework;
 
 namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Controllers
@@ -9,7 +5,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Controllers
     [TestFixture] 
     public class LoginControllerTests
     {
-        [Test]
+        /*[Test]
         public void AuthorizesUser()
         {
             var loginService = new Mock<LoginService>();
@@ -32,6 +28,6 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Controllers
                 
             
             controller.Execute(request);
-        }
+        }*/
     }
 }
