@@ -1,17 +1,17 @@
 version: '2.3'
 services: 
 
-    api:
+    webapp-api:
         build:
             context: ./
-            dockerfile: ./WebApp-Api-Dokerfile
-        container_name: api
+            dockerfile: ./WebApp-Api-DockerFile
+        container_name: webapp-api
         restart: always
         environment: 
             - "ASPNETCORE_ENVIRONMENT=Development"
             - "PurchaseApplicationDbConnectionString=Host=192.168.2.3;Database=CanaryDeliveries;Username=postgres;Password=Password01!;"
         ports: 
-            - 127.0.0.1:5000:80
+            - 127.0.0.1:5000:5000
         dns: 
             - "8.8.8.8"
         volumes: 
@@ -19,6 +19,26 @@ services:
         networks: 
             envioscanariosnet:
                 ipv4_address: 192.168.2.2
+
+    backoffice-api:
+        build:
+            context: ./
+            dockerfile: ./Backoffice-Api-DockerFile
+        container_name: backoffice-api
+        restart: always
+        environment: 
+            - "ASPNETCORE_ENVIRONMENT=Development"
+            - "PurchaseApplicationDbConnectionString=Host=192.168.2.3;Database=CanaryDeliveries;Username=postgres;Password=Password01!;"
+            - "JsonWebTokenSecretKey=jwt-devel-secret-key"
+        ports: 
+            - 127.0.0.1:5001:5000
+        dns: 
+            - "8.8.8.8"
+        volumes: 
+            - ~/envios-canarios/backofficeapi-logs:/tmp/backofficeapi-logs
+        networks: 
+            envioscanariosnet:
+                ipv4_address: 192.168.2.5
     
     database:
         image: postgres:13.1

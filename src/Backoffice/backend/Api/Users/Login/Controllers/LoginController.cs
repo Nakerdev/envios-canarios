@@ -23,11 +23,11 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(summary: "Authenticate a user")]
-        [SwaggerResponse(statusCode: 200, description: "The user credentials are correct. It returns a Json Web Token.")]
-        [SwaggerResponseExample(200, typeof(LoginResponseExample))]
+        [SwaggerResponse(statusCode: 200, description: "The user credentials are correct. It returns a Json Web Token", typeof(ResponseDto))]
         [SwaggerResponse(statusCode: 401, description: "Incorrect user credentials")]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(RequestDto), typeof(LoginRequestExample))]
+        [SwaggerResponseExample(statusCode: 200, examplesProviderType: typeof(LoginResponseExample))]
         public ActionResult Execute([FromBody] RequestDto request)
         {
             return loginService.Authenticate(BuildLoginRequest(request))
