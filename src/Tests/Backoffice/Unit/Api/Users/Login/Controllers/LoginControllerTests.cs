@@ -52,7 +52,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Controllers
                 .Setup(x => x.Authenticate(It.IsAny<LoginService.LoginRequest>()))
                 .Returns(LoginError.InvalidCredentials);
             
-            var response = controller.Execute(BuildRequest()) as StatusCodeResult;
+            var response = controller.Execute(BuildRequest()) as ObjectResult;
 
             response.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
         }
