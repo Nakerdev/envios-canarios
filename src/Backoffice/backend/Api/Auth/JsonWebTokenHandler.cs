@@ -11,9 +11,9 @@ namespace CanaryDeliveries.Backoffice.Api.Auth
         private readonly JwtSecurityTokenHandler tokenHandler;
         private readonly byte[] jsonWebTokenSecretKey;
 
-        public JsonWebTokenHandler(JwtSecurityTokenHandler tokenHandler, byte[] jsonWebTokenSecretKey)
+        public JsonWebTokenHandler(byte[] jsonWebTokenSecretKey)
         {
-            this.tokenHandler = tokenHandler;
+            this.tokenHandler = new JwtSecurityTokenHandler();
             this.jsonWebTokenSecretKey = jsonWebTokenSecretKey;
         }
 

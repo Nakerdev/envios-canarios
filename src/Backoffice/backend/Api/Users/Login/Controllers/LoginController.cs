@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using CanaryDeliveries.Backoffice.Api.Auth;

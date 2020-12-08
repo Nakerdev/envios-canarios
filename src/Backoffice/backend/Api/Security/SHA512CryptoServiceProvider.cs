@@ -7,15 +7,16 @@ namespace CanaryDeliveries.Backoffice.Api.Security
     {
         private readonly SHA512 sha512;
 
-        public SHA512CryptoServiceProvider(SHA512 sha512)
+        public SHA512CryptoServiceProvider()
         {
-            this.sha512 = sha512;
+            sha512 = new SHA512Managed();
         }
 
         public Hash ComputeHash(string data)
         {
             var dataBytes = Encoding.ASCII.GetBytes(data);
             var result = sha512.ComputeHash(dataBytes);
+            sha512.Clear();
             return new Hash(value: result.ToString());
         }
     }

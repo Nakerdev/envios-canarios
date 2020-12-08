@@ -27,6 +27,7 @@ namespace CanaryDeliveries.Backoffice.Api
             services.AddMvc().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            ApiControllersDependenciesMiddleware.ConfigureServices(services);
             SwaggerMiddleware.ConfigureServices(services);
         }
 
