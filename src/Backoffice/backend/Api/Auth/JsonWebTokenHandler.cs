@@ -30,7 +30,7 @@ namespace CanaryDeliveries.Backoffice.Api.Auth
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(jsonWebTokenSecretKey),
-                    SecurityAlgorithms.Sha512)
+                    SecurityAlgorithms.HmacSha512Signature)
             };
             var createdToken = tokenHandler.CreateToken(tokenDescriptor);
             return new Token(value: tokenHandler.WriteToken(createdToken)); 
