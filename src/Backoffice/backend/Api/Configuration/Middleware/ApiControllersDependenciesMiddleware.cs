@@ -7,7 +7,7 @@ namespace CanaryDeliveries.Backoffice.Api.Configuration.Middleware
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped(provider => Factory.LoginController());
+            services.AddScoped(provider => Factory.LoginService());
         }
     }
 }

@@ -8,17 +8,12 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
 {
     public static class Factory
     {
-        public static LoginController LoginController()
+        public static LoginService LoginService()
         {
-            return new LoginController(loginService: LoginService());
-
-            LoginService LoginService()
-            {
-                return new LoginService(
-                    backofficeUserRepository: new BackofficeUserStaticRepository(),
-                    cryptoServiceProvider: new SHA512CryptoServiceProvider(),
-                    tokenHandler: new JsonWebTokenHandler(Environment.JsonWebTokenSecretKey));
-            }
+            return new LoginService(
+                backofficeUserRepository: new BackofficeUserStaticRepository(),
+                cryptoServiceProvider: new SHA512CryptoServiceProvider(),
+                tokenHandler: new JsonWebTokenHandler(Environment.JsonWebTokenSecretKey));
         }
     }
 }
