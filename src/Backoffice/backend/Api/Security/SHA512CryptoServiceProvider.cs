@@ -17,7 +17,7 @@ namespace CanaryDeliveries.Backoffice.Api.Security
             var dataBytes = Encoding.ASCII.GetBytes(data);
             var result = sha512.ComputeHash(dataBytes);
             sha512.Clear();
-            return new Hash(value: result.ToString());
+            return new Hash(value: Encoding.UTF8.GetString(result));
         }
     }
 }
