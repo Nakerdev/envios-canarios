@@ -6,16 +6,17 @@
 - **CANARY_DELIVERIES_HOME** environment var decalared with the project root path
 
 ## Table of content
+
 1. [Web App](#webapp)
-   * [BackEnd](#webapp-backend)
-      1. [Api Documentation](#webapp-backend-api-docu)
-      2. [Health Checks](#webapp-backend-health)
-   * [FrontEnd](#webapp-frontend)   
+   1. [BackEnd](#webapp-backend)
+      * [Api Documentation](#webapp-backend-api-docu)
+      * [Health Checks](#webapp-backend-health)
+   2. [FrontEnd](#webapp-frontend)   
 2. [Backoffice](#backoffice)
-   * [BackEnd](#backoffice-backend)
-       1. [Api Documentation](#backoffice-backend-api-docu)
+   1. [BackEnd](#backoffice-backend)
+       * [Api Documentation](#backoffice-backend-api-docu)
 3. [Database](#database)
-3. [Technology](#technology)
+4. [Technology](#technology)
 
 <a name="webapp"/>
 ## Web App
@@ -23,9 +24,9 @@
 <a name="webapp-backend"/>
 ### BackEnd
 
-To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-web-app-api.sh` script. **CANARY_DELIVERIES_HOME** enviroment var is needed to execute the script, see the Requirements sections for more info.
+To run the WebAppApi for devel propouse you should go to `/scripts/devel` directory and execute the `run-apis.sh` script. **CANARY_DELIVERIES_HOME** enviroment var is needed to execute the script, see the Requirements sections for more info.
 
-`run-web-app-api.sh` applies the required database migrations automatically.
+`run-apis.sh` applies the required database migrations automatically.
 
 If the script execution finished successfuly, the Api is running in `http://192.168.2.2`
 
@@ -63,7 +64,7 @@ If the command finished successfuly the WebApp is running in `http://127.0.0.1:3
 - To generate the static website you can run the following command:
 `npm run generate`
 
-a name="backoffice"/>
+<a name="backoffice"/>
 ## Backoffice
 
 <a name="backoffice-backend"/>
