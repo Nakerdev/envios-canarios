@@ -17,7 +17,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Repositories
                 new BackofficeUser(
                     id: new Guid("4aaa7d4f-84eb-4450-92d5-d6755e13b26b"),
                     email: "operador@envioscanarios.com",
-                    password: "8a27b0d2095511b26390dd487e1eb641b0c74b4f2daa089855de610356c3e2256a1eb26700aca18f890f551526363356ca0ef6f9f4ecb60b36e8751a1d074e8b")
+                    password: "$2y$12$T3VBkao8WEbPxagqYoBih.R.dViAKz.MokzYMc90iSr.AhpNNgLZO")
             });
         }
 

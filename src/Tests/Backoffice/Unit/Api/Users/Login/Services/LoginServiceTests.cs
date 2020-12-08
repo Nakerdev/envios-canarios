@@ -38,8 +38,8 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Services
                 .Setup(x => x.SearchBy(request.Email))
                 .Returns(backofficeUser);
            cryptoServiceProvider
-               .Setup(x => x.ComputeHash(request.Password))
-               .Returns(new Hash(value: backofficeUser.Password));
+               .Setup(x => x.Verify(request.Password, backofficeUser.Password))
+               .Returns(true);
            var token = new Token(value: "jwt-token");
            tokenHandler
                .Setup(x => x.Create(backofficeUser))
@@ -57,8 +57,8 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Services
                 .Setup(x => x.SearchBy(It.IsAny<string>()))
                 .Returns(BuildBackofficeUser());
             cryptoServiceProvider
-               .Setup(x => x.ComputeHash(It.IsAny<string>()))
-               .Returns(new Hash(value: "another-password-hash"));
+               .Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>()))
+               .Returns(false);
             
             var result = loginService.Authenticate(BuildRequest());
 

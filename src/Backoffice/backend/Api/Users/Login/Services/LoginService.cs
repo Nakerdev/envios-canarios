@@ -40,8 +40,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Services
                 BackofficeUser user, 
                 string passwordIntent)
             {
-                var passwordIntentHash = cryptoServiceProvider.ComputeHash(passwordIntent);
-                if(passwordIntentHash.Value == user.Password)
+                if(cryptoServiceProvider.Verify(passwordIntent, user.Password))
                 {
                     return unit;
                 }

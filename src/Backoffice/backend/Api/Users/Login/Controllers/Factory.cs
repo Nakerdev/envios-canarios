@@ -1,8 +1,8 @@
 using CanaryDeliveries.Backoffice.Api.Auth;
 using CanaryDeliveries.Backoffice.Api.Configuration;
+using CanaryDeliveries.Backoffice.Api.Security;
 using CanaryDeliveries.Backoffice.Api.Users.Login.Repositories;
 using CanaryDeliveries.Backoffice.Api.Users.Login.Services;
-using SHA512CryptoServiceProvider = CanaryDeliveries.Backoffice.Api.Security.SHA512CryptoServiceProvider;
 
 namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
 {
@@ -12,7 +12,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
         {
             return new LoginService(
                 backofficeUserRepository: new BackofficeUserStaticRepository(),
-                cryptoServiceProvider: new SHA512CryptoServiceProvider(),
+                cryptoServiceProvider: new BCryptCryptoServiceProvider(),
                 tokenHandler: new JsonWebTokenHandler(Environment.JsonWebTokenSecretKey));
         }
     }
