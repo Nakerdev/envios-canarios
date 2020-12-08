@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CanaryDeliveries.Backoffice.Api.Configuration
+namespace CanaryDeliveries.Backoffice.Api.Configuration.Middleware
 {
-    public static class AuthenticationConfiguration
+    public static class AuthenticationMiddleware
     {
         public static void Configure(IServiceCollection services)
         {

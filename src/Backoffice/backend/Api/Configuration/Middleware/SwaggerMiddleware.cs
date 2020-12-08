@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace CanaryDeliveries.Backoffice.Api.Configuration
+namespace CanaryDeliveries.Backoffice.Api.Configuration.Middleware
 {
-    public static class SwaggerConfiguration
+    public static class SwaggerMiddleware
     {
         public static void ConfigureServices(IServiceCollection services)
         {
@@ -23,7 +23,7 @@ namespace CanaryDeliveries.Backoffice.Api.Configuration
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
         }
 
-        public static void Configure(IApplicationBuilder app) 
+        public static void ConfigureApplication(IApplicationBuilder app) 
         {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => 
