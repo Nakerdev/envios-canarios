@@ -33,7 +33,7 @@ namespace CanaryDeliveries.Backoffice.Api.Auth
                     SecurityAlgorithms.Sha512)
             };
             var createdToken = tokenHandler.CreateToken(tokenDescriptor);
-            return new Token(value: tokenHandler.WriteToken(createdToken));
+            return new Token(value: tokenHandler.WriteToken(createdToken)); 
         }
     }
 }

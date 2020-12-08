@@ -3,7 +3,7 @@ using CanaryDeliveries.Backoffice.Api.Users.Login.Repositories;
 
 namespace CanaryDeliveries.Backoffice.Api.Users.Login.Services
 {
-    public sealed class LoginService
+    public class LoginService
     {
         private readonly BackofficeUserRepository backofficeUserRepository;
         private readonly CryptoServiceProvider cryptoServiceProvider;
@@ -16,7 +16,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Services
             this.cryptoServiceProvider = cryptoServiceProvider;
         }
 
-        public bool AreValidCredentials(LoginRequest request)
+        public virtual bool AreValidCredentials(LoginRequest request)
         {
             return backofficeUserRepository
                 .SearchBy(request.Email)
