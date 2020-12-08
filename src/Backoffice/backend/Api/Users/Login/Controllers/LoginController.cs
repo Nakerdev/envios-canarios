@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using CanaryDeliveries.Backoffice.Api.Auth;
@@ -14,12 +15,10 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
     public class LoginController : ControllerBase
     {
         private readonly LoginService loginService;
-        private readonly TokenHandler tokenHandler;
 
-        public LoginController(LoginService loginService, TokenHandler tokenHandler)
+        public LoginController(LoginService loginService)
         {
             this.loginService = loginService;
-            this.tokenHandler = tokenHandler;
         }
 
         [HttpPost]
@@ -32,7 +31,12 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
         [SwaggerRequestExample(typeof(RequestDto), typeof(LoginRequestExample))]
         public ActionResult Execute([FromBody] RequestDto creationRequest)
         {
-            return Ok();
+            return loginService.Authenticate(new LoginService.LoginRequest(
+                    email: creationRequest.Email,
+                    password: creationRequest.Password))
+                .Match(
+                    Left: error => throw new NotImplementedException(),
+                    Right: token => new OkObjectResult(new ResponseDto{Token = token.Value}));
         }
         
         public class RequestDto
