@@ -1,4 +1,5 @@
 using System;
+using CanaryDeliveries.Backoffice.Api.Security;
 using CanaryDeliveries.Backoffice.Api.Users.Login.Repositories;
 using CanaryDeliveries.Backoffice.Api.Users.Login.Services;
 using FluentAssertions;
