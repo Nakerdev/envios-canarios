@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace CanaryDeliveries.WebApp.Api.Configuration
+namespace CanaryDeliveries.WebApp.Api.Configuration.Middlewares
 {
-    public static class SwaggerConfiguration
+    public static class SwaggerMiddleware
     {
         public static void ConfigureServices(IServiceCollection services)
         {
@@ -18,7 +18,7 @@ namespace CanaryDeliveries.WebApp.Api.Configuration
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
         }
 
-        public static void Configure(IApplicationBuilder app) 
+        public static void ConfigureApplication(IApplicationBuilder app) 
         {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => 

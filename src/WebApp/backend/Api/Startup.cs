@@ -1,5 +1,6 @@
 using CanaryDeliveries.WebApp.Api.Configuration;
 using CanaryDeliveries.WebApp.Api.Configuration.Filters;
+using CanaryDeliveries.WebApp.Api.Configuration.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,9 +19,9 @@ namespace CanaryDeliveries.WebApp.Api
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
             
-            HealthCheckConfiguration.Configure(services);
-            ApiControllersDependenciesResolver.Resolve(services);
-            SwaggerConfiguration.ConfigureServices(services);
+            HealthCheckMiddleware.ConfigureServices(services);
+            ApiControllersDependenciesMiddleware.ConfigureServices(services);
+            SwaggerMiddleware.ConfigureServices(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -28,7 +29,7 @@ namespace CanaryDeliveries.WebApp.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                SwaggerConfiguration.Configure(app);
+                SwaggerMiddleware.ConfigureApplication(app);
             }
             else
             {
@@ -39,7 +40,7 @@ namespace CanaryDeliveries.WebApp.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                HealthCheckConfiguration.ConfigureEndPoint(endpoints);
+                HealthCheckMiddleware.ConfigureEndPoint(endpoints);
             });
         }
     }

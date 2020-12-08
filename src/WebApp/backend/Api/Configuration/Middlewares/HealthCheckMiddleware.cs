@@ -2,13 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CanaryDeliveries.WebApp.Api.Configuration
+namespace CanaryDeliveries.WebApp.Api.Configuration.Middlewares
 {
-    public static class HealthCheckConfiguration
+    public static class HealthCheckMiddleware
     {
-        public static void Configure(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddHealthChecks()
+            services
+                .AddHealthChecks()
                 .AddNpgSql(Environment.PurchaseApplicationDbConnectionString);
         }
 
