@@ -3,6 +3,7 @@ using System.Net.Mime;
 using CanaryDeliveries.Backoffice.Api.Auth;
 using CanaryDeliveries.Backoffice.Api.Users.Login.Controllers.Documentation;
 using CanaryDeliveries.Backoffice.Api.Users.Login.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
@@ -11,6 +12,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
 {
     [ApiController]
     [Route("/v1/login")]
+    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly LoginService loginService;
