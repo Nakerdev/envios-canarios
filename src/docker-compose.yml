@@ -15,7 +15,7 @@ services:
         dns: 
             - "8.8.8.8"
         volumes: 
-            - ~/envios-canarios/webappapi-logs:/tmp/webappapi-logs
+            - ~/envios-canarios/web-app-api-logs:/tmp/web-app-api-logs
         networks: 
             envioscanariosnet:
                 ipv4_address: 192.168.2.2
@@ -35,7 +35,7 @@ services:
         dns: 
             - "8.8.8.8"
         volumes: 
-            - ~/envios-canarios/backofficeapi-logs:/tmp/backofficeapi-logs
+            - ~/envios-canarios/backoffice-api-logs:/tmp/backoffice-api-logs
         networks: 
             envioscanariosnet:
                 ipv4_address: 192.168.2.5

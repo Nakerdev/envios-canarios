@@ -11,10 +11,12 @@
    1. [BackEnd](#web-app-backend)
       * [Api Documentation](#web-app-backend-api-doc)
       * [Health Checks](#web-bapp-backend-health)
+      * [Logs](#web-bapp-backend-logs)
    2. [FrontEnd](#web-bapp-frontend)   
 2. [Backoffice](#backoffice)
    1. [BackEnd](#backoffice-backend)
        * [Api Documentation](#backoffice-backend-api-doc)
+       * [Logs](#backoffice-backend-logs)
 3. [Database](#database)
 4. [Technology](#technology)
 
@@ -43,6 +45,12 @@ The Api documentation is created following the OpenApi specification (OAS3), you
 
 Health checks runs the following infraestructure connections:
 * Postgres
+
+<a name="web-bapp-backend-logs"></a>
+#### Logs
+
+Api logs are storage in the following directory `~/envios-canarios/web-app-api-logs`.
+The logs output can be redirected to `/tmp` folder but i decided to save it and delete it manually.
 
 <a name="web-bapp-frontend"></a>
 ### FrontEnd
@@ -83,6 +91,12 @@ If the script execution finished successfuly, the Api is running in `http://192.
 The Api documentation is created following the OpenApi specification (OAS3), you can view it using the following route: `http://192.168.2.5/_doc`.
 
 **The Api documentations is only available in a development enviroment.**
+
+<a name="backoffice-backend-logs"></a>
+#### Logs
+
+Api logs are storage in the following directory `~/envios-canarios/backoffice-api-logs`.
+The logs output can be redirected to `/tmp` folder but i decided to save it and delete it manually.
 
 <a name="database"></a>
 ## Database
