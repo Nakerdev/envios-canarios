@@ -30,21 +30,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
         [Test]
         public void SearchesAllPurchaseApplications()
         {
-            var purchaseApplication = new PurchaseApplicationDto(
-                products: new List<PurchaseApplicationDto.ProductDto>
-                {
-                    new PurchaseApplicationDto.ProductDto(
-                        link: "https://addidas.com/product/1",
-                        units: 1,
-                        additionalInformation: "Informacion adicional del producto",
-                        promotionCode: "ADD-123")
-                },
-                client: new PurchaseApplicationDto.ClientDto(
-                    name: "Alfredo",
-                    phoneNumber: "610121212",
-                    email: "alfredo@emai.com"),
-                additionalInformation: "Informacion adicional del pedido",
-                creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00));
+            var purchaseApplication = BuildPurchaseApplication();
             purchaseApplicationRepository
                 .Setup(x => x.SearchAll())
                 .Returns(new ReadOnlyCollection<PurchaseApplicationDto>(
@@ -68,6 +54,25 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
             responseModel.First().Client.Email.Should().Be(purchaseApplication.Client.Email);
             responseModel.First().AdditionalInformation.Should().Be(purchaseApplication.AdditionalInformation);
             responseModel.First().CreationDateTime.Should().Be(purchaseApplication.CreationDateTime.ToISO8601());
+        }
+
+        private static PurchaseApplicationDto BuildPurchaseApplication()
+        {
+            return new PurchaseApplicationDto(
+                products: new List<PurchaseApplicationDto.ProductDto>
+                {
+                    new PurchaseApplicationDto.ProductDto(
+                        link: "https://addidas.com/product/1",
+                        units: 1,
+                        additionalInformation: "Informacion adicional del producto",
+                        promotionCode: "ADD-123")
+                },
+                client: new PurchaseApplicationDto.ClientDto(
+                    name: "Alfredo",
+                    phoneNumber: "610121212",
+                    email: "alfredo@emai.com"),
+                additionalInformation: "Informacion adicional del pedido",
+                creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00));
         }
     }
 }

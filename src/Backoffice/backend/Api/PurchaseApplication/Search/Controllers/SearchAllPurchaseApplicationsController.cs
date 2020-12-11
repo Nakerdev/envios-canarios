@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
-using System.Transactions;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories;
 using CanaryDeliveries.Backoffice.Api.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -34,26 +32,37 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
         {
             var purchaseApplications = purchaseApplicationRepository
                 .SearchAll()
-                .Map(BuildPurchaseApplicationDto)
+                .Map(BuildResponsePurchaseApplicationDto)
                 .ToList();
             return new OkObjectResult(purchaseApplications);
         }
 
-        private PurchaseApplicationDto BuildPurchaseApplicationDto(
+        private static PurchaseApplicationDto BuildResponsePurchaseApplicationDto(
             Repositories.PurchaseApplicationDto purchaseApplication)
         {
             return new PurchaseApplicationDto(
-                products: purchaseApplication.Products.Map(product => new PurchaseApplicationDto.ProductDto(
+                products: purchaseApplication.Products.Map(BuildResponseProductDto).ToList(),
+                client: BuildResponseClient(),
+                additionalInformation: purchaseApplication.AdditionalInformation,
+                creationDateTime: purchaseApplication.CreationDateTime.ToISO8601());
+
+            PurchaseApplicationDto.ProductDto BuildResponseProductDto(
+                Repositories.PurchaseApplicationDto.ProductDto product)
+            {
+                return new PurchaseApplicationDto.ProductDto(
                     link: product.Link,
                     units: product.Units,
                     additionalInformation: product.AdditionalInformation,
-                    promotionCode: product.PromotionCode)).ToList(),
-                client: new PurchaseApplicationDto.ClientDto(
+                    promotionCode: product.PromotionCode);
+            }
+
+            PurchaseApplicationDto.ClientDto BuildResponseClient()
+            {
+                return new PurchaseApplicationDto.ClientDto(
                     name: purchaseApplication.Client.Name,
                     phoneNumber: purchaseApplication.Client.PhoneNumber,
-                    email: purchaseApplication.Client.Email),
-                additionalInformation: purchaseApplication.AdditionalInformation,
-                creationDateTime: purchaseApplication.CreationDateTime.ToISO8601()); 
+                    email: purchaseApplication.Client.Email);
+            }
         }
 
         public class PurchaseApplicationDto
