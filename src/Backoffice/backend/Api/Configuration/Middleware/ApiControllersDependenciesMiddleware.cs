@@ -1,4 +1,3 @@
-using CanaryDeliveries.Backoffice.Api.Users.Login.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CanaryDeliveries.Backoffice.Api.Configuration.Middleware
@@ -7,7 +6,8 @@ namespace CanaryDeliveries.Backoffice.Api.Configuration.Middleware
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped(provider => Factory.LoginService());
+            services.AddScoped(provider => Users.Login.Controllers.Factory.LoginService());
+            services.AddScoped(provider => PurchaseApplication.Search.Controllers.Factory.PurchaseApplicationRepository());
         }
     }
 }
