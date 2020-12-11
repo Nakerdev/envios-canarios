@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
+using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers.Documentation;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories;
 using CanaryDeliveries.Backoffice.Api.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
 {
@@ -22,12 +25,10 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
         [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(summary: "Search all existing purchase applications")]
-        [SwaggerResponse(statusCode: 200, description: "Returns the purchase applications found",
-            typeof(PurchaseApplicationDto))]
+        [SwaggerResponse(statusCode: 200, description: "Returns the purchase applications found", typeof(PurchaseApplicationDto))]
         [SwaggerResponse(statusCode: 401, description: "Unauthorized request")]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
-        //[SwaggerRequestExample(typeof(RequestDto), typeof(LoginRequestExample))]
-        //[SwaggerResponseExample(statusCode: 200, examplesProviderType: typeof(LoginResponseExample))]
+        [SwaggerResponseExample(statusCode: 200, examplesProviderType: typeof(PurchaseApplicationsResponseExample))]
         public ActionResult Search()
         {
             var purchaseApplications = purchaseApplicationRepository
@@ -65,11 +66,21 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
             }
         }
 
-        public class PurchaseApplicationDto
+        public sealed class PurchaseApplicationDto
         {
+            
+            [SwaggerSchema("List of products that the client want to purchase")] 
+            [Required]            
             public List<ProductDto> Products { get; }
+            
+            [SwaggerSchema("The client information")]            
+            [Required]            
             public ClientDto Client { get; }
+            
+            [SwaggerSchema("General additional information of the application")]            
             public string AdditionalInformation { get; }
+            
+            [SwaggerSchema("The creation date in ISO8601 format")]            
             public string CreationDateTime { get; }
 
             public PurchaseApplicationDto(
@@ -86,9 +97,19 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
 
             public sealed class ProductDto
             {
+                
+                [SwaggerSchema("The link of the product that the client want to purchase")]            
+                [Required]            
                 public string Link { get; }
+                
+                [SwaggerSchema("Number of product units to purchase")]            
+                [Required]            
                 public int Units { get; }
+                
+                [SwaggerSchema("Additional information needed to purchase the product, like size, color, etc.")]            
                 public string AdditionalInformation { get; }
+                
+                [SwaggerSchema("The promotional code to apply in the product purchase")]
                 public string PromotionCode { get; }
 
                 public ProductDto(
@@ -106,8 +127,16 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
 
             public sealed class ClientDto
             {
+                [SwaggerSchema("The client name")]            
+                [Required]            
                 public string Name { get; }
+                
+                [SwaggerSchema("The client phone number")]            
+                [Required]            
                 public string PhoneNumber { get; }
+                
+                [SwaggerSchema("The client email")]            
+                [Required]            
                 public string Email { get; }
 
                 public ClientDto(

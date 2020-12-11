@@ -99,7 +99,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
             [Required]            
             public string Units { get; set; }
 
-            [SwaggerSchema("Additional information needed to purchas the product, like size, color, etc.", Description = "Must contains a maximum of 1000 characters")]            
+            [SwaggerSchema("Additional information needed to purchase the product, like size, color, etc.", Description = "Must contains a maximum of 1000 characters")]            
             public string AdditionalInformation { get; set; }
 
             [SwaggerSchema("The promotional code to apply in the product purchase",  Description = "Must contains a maximum of 50 characters")]
