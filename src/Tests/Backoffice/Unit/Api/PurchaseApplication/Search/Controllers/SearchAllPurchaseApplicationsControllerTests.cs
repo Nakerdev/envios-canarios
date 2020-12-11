@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.Controllers
 {
-    [TestFixture] 
+    [TestFixture]
     public class SearchAllPurchaseApplicationsControllerTests
     {
         private Mock<PurchaseApplicationRepository> purchaseApplicationRepository;
@@ -26,7 +26,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
             controller = new SearchAllPurchaseApplicationsController(
                 purchaseApplicationRepository: purchaseApplicationRepository.Object);
         }
-        
+
         [Test]
         public void SearchesAllPurchaseApplications()
         {
@@ -38,7 +38,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
                     {
                         purchaseApplication
                     }));
-            
+
             var response = controller.Search() as ObjectResult;
 
             response.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -47,8 +47,10 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
             responseModel.First().Products.Count.Should().Be(purchaseApplication.Products.Count);
             responseModel.First().Products.First().Link.Should().Be(purchaseApplication.Products.First().Link);
             responseModel.First().Products.First().Units.Should().Be(purchaseApplication.Products.First().Units);
-            responseModel.First().Products.First().AdditionalInformation.Should().Be(purchaseApplication.Products.First().AdditionalInformation);
-            responseModel.First().Products.First().PromotionCode.Should().Be(purchaseApplication.Products.First().PromotionCode);
+            responseModel.First().Products.First().AdditionalInformation.Should()
+                .Be(purchaseApplication.Products.First().AdditionalInformation);
+            responseModel.First().Products.First().PromotionCode.Should()
+                .Be(purchaseApplication.Products.First().PromotionCode);
             responseModel.First().Client.Name.Should().Be(purchaseApplication.Client.Name);
             responseModel.First().Client.PhoneNumber.Should().Be(purchaseApplication.Client.PhoneNumber);
             responseModel.First().Client.Email.Should().Be(purchaseApplication.Client.Email);
@@ -59,14 +61,16 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
         private static PurchaseApplicationDto BuildPurchaseApplication()
         {
             return new PurchaseApplicationDto(
-                products: new List<PurchaseApplicationDto.ProductDto>
-                {
-                    new PurchaseApplicationDto.ProductDto(
-                        link: "https://addidas.com/product/1",
-                        units: 1,
-                        additionalInformation: "Informacion adicional del producto",
-                        promotionCode: "ADD-123")
-                },
+                products: new ReadOnlyCollection<PurchaseApplicationDto.ProductDto>(
+                    new List<PurchaseApplicationDto.ProductDto>
+                    {
+                        new PurchaseApplicationDto.ProductDto(
+                            link: "https://addidas.com/product/1",
+                            units: 1,
+                            additionalInformation: "Informacion adicional del producto",
+                            promotionCode: "ADD-123")
+                    }
+                ),
                 client: new PurchaseApplicationDto.ClientDto(
                     name: "Alfredo",
                     phoneNumber: "610121212",

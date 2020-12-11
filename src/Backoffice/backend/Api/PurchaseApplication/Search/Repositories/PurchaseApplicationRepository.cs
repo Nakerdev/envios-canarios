@@ -11,13 +11,13 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
 
     public sealed class PurchaseApplicationDto
     { 
-        public List<ProductDto> Products { get; }
+        public ReadOnlyCollection<ProductDto> Products { get; }
         public ClientDto Client { get; }
         public string AdditionalInformation { get; }
         public DateTime CreationDateTime { get; }
 
         public PurchaseApplicationDto(
-            List<ProductDto> products, 
+            ReadOnlyCollection<ProductDto> products, 
             ClientDto client, 
             string additionalInformation,
             DateTime creationDateTime)

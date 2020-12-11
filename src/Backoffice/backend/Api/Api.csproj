@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Common\Logging\Logging.csproj" />
+      <ProjectReference Include="..\..\..\PurchaseApplication\DbContext\DbContext.csproj" />
     </ItemGroup>
 
 </Project>
