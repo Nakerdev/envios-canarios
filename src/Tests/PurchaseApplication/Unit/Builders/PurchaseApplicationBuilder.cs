@@ -7,10 +7,11 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders
 {
     public static class PurchaseApplicationBuilder
     {
-        public static CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication Build()
+        public static CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication Build(
+            string id = "3F2504E0-4F89-11D3-9A0C-0305E82C3301")
         {
-            var state = new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication.PersistenceState(
-                id: new Id.PersistenceState("3F2504E0-4F89-11D3-9A0C-0305E82C3301"),
+            var state = new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication.PersistenceStateDto(
+                id: new Id.PersistenceState(id),
                 products: new List<Product.PersistenceState>
                 {
                     new Product.PersistenceState(

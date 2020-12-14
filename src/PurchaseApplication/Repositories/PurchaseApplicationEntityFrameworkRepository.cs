@@ -1,6 +1,8 @@
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.DbContext;
 using CanaryDeliveries.PurchaseApplication.Domain;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
+using LanguageExt;
 
 namespace CanaryDeliveries.PurchaseApplication.Repositories
 {
@@ -21,9 +23,19 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
             dbContext.SaveChanges();
         }
 
+        public void Update(Domain.PurchaseApplication purchaseApplication)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Option<Domain.PurchaseApplication> SearchBy(Id purchaseApplicationId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private static DbContext.PurchaseApplication BuildDbPurchaseApplication(Domain.PurchaseApplication purchaseApplication)
         {
-            var state = purchaseApplication.State;
+            var state = purchaseApplication.PersistenceState;
             return new DbContext.PurchaseApplication
             {
                 Id = state.Id.Value,

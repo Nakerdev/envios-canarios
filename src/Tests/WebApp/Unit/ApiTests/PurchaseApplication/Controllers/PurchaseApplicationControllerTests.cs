@@ -36,7 +36,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
             var request = BuildPurchaseApplicationRequest();
             createPurchaseApplicationCommandHandler
                 .Setup(x => x.Create(It.IsAny<CreatePurchaseApplicationCommand>()))
-                .Returns(PurchaseApplicationBuilder.Build);
+                .Returns(() => PurchaseApplicationBuilder.Build());
 
             var response = controller.Execute(request) as StatusCodeResult;
 

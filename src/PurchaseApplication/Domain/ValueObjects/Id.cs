@@ -8,6 +8,11 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         public PersistenceState State => new PersistenceState(value.ToString());
         
         private readonly Guid value;
+        
+        public static Id Create(string id)
+        {
+            return new Id(new Guid(id));
+        }
 
         public static Id Create()
         {
