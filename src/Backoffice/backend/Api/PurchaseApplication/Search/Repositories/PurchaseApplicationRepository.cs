@@ -11,17 +11,20 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
 
     public sealed class PurchaseApplicationDto
     { 
+        public string Id { get; }
         public ReadOnlyCollection<ProductDto> Products { get; }
         public ClientDto Client { get; }
         public string AdditionalInformation { get; }
         public DateTime CreationDateTime { get; }
 
         public PurchaseApplicationDto(
+            string id,
             ReadOnlyCollection<ProductDto> products, 
             ClientDto client, 
             string additionalInformation,
             DateTime creationDateTime)
         {
+            Id = id;
             Products = products;
             Client = client;
             AdditionalInformation = additionalInformation;
@@ -30,17 +33,20 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
 
         public sealed class ProductDto
         {
+            public string Id { get; }
             public string Link { get; }
             public int Units { get; }
             public string AdditionalInformation { get; }
             public string PromotionCode { get; }
-    
+
             public ProductDto(
+                string id,
                 string link, 
                 int units, 
                 string additionalInformation, 
                 string promotionCode)
             {
+                Id = id;
                 Link = link;
                 Units = units;
                 AdditionalInformation = additionalInformation;

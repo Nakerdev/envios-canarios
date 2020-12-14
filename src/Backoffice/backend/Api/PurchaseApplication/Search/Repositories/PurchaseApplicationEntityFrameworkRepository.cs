@@ -30,6 +30,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
             CanaryDeliveries.PurchaseApplication.DbContext.PurchaseApplication purchaseApplication)
         {
             return new PurchaseApplicationDto(
+                id: purchaseApplication.Id,
                 products: purchaseApplication.Products.Map(BuildProductDto).ToList().AsReadOnly(),
                 client: BuildClientDto(),
                 additionalInformation: purchaseApplication.AdditionalInformation,
@@ -38,6 +39,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
             PurchaseApplicationDto.ProductDto BuildProductDto(Product product)
             {
                 return new PurchaseApplicationDto.ProductDto(
+                    id: product.Id,
                     link: product.Link,
                     units: product.Units,
                     additionalInformation: product.AdditionalInformation,

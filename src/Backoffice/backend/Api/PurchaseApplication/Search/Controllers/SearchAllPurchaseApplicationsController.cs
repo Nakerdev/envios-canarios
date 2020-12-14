@@ -42,6 +42,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
             Repositories.PurchaseApplicationDto purchaseApplication)
         {
             return new PurchaseApplicationDto(
+                id: purchaseApplication.Id,
                 products: purchaseApplication.Products.Map(BuildResponseProductDto).ToList(),
                 client: BuildResponseClient(),
                 additionalInformation: purchaseApplication.AdditionalInformation,
@@ -51,6 +52,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                 Repositories.PurchaseApplicationDto.ProductDto product)
             {
                 return new PurchaseApplicationDto.ProductDto(
+                    id: product.Id,
                     link: product.Link,
                     units: product.Units,
                     additionalInformation: product.AdditionalInformation,
@@ -68,6 +70,9 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
 
         public sealed class PurchaseApplicationDto
         {
+            [SwaggerSchema("The purchase application identifier")] 
+            [Required]            
+            public string Id { get; }
             
             [SwaggerSchema("List of products that the client want to purchase")] 
             [Required]            
@@ -84,11 +89,13 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
             public string CreationDateTime { get; }
 
             public PurchaseApplicationDto(
+                string id,
                 List<ProductDto> products,
                 ClientDto client,
                 string additionalInformation,
                 string creationDateTime)
             {
+                Id = id;
                 Products = products;
                 Client = client;
                 AdditionalInformation = additionalInformation;
@@ -97,6 +104,9 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
 
             public sealed class ProductDto
             {
+                [SwaggerSchema("The product indentifier")]            
+                [Required]            
+                public string Id { get; }
                 
                 [SwaggerSchema("The link of the product that the client want to purchase")]            
                 [Required]            
@@ -113,11 +123,13 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                 public string PromotionCode { get; }
 
                 public ProductDto(
+                    string id,
                     string link,
                     int units,
                     string additionalInformation,
                     string promotionCode)
                 {
+                    Id = id;
                     Link = link;
                     Units = units;
                     AdditionalInformation = additionalInformation;
