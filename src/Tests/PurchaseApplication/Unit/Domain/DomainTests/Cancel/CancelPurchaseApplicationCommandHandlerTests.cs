@@ -29,10 +29,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
         [Test]
         public void CancelsPurchaseApplication()
         {
-            var command = CancelPurchaseApplicationCommand.Create(new CancelPurchaseApplicationCommand.Dto(
-                id: "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54",
-                rejectionReason: "El usuario esta itentando comprar productos de falsificacion"))
-                .IfFail(() => throw new InvalidOperationException());
+            var command = BuildCancelPurchaseApplicationCommand();
             var purchaseApplication = PurchaseApplicationBuilder.Build(id: command.Id.State.Value);
             purchaseApplicationRepository
                 .Setup(x => x.SearchBy(command.Id))
@@ -51,6 +48,14 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
                     && y.RejectionDateTime == utcNow
                     && y.RejectionReason == command.RejectionReason
                     && y.State == State.Rejected)), Times.Once);
+        }
+
+        private static CancelPurchaseApplicationCommand BuildCancelPurchaseApplicationCommand()
+        {
+            return CancelPurchaseApplicationCommand.Create(new CancelPurchaseApplicationCommand.Dto(
+                    id: "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54",
+                    rejectionReason: "El usuario esta itentando comprar productos de falsificacion"))
+                .IfFail(() => throw new InvalidOperationException());
         }
     }
 }
