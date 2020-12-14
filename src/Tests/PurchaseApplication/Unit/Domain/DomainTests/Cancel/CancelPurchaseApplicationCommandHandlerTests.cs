@@ -2,6 +2,7 @@ using System;
 using CanaryDeliveries.PurchaseApplication.Domain;
 using CanaryDeliveries.PurchaseApplication.Domain.Cancel;
 using CanaryDeliveries.PurchaseApplication.Domain.Services;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders;
 using FluentAssertions;
 using Moq;
@@ -54,19 +55,35 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
         [Test]
         public void DoesNotCancelPurchaseApplicationIfIsAlreadyCancelled()
         {
-            var command = BuildCancelPurchaseApplicationCommand();
             purchaseApplicationRepository
-                .Setup(x => x.SearchBy(command.Id))
-                .Returns(PurchaseApplicationBuilder.Build(id: command.Id.State.Value, isRejected: true));
+                .Setup(x => x.SearchBy(It.IsAny<Id>()))
+                .Returns(PurchaseApplicationBuilder.Build(isRejected: true));
             timeService
                 .Setup(x => x.UtcNow())
                 .Returns(new DateTime(2020, 10, 10, 12, 30, 00));
             
-            var cancelledPurchaseApplication = commandHandler.Cancel(command);
+            var cancelledPurchaseApplication = commandHandler.Cancel(BuildCancelPurchaseApplicationCommand());
 
             cancelledPurchaseApplication.IsLeft.Should().BeTrue();
             cancelledPurchaseApplication.IfLeft(error => 
                 error.Should().Be(CanaryDeliveries.PurchaseApplication.Domain.Cancel.Error.PurchaseApplicationIsAlreadyRejected));
+            purchaseApplicationRepository
+                .Verify(x => x.Update(It.IsAny<CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication>()), 
+                    Times.Never);
+        }
+        
+        [Test]
+        public void DoesNotCancelPurchaseApplicationIfNotFound()
+        {
+            purchaseApplicationRepository
+                .Setup(x => x.SearchBy(It.IsAny<Id>()))
+                .Returns((CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication) null);
+            
+            var cancelledPurchaseApplication = commandHandler.Cancel(BuildCancelPurchaseApplicationCommand());
+
+            cancelledPurchaseApplication.IsLeft.Should().BeTrue();
+            cancelledPurchaseApplication.IfLeft(error => 
+                error.Should().Be(CanaryDeliveries.PurchaseApplication.Domain.Cancel.Error.PurchaseApplicationNotFound));
             purchaseApplicationRepository
                 .Verify(x => x.Update(It.IsAny<CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication>()), 
                     Times.Never);

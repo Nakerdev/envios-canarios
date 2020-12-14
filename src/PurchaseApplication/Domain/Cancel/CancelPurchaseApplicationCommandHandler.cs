@@ -1,4 +1,3 @@
-using System;
 using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using LanguageExt;
@@ -34,7 +33,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
         {
             return purchaseApplicationRepository
                 .SearchBy(id)
-                .ToEither<Error>(() => throw new NotImplementedException());
+                .ToEither(() => Error.PurchaseApplicationNotFound);
         }
         
         private Either<Error, PurchaseApplication> Reject(
@@ -55,6 +54,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
 
     public enum Error
     {
-        PurchaseApplicationIsAlreadyRejected
+        PurchaseApplicationIsAlreadyRejected,
+        PurchaseApplicationNotFound
     }
 }
