@@ -43,7 +43,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
         {
             return purchaseApplication
                 .Reject(timeService.UtcNow(), rejectionReason)
-                .MapLeft<Error>(_ => throw new NotImplementedException());
+                .MapLeft(_ => Error.PurchaseApplicationIsAlreadyRejected);
         }
         
         private Either<Error, Unit> Update(PurchaseApplication purchaseApplication)
@@ -55,6 +55,6 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
 
     public enum Error
     {
-        
+        PurchaseApplicationIsAlreadyRejected
     }
 }

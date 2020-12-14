@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using CanaryDeliveries.PurchaseApplication.Domain.Entities;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
+using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders
 {
     public static class PurchaseApplicationBuilder
     {
         public static CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication Build(
-            string id = "3F2504E0-4F89-11D3-9A0C-0305E82C3301")
+            string id = "3F2504E0-4F89-11D3-9A0C-0305E82C3301",
+            bool isRejected = false)
         {
             var state = new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication.PersistenceStateDto(
                 id: new Id.PersistenceState(id),
@@ -27,7 +30,9 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders
                     phoneNumber: new PhoneNumber.PersistenceState("610232323"),
                     email: new Email.PersistenceState("alfredo@email.com")),
                 additionalInformation: new AdditionalInformation.PersistenceState("Purchase additional information"),
-                creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00));
+                creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00),
+                rejectionDateTime: isRejected ? (Option<DateTime>) new DateTime(2020, 12, 10, 10, 30, 00) : None,
+                rejectionReason: isRejected ? "Los productos incumplen nuestra politica" : null);
             return new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication(state);
         }
     }
