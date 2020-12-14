@@ -7,7 +7,6 @@ using CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Error = CanaryDeliveries.PurchaseApplication.Domain.Error;
 
 namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
 {

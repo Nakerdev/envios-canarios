@@ -52,6 +52,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Create
             createdPurchaseApplication.Client.Email.Should().Be(command.ClientProp.Email);
             createdPurchaseApplication.AdditionalInformation.Equals(command.AdditionalInformation).Should().BeTrue();
             createdPurchaseApplication.CreationDateTime.Should().Be(now);
+            createdPurchaseApplication.State.Should().Be(State.PendingOfPayment);
             purchaseApplicationRepository
                 .Verify(x => x.Create(It.Is<CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication>(y => 
                     y.Id != null
