@@ -24,7 +24,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
 
         [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
-        [SwaggerOperation(summary: "Search all existing purchase applications")]
+        [SwaggerOperation(summary: "Search all existing purchase applications", Tags = new []{"Purchase Applications"})]
         [SwaggerResponse(statusCode: 200, description: "Returns the purchase applications found", typeof(PurchaseApplicationDto))]
         [SwaggerResponse(statusCode: 401, description: "Unauthorized request")]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
