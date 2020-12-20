@@ -10,16 +10,19 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         
         private readonly DateTime dateTime;
         private readonly string reason;
-        
+
         public static Validation<ValidationError<GenericValidationErrorCode>, Reject> Create(
             Option<string> optionalDateTime,
             Option<string> optionalReason)
         {
+            const string RejectionReasonFieldId = "RejectionReason";
+            const string RejectionDateTime = "RejectionDateTime";
+            
             return
-                from datetime in ValidateRequire("RejectionDateTime", optionalDateTime)
-                from reason in ValidateRequire("RejectionReason", optionalReason)
-                from formattedDateTime in ValidateDateTimeFormat(datetime)
-                from _1 in ValidateLenght(reason)
+                from datetime in ValidateRequire(RejectionDateTime, optionalDateTime)
+                from reason in ValidateRequire(RejectionReasonFieldId, optionalReason)
+                from formattedDateTime in ValidateDateTimeFormat(RejectionDateTime, datetime)
+                from _1 in ValidateLenght(RejectionReasonFieldId, reason)
                 from reject in BuildReject(formattedDateTime, reason)
                 select reject;
 
@@ -34,22 +37,24 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             }
             
            Validation<ValidationError<GenericValidationErrorCode>, DateTime> ValidateDateTimeFormat(
+               string fieldId,
                string dateTime)
            {
                return parseDateTime(dateTime)
                    .ToValidation(CreateValidationError(
-                        fieldId: "RejectionDateTime",
+                        fieldId: fieldId,
                         errorCode: GenericValidationErrorCode.InvalidFormat));
            } 
             
             Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(
+                string fieldId, 
                 string reason)
             {
                 const int maxAllowedLenght = 1000;
                 if (reason.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(
-                        fieldId: "RejectionReason",
+                        fieldId: fieldId,
                         errorCode: GenericValidationErrorCode.WrongLength);
                 }
                 return unit;
