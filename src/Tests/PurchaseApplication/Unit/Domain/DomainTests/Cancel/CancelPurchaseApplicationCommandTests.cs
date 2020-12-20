@@ -35,6 +35,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
             var result = CancelPurchaseApplicationCommand.Create(commandDto);
 
             result.IsFail.Should().BeTrue();
+            result.IfFail(error => error.First().FieldId.Should().Be(nameof(CancelPurchaseApplicationCommand.PurchaseApplicationId)));
         }
         
         [Test]
