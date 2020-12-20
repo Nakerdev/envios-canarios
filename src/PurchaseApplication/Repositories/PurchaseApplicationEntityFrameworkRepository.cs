@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.DbContext;
 using CanaryDeliveries.PurchaseApplication.Domain;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using LanguageExt;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace CanaryDeliveries.PurchaseApplication.Repositories
 {
@@ -28,7 +26,14 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
 
         public void Update(Domain.PurchaseApplication purchaseApplication)
         {
-            throw new System.NotImplementedException();
+            using var dbContext = new PurchaseApplicationDbContext(purchaseApplicationDbConnectionString);
+            var purchaseApplicationPersistenceState = purchaseApplication.PersistenceState;
+            var id = purchaseApplication.Id.State.Value;
+            var dbEntity = dbContext.PurchaseApplications.FirstOrDefault(x => x.Id == id);
+            if (dbEntity == null) return;
+            dbEntity.RejectionDateTime = purchaseApplicationPersistenceState.Rejection.Map(x => x.DateTime).ToNullable();
+            dbEntity.RejectionReason = purchaseApplicationPersistenceState.Rejection.Map(x => x.Reason.Value).IfNoneUnsafe(() => null);
+            dbContext.SaveChanges();
         }
 
         public Option<Domain.PurchaseApplication> SearchBy(Id purchaseApplicationId)
