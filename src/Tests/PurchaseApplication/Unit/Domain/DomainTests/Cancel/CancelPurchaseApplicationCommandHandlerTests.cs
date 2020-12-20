@@ -31,9 +31,9 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
         public void CancelsPurchaseApplication()
         {
             var command = BuildCancelPurchaseApplicationCommand();
-            var purchaseApplication = PurchaseApplicationBuilder.Build(id: command.Id.State.Value);
+            var purchaseApplication = PurchaseApplicationBuilder.Build(id: command.PurchaseApplicationId.State.Value);
             purchaseApplicationRepository
-                .Setup(x => x.SearchBy(command.Id))
+                .Setup(x => x.SearchBy(command.PurchaseApplicationId))
                 .Returns(purchaseApplication);
             var utcNow = new DateTime(2020, 10, 10);
             timeService
@@ -90,7 +90,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
         private static CancelPurchaseApplicationCommand BuildCancelPurchaseApplicationCommand()
         {
             return CancelPurchaseApplicationCommand.Create(new CancelPurchaseApplicationCommand.Dto(
-                    id: "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54",
+                    purchaseApplicationId: "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54",
                     rejectionReason: "El usuario esta itentando comprar productos de falsificacion"))
                 .IfFail(() => throw new InvalidOperationException());
         }

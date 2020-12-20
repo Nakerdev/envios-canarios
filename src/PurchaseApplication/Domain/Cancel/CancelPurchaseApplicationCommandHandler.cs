@@ -21,7 +21,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
         public Either<Error, PurchaseApplication> Cancel(CancelPurchaseApplicationCommand command)
         {
             return
-                from purchaseApplication in SearchPurchaseApplicationBy(command.Id)
+                from purchaseApplication in SearchPurchaseApplicationBy(command.PurchaseApplicationId)
                 from rejectedPurchaseApplication in Reject(
                     purchaseApplication: purchaseApplication, 
                     rejection: command.RejectionReason)
