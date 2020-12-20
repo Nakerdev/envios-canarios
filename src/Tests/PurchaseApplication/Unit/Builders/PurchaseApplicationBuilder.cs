@@ -32,7 +32,9 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders
                 additionalInformation: new AdditionalInformation.PersistenceState("Purchase additional information"),
                 creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00),
                 rejection: isRejected 
-                    ? new Rejection.PersistenceState(new DateTime( 2020, 10, 10), reason: "Razon del rechazo")
+                    ? new Rejection.PersistenceState(
+                        dateTime: new DateTime( 2020, 10, 10), 
+                        reason: new RejectionReason.PersistenceState("Razon del rechazo"))
                     : null);
             return new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication(state);
         }

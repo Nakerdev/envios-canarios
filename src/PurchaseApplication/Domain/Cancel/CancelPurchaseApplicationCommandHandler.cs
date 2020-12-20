@@ -8,11 +8,14 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
     public sealed class CancelPurchaseApplicationCommandHandler
     {
         private readonly PurchaseApplicationRepository purchaseApplicationRepository;
+        private readonly TimeService timeService;
 
         public CancelPurchaseApplicationCommandHandler(
-            PurchaseApplicationRepository purchaseApplicationRepository)
+            PurchaseApplicationRepository purchaseApplicationRepository, 
+            TimeService timeService)
         {
             this.purchaseApplicationRepository = purchaseApplicationRepository;
+            this.timeService = timeService;
         }
 
         public Either<Error, PurchaseApplication> Cancel(CancelPurchaseApplicationCommand command)
@@ -21,7 +24,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
                 from purchaseApplication in SearchPurchaseApplicationBy(command.Id)
                 from rejectedPurchaseApplication in Reject(
                     purchaseApplication: purchaseApplication, 
-                    rejection: command.Rejection)
+                    rejection: command.RejectionReason)
                 from _ in Update(rejectedPurchaseApplication)
                 select rejectedPurchaseApplication;
         }
@@ -35,10 +38,10 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
         
         private Either<Error, PurchaseApplication> Reject(
             PurchaseApplication purchaseApplication,
-            Rejection rejection)
+            RejectionReason rejection)
         {
             return purchaseApplication
-                .Reject(rejection)
+                .Reject(timeService.UtcNow(), rejection)
                 .MapLeft(_ => Error.PurchaseApplicationIsAlreadyRejected);
         }
         

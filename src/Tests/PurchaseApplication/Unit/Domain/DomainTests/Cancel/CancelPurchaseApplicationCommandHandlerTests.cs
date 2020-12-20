@@ -14,14 +14,17 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
     public sealed class CancelPurchaseApplicationCommandHandlerTests
     {
         private Mock<PurchaseApplicationRepository> purchaseApplicationRepository;
+        private Mock<TimeService> timeService;
         private CancelPurchaseApplicationCommandHandler commandHandler;
         
         [SetUp]
         public void SetUp()
         {
             purchaseApplicationRepository = new Mock<PurchaseApplicationRepository>();
+            timeService = new Mock<TimeService>();
             commandHandler = new CancelPurchaseApplicationCommandHandler(
-                purchaseApplicationRepository: purchaseApplicationRepository.Object);
+                purchaseApplicationRepository: purchaseApplicationRepository.Object,
+                timeService: timeService.Object);
         }
 
         [Test]
@@ -32,6 +35,10 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
             purchaseApplicationRepository
                 .Setup(x => x.SearchBy(command.Id))
                 .Returns(purchaseApplication);
+            var utcNow = new DateTime(2020, 10, 10);
+            timeService
+                .Setup(x => x.UtcNow())
+                .Returns(utcNow);
             
             var cancelledPurchaseApplication = commandHandler.Cancel(command);
 
@@ -49,6 +56,9 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
             purchaseApplicationRepository
                 .Setup(x => x.SearchBy(It.IsAny<Id>()))
                 .Returns(PurchaseApplicationBuilder.Build(isRejected: true));
+            timeService
+                .Setup(x => x.UtcNow())
+                .Returns(new DateTime(2020, 10, 10));
             
             var cancelledPurchaseApplication = commandHandler.Cancel(BuildCancelPurchaseApplicationCommand());
 

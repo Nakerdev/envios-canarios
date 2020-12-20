@@ -7,30 +7,30 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
     public sealed class CancelPurchaseApplicationCommand
     {
         public Id Id { get; }
-        public Rejection Rejection { get; }
+        public RejectionReason RejectionReason { get; }
         
         public static Validation<
             ValidationError<GenericValidationErrorCode>, 
             CancelPurchaseApplicationCommand> Create(Dto dto)
         {
-            var reject = Rejection.Create(optionalDateTime: DateTime.UtcNow.ToString(), dto.RejectionReason);
+            var rejectionReason = RejectionReason.Create(dto.RejectionReason);
             
-            if (reject.IsFail)
+            if (rejectionReason.IsFail)
             {
                 var validationErrors = Prelude.Seq<ValidationError<GenericValidationErrorCode>>();
-                reject.IfFail(errors => validationErrors = validationErrors.Concat(errors));
+                rejectionReason.IfFail(errors => validationErrors = validationErrors.Concat(errors));
                 return validationErrors;
             }
             
             return new CancelPurchaseApplicationCommand(
                 id: Id.Create(dto.Id),
-                rejection: reject.IfFail(() => throw new InvalidOperationException())); 
+                rejectionReason: rejectionReason.IfFail(() => throw new InvalidOperationException())); 
         }
 
-        private CancelPurchaseApplicationCommand(Id id, Rejection rejection)
+        private CancelPurchaseApplicationCommand(Id id, RejectionReason rejectionReason)
         {
             Id = id;
-            Rejection = rejection;
+            RejectionReason = rejectionReason;
         }
 
         public sealed class Dto 

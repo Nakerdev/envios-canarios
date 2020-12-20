@@ -65,9 +65,10 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             Rejection = persistenceState.Rejection.Map(state => new Rejection(state));
         }
 
-        public Either<Error, PurchaseApplication> Reject(Rejection rejection)
+        public Either<Error, PurchaseApplication> Reject(DateTime dateTime, RejectionReason rejectionReason)
         {
             if (Rejection.IsSome) return Error.PurchaseApplicationIsAlreadyRejected;
+            var rejection = new Rejection(dateTime: dateTime, reason: rejectionReason);
             return new PurchaseApplication(
                 id: Id,
                 products: Products,

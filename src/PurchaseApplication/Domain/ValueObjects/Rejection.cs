@@ -6,65 +6,79 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
     public sealed class Rejection : Record<Rejection>
     {
-        public PersistenceState State => new PersistenceState(dateTime: dateTime, reason: reason);
+        public PersistenceState State => new PersistenceState(
+            dateTime: dateTime, 
+            reason: reason.State);
         
         private readonly DateTime dateTime;
-        private readonly string reason;
+        private readonly RejectionReason reason;
 
-        public static Validation<ValidationError<GenericValidationErrorCode>, Rejection> Create(
-            Option<string> optionalDateTime,
+        public Rejection(PersistenceState persistenceState)
+        {
+            dateTime = persistenceState.DateTime;
+            reason = new RejectionReason(persistenceState.Reason);;
+        }
+
+        public Rejection(DateTime dateTime, RejectionReason reason)
+        {
+            this.dateTime = dateTime;
+            this.reason = reason;
+        }
+
+        public sealed class PersistenceState
+        {
+            public DateTime DateTime { get; }
+            public RejectionReason.PersistenceState Reason { get; }
+
+            public PersistenceState(DateTime dateTime, RejectionReason.PersistenceState reason)
+            {
+                DateTime = dateTime;
+                Reason = reason;
+            }
+        }
+    }
+    
+    public sealed class RejectionReason : Record<RejectionReason>
+    {
+        public PersistenceState State => new PersistenceState(value: value);
+        
+        private readonly string value;
+
+        public static Validation<ValidationError<GenericValidationErrorCode>, RejectionReason> Create(
             Option<string> optionalReason)
         {
-            const string RejectionReasonFieldId = "RejectionReason";
-            const string RejectionDateTime = "RejectionDateTime";
-            
             return
-                from datetime in ValidateRequire(RejectionDateTime, optionalDateTime)
-                from reason in ValidateRequire(RejectionReasonFieldId, optionalReason)
-                from formattedDateTime in ValidateDateTimeFormat(RejectionDateTime, datetime)
-                from _1 in ValidateLenght(RejectionReasonFieldId, reason)
-                from reject in BuildReject(formattedDateTime, reason)
-                select reject;
+                from reason in ValidateRequire(optionalReason)
+                from _1 in ValidateLenght(reason)
+                from rejectionReason in BuildRejectionReason(reason)
+                select rejectionReason ;
 
             Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(
-                string fieldId,
                 Option<string> value)
             {
                 return value
                     .ToValidation(CreateValidationError(
-                        fieldId: fieldId,
+                        fieldId: nameof(RejectionReason),
                         errorCode: GenericValidationErrorCode.Required));
             }
             
-           Validation<ValidationError<GenericValidationErrorCode>, DateTime> ValidateDateTimeFormat(
-               string fieldId,
-               string dateTime)
-           {
-               return parseDateTime(dateTime)
-                   .ToValidation(CreateValidationError(
-                        fieldId: fieldId,
-                        errorCode: GenericValidationErrorCode.InvalidFormat));
-           } 
-            
             Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(
-                string fieldId, 
                 string reason)
             {
                 const int maxAllowedLenght = 1000;
                 if (reason.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(
-                        fieldId: fieldId,
+                        fieldId: nameof(RejectionReason),
                         errorCode: GenericValidationErrorCode.WrongLength);
                 }
                 return unit;
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Rejection> BuildReject(
-                DateTime dateTime,
-                string reason)
+            Validation<ValidationError<GenericValidationErrorCode>, RejectionReason> BuildRejectionReason(
+                string value)
             {
-                return new Rejection(dateTime: dateTime, reason: reason);
+                return new RejectionReason(value: value);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(
@@ -77,27 +91,23 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             }
         }
 
-        public Rejection(PersistenceState persistenceState)
+        public RejectionReason(PersistenceState persistenceState)
         {
-            dateTime = persistenceState.DateTime;
-            reason = persistenceState.Reason;
+            value = persistenceState.Value;
         }
 
-        private Rejection(DateTime dateTime, string reason)
+        private RejectionReason(string value)
         {
-            this.dateTime = dateTime;
-            this.reason = reason;
+            this.value = value;
         }
 
         public sealed class PersistenceState
         {
-            public DateTime DateTime { get; }
-            public string Reason { get; }
+            public string Value { get; }
 
-            public PersistenceState(DateTime dateTime, string reason)
+            public PersistenceState(string value)
             {
-                DateTime = dateTime;
-                Reason = reason;
+                Value = value;
             }
         }
     }
