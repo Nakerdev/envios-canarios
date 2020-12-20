@@ -4,14 +4,14 @@ using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
-    public sealed class Reject : Record<Reject>
+    public sealed class Rejection : Record<Rejection>
     {
         public PersistenceState State => new PersistenceState(dateTime: dateTime, reason: reason);
         
         private readonly DateTime dateTime;
         private readonly string reason;
 
-        public static Validation<ValidationError<GenericValidationErrorCode>, Reject> Create(
+        public static Validation<ValidationError<GenericValidationErrorCode>, Rejection> Create(
             Option<string> optionalDateTime,
             Option<string> optionalReason)
         {
@@ -60,11 +60,11 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
                 return unit;
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Reject> BuildReject(
+            Validation<ValidationError<GenericValidationErrorCode>, Rejection> BuildReject(
                 DateTime dateTime,
                 string reason)
             {
-                return new Reject(dateTime: dateTime, reason: reason);
+                return new Rejection(dateTime: dateTime, reason: reason);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(
@@ -77,13 +77,13 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             }
         }
 
-        public Reject(PersistenceState persistenceState)
+        public Rejection(PersistenceState persistenceState)
         {
             dateTime = persistenceState.DateTime;
             reason = persistenceState.Reason;
         }
 
-        private Reject(DateTime dateTime, string reason)
+        private Rejection(DateTime dateTime, string reason)
         {
             this.dateTime = dateTime;
             this.reason = reason;

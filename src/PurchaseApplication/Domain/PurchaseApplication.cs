@@ -14,9 +14,8 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
         public Client Client { get; }
         public Option<AdditionalInformation> AdditionalInformation { get; }
         public DateTime CreationDateTime { get; }
-        public Option<DateTime> RejectionDateTime { get; }
-        public Option<string> RejectionReason { get; }
-        public State State => RejectionDateTime.IsSome ? State.Rejected : State.PendingOfPayment;
+        public Option<Rejection> Rejection { get; }
+        public State State => Rejection.IsSome ? State.Rejected : State.PendingOfPayment;
         
         public PersistenceStateDto PersistenceState => new PersistenceStateDto(
             id: Id.State,
@@ -24,8 +23,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             client: Client.State,
             additionalInformation: AdditionalInformation.Map(x => x.State),
             creationDateTime: CreationDateTime,
-            rejectionDateTime: RejectionDateTime,
-            rejectionReason: RejectionReason);
+            rejection: Rejection.Map(x => x.State));
 
         public PurchaseApplication(
             Id id,
@@ -47,16 +45,14 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             Client client, 
             Option<AdditionalInformation> additionalInformation, 
             DateTime creationDateTime,
-            DateTime rejectionDateTime,
-            string rejectionReason)
+            Rejection rejection)
         {
             Id = id;
             Products = products;
             Client = client;
             AdditionalInformation = additionalInformation;
             CreationDateTime = creationDateTime;
-            RejectionDateTime = rejectionDateTime;
-            RejectionReason = rejectionReason;
+            Rejection = rejection;
         }
         
         public PurchaseApplication(PersistenceStateDto persistenceState)
@@ -66,21 +62,19 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             Client = new Client(persistenceState.Client);
             AdditionalInformation = persistenceState.AdditionalInformation.Map(x => new AdditionalInformation(x));
             CreationDateTime = persistenceState.CreationDateTime;
-            RejectionDateTime = persistenceState.RejectionDateTime;
-            RejectionReason = persistenceState.RejectionReason;
+            Rejection = persistenceState.Rejection.Map(state => new Rejection(state));
         }
 
-        public Either<Error, PurchaseApplication> Reject(DateTime rejectionDateTime, string rejectionReason)
+        public Either<Error, PurchaseApplication> Reject(Rejection rejection)
         {
-            if (RejectionDateTime.IsSome) return Error.PurchaseApplicationIsAlreadyRejected;
+            if (Rejection.IsSome) return Error.PurchaseApplicationIsAlreadyRejected;
             return new PurchaseApplication(
                 id: Id,
                 products: Products,
                 client: Client,
                 additionalInformation: AdditionalInformation,
                 creationDateTime: CreationDateTime,
-                rejectionDateTime: rejectionDateTime,
-                rejectionReason: rejectionReason);
+                rejection: rejection);
         }
         
         public sealed class PersistenceStateDto
@@ -90,8 +84,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
             public Client.PersistenceState Client { get; }
             public Option<AdditionalInformation.PersistenceState> AdditionalInformation { get; }
             public DateTime CreationDateTime { get; }
-            public Option<DateTime> RejectionDateTime { get; }
-            public Option<string> RejectionReason { get; }
+            public Option<Rejection.PersistenceState> Rejection { get; }
     
             public PersistenceStateDto(
                 Id.PersistenceState id, 
@@ -99,16 +92,14 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
                 Client.PersistenceState client, 
                 Option<AdditionalInformation.PersistenceState> additionalInformation, 
                 DateTime creationDateTime, 
-                Option<DateTime> rejectionDateTime, 
-                Option<string> rejectionReason)
+                Option<Rejection.PersistenceState> rejection)
             {
                 Id = id;
                 Products = products;
                 Client = client;
                 AdditionalInformation = additionalInformation;
                 CreationDateTime = creationDateTime;
-                RejectionDateTime = rejectionDateTime;
-                RejectionReason = rejectionReason;
+                Rejection = rejection;
             }
         }
     }

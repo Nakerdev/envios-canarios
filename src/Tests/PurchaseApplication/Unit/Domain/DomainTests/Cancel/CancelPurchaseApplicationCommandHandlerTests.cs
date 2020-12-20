@@ -14,17 +14,14 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
     public sealed class CancelPurchaseApplicationCommandHandlerTests
     {
         private Mock<PurchaseApplicationRepository> purchaseApplicationRepository;
-        private Mock<TimeService> timeService;
         private CancelPurchaseApplicationCommandHandler commandHandler;
         
         [SetUp]
         public void SetUp()
         {
             purchaseApplicationRepository = new Mock<PurchaseApplicationRepository>();
-            timeService = new Mock<TimeService>();
             commandHandler = new CancelPurchaseApplicationCommandHandler(
-                purchaseApplicationRepository: purchaseApplicationRepository.Object,
-                timeService: timeService.Object);
+                purchaseApplicationRepository: purchaseApplicationRepository.Object);
         }
 
         [Test]
@@ -35,10 +32,6 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
             purchaseApplicationRepository
                 .Setup(x => x.SearchBy(command.Id))
                 .Returns(purchaseApplication);
-            var utcNow = new DateTime(2020, 10, 10, 12, 30, 00);
-            timeService
-                .Setup(x => x.UtcNow())
-                .Returns(utcNow);
             
             var cancelledPurchaseApplication = commandHandler.Cancel(command);
 
@@ -46,8 +39,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
             purchaseApplicationRepository
                 .Verify(x => x.Update(It.Is<CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication>(y => 
                     y.Id == purchaseApplication.Id
-                    && y.RejectionDateTime == utcNow
-                    && y.RejectionReason == command.RejectionReason
+                    && y.Rejection.IsSome
                     && y.State == State.Rejected)), Times.Once);
         }
         
@@ -57,9 +49,6 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.Cancel
             purchaseApplicationRepository
                 .Setup(x => x.SearchBy(It.IsAny<Id>()))
                 .Returns(PurchaseApplicationBuilder.Build(isRejected: true));
-            timeService
-                .Setup(x => x.UtcNow())
-                .Returns(new DateTime(2020, 10, 10, 12, 30, 00));
             
             var cancelledPurchaseApplication = commandHandler.Cancel(BuildCancelPurchaseApplicationCommand());
 

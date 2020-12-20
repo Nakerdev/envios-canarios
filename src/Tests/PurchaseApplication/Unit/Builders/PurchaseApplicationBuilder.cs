@@ -31,8 +31,9 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders
                     email: new Email.PersistenceState("alfredo@email.com")),
                 additionalInformation: new AdditionalInformation.PersistenceState("Purchase additional information"),
                 creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00),
-                rejectionDateTime: isRejected ? (Option<DateTime>) new DateTime(2020, 12, 10, 10, 30, 00) : None,
-                rejectionReason: isRejected ? "Los productos incumplen nuestra politica" : null);
+                rejection: isRejected 
+                    ? new Rejection.PersistenceState(new DateTime( 2020, 10, 10), reason: "Razon del rechazo")
+                    : null);
             return new CanaryDeliveries.PurchaseApplication.Domain.PurchaseApplication(state);
         }
     }
