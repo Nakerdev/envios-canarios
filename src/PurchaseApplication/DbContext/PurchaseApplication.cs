@@ -19,5 +19,10 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext
         public string AdditionalInformation { get; set; }
 
         public DateTime CreationDateTime { get; set; }
+        
+        public DateTime? RejectionDateTime { get; set; }
+        
+        [MaxLength(1000)]
+        public string RejectionReason { get; set; }
     }
 }
