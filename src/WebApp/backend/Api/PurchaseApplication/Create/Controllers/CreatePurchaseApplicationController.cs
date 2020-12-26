@@ -26,9 +26,9 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
 
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
-        [SwaggerOperation(summary: "Creates a purchase application")]
+        [SwaggerOperation(summary: "Creates a purchase application", Tags = new []{"Purchase Applications"})]
         [SwaggerResponse(statusCode: 200, description: "The purchase application was created successfully")]
-        [SwaggerResponse(statusCode: 404, description: "The purchase application request has validation errors. It response never returns an operation error", type: typeof(BadRequestResponseModel))]
+        [SwaggerResponse(statusCode: 400, description: "The purchase application creation request has validation errors. It response never returns an operation error", type: typeof(BadRequestResponseModel))]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(PurchaseApplicationCreationRequest), typeof(PurchaseApplicationRequestExample))]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
