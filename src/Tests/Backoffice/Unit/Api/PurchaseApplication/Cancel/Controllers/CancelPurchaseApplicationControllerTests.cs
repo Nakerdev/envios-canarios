@@ -31,11 +31,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
         [Test]
         public void CancelsPurchaseApplication()
         {
-            var request = new CancelPurchaseApplicationController.RequestDto
-            {
-                PurchaseApplicationId = "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54",
-                RejectionReason = "Razón del rechazo"
-            };
+            var request = BuildRequest();
             commandHandler
                 .Setup(x => x.Cancel(It.IsAny<CancelPurchaseApplicationCommand>()))
                 .Returns(PurchaseApplicationBuilder.Build());
@@ -47,6 +43,15 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
                 .Verify(x => x.Cancel(It.Is<CancelPurchaseApplicationCommand>(y =>
                     y.PurchaseApplicationId == Id.Create(request.PurchaseApplicationId).IfFail(() => null)
                     && y.RejectionReason == RejectionReason.Create(request.RejectionReason).IfFail(() => null))), Times.Once);
+        }
+
+        private static CancelPurchaseApplicationController.RequestDto BuildRequest()
+        {
+            return new CancelPurchaseApplicationController.RequestDto
+            {
+                PurchaseApplicationId = "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54",
+                RejectionReason = "Razón del rechazo"
+            };
         }
     }
 }
