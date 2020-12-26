@@ -47,6 +47,22 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
         }
         
         [Test]
+        public void DoesNotCancelPurchaseApplicationWhenCommandHandlerFails()
+        {
+            var error = Error.PurchaseApplicationNotFound;
+            commandHandler
+                .Setup(x => x.Cancel(It.IsAny<CancelPurchaseApplicationCommand>()))
+                .Returns(error);
+
+            var response = controller.Cancel(BuildRequest()) as ObjectResult;
+
+            response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+            var badRequestResponseModel = (BadRequestResponseModel) response.Value;
+            badRequestResponseModel.ValidationErrors.Should().BeNull();
+            badRequestResponseModel.OperationError.Should().Be(error.ToString());
+        }
+        
+        [Test]
         public void DoesNotCancelPurchaseApplicationWhenCommandCreationHasValidationErrors()
         {
             var request = BuildRequest(purchaseApplicationId: null);

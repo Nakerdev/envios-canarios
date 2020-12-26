@@ -1,4 +1,3 @@
-using System;
 using CanaryDeliveries.Backoffice.Api.Utils;
 using CanaryDeliveries.PurchaseApplication.Domain.Cancel;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
@@ -49,8 +48,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
             return commandHandler
                 .Cancel(command)
                 .Match(
-                    Left: _ => throw new NotImplementedException(),
-                    Right: _ => Ok());
+                    Left: error => BadRequest(BadRequestResponseModel.CreateOperationErrorResponse(error.ToString())),
+                    Right: _ => (ActionResult) Ok());
         }
 
         public sealed class RequestDto
