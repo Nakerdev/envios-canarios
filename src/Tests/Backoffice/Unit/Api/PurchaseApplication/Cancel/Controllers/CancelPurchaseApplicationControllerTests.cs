@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
-using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers;
+using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories;
-using CanaryDeliveries.Backoffice.Api.Utils;
 using CanaryDeliveries.PurchaseApplication.Domain.Cancel;
 using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using CanaryDeliveries.Tests.PurchaseApplication.Unit.Builders;
 using FluentAssertions;
-using LanguageExt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -54,35 +47,6 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
                 .Verify(x => x.Cancel(It.Is<CancelPurchaseApplicationCommand>(y =>
                     y.PurchaseApplicationId == Id.Create(request.PurchaseApplicationId).IfFail(() => null)
                     && y.RejectionReason == RejectionReason.Create(request.RejectionReason).IfFail(() => null))), Times.Once);
-        }
-    }
-
-    public sealed class CancelPurchaseApplicationController 
-    {
-        private readonly CancelPurchaseApplicationCommandHandler commandHandler;
-
-        public CancelPurchaseApplicationController(CancelPurchaseApplicationCommandHandler commandHandler)
-        {
-            this.commandHandler = commandHandler;
-        }
-
-        public ActionResult Cancel(RequestDto request)
-        {
-            var command = CancelPurchaseApplicationCommand.Create(new CancelPurchaseApplicationCommand.Dto(
-                purchaseApplicationId: request.PurchaseApplicationId,
-                rejectionReason: request.RejectionReason))
-                .IfFail(() => throw new NotImplementedException());
-            return commandHandler
-                .Cancel(command)
-                .Match(
-                    Left: _ => throw new NotImplementedException(),
-                    Right: _ => new OkResult());
-        }
-
-        public sealed class RequestDto
-        {
-            public string PurchaseApplicationId { get; set; }
-            public string RejectionReason { get; set; }
         }
     }
 }

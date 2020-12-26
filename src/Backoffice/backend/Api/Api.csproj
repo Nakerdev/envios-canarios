@@ -24,6 +24,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\Common\Logging\Logging.csproj" />
       <ProjectReference Include="..\..\..\PurchaseApplication\DbContext\DbContext.csproj" />
+      <ProjectReference Include="..\..\..\PurchaseApplication\Domain\Domain.csproj" />
     </ItemGroup>
 
 </Project>
