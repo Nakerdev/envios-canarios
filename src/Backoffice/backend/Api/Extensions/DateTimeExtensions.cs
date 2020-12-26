@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace CanaryDeliveries.Backoffice.Api.Utils
+namespace CanaryDeliveries.Backoffice.Api.Extensions
 {
     public static class DateTimeExtensions
     {

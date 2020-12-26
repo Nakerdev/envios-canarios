@@ -1,5 +1,6 @@
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories;
+using CanaryDeliveries.Backoffice.Api.Utils;
 using CanaryDeliveries.PurchaseApplication.Domain.Cancel;
 using CanaryDeliveries.PurchaseApplication.Domain.Services;
 using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
@@ -44,12 +45,30 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
                     y.PurchaseApplicationId == Id.Create(request.PurchaseApplicationId).IfFail(() => null)
                     && y.RejectionReason == RejectionReason.Create(request.RejectionReason).IfFail(() => null))), Times.Once);
         }
+        
+        [Test]
+        public void DoesNotCancelPurchaseApplicationWhenCommandCreationHasValidationErrors()
+        {
+            var request = BuildRequest(purchaseApplicationId: null);
 
-        private static CancelPurchaseApplicationController.RequestDto BuildRequest()
+            var response = controller.Cancel(request) as ObjectResult;
+
+            response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+            var badRequestResponseModel = (BadRequestResponseModel) response.Value;
+            badRequestResponseModel.ValidationErrors.Should().NotBeNull();
+            badRequestResponseModel.OperationError.Should().BeNull();
+            commandHandler
+                .Verify(x => x.Cancel(It.Is<CancelPurchaseApplicationCommand>(y =>
+                    y.PurchaseApplicationId == Id.Create(request.PurchaseApplicationId).IfFail(() => null)
+                    && y.RejectionReason == RejectionReason.Create(request.RejectionReason).IfFail(() => null))), Times.Never);
+        }
+
+        private static CancelPurchaseApplicationController.RequestDto BuildRequest(
+            string purchaseApplicationId = "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54")
         {
             return new CancelPurchaseApplicationController.RequestDto
             {
-                PurchaseApplicationId = "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54",
+                PurchaseApplicationId = purchaseApplicationId,
                 RejectionReason = "Razón del rechazo"
             };
         }
