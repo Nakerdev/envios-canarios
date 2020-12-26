@@ -15,11 +15,11 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
 {
     [ApiController]
     [Route("/v1/purchase-application")]
-    public class PurchaseApplicationController : ControllerBase
+    public class CreatePurchaseApplicationController : ControllerBase
     {
         private readonly CreatePurchaseApplicationCommandHandler commandHandler;
 
-        public PurchaseApplicationController(CreatePurchaseApplicationCommandHandler commandHandler)
+        public CreatePurchaseApplicationController(CreatePurchaseApplicationCommandHandler commandHandler)
         {
             this.commandHandler = commandHandler;
         }
@@ -32,7 +32,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerRequestExample(typeof(PurchaseApplicationCreationRequest), typeof(PurchaseApplicationRequestExample))]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
-        public ActionResult Execute([FromBody] PurchaseApplicationCreationRequest creationRequest)
+        public ActionResult Create([FromBody] PurchaseApplicationCreationRequest creationRequest)
         {
             var command = BuildCreatePurchaseApplicationCommand(creationRequest);
             return command.Match(

@@ -15,10 +15,10 @@ using NUnit.Framework;
 
 namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Controllers
 {
-    public class PurchaseApplicationControllerTests
+    public class CreatePurchaseApplicationControllerTests
     {   
         private Mock<CreatePurchaseApplicationCommandHandler> createPurchaseApplicationCommandHandler;
-        private PurchaseApplicationController controller;
+        private CreatePurchaseApplicationController controller;
 
         [SetUp]
         public void Setup()
@@ -26,7 +26,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
             createPurchaseApplicationCommandHandler = new Mock<CreatePurchaseApplicationCommandHandler>(
                 It.IsAny<PurchaseApplicationRepository>(), 
                 It.IsAny<TimeService>());
-            controller = new PurchaseApplicationController(
+            controller = new CreatePurchaseApplicationController(
                 commandHandler: createPurchaseApplicationCommandHandler.Object);
         }
 
@@ -38,7 +38,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
                 .Setup(x => x.Create(It.IsAny<CreatePurchaseApplicationCommand>()))
                 .Returns(() => PurchaseApplicationBuilder.Build());
 
-            var response = controller.Execute(request) as StatusCodeResult;
+            var response = controller.Create(request) as StatusCodeResult;
 
             response.StatusCode.Should().Be(StatusCodes.Status200OK);
             createPurchaseApplicationCommandHandler
@@ -60,7 +60,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
         {
             var request = BuildPurchaseApplicationRequest(clientName: null);
 
-            var response = controller.Execute(request) as ObjectResult;
+            var response = controller.Create(request) as ObjectResult;
 
             response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
             var badRequestResponseModel = (BadRequestResponseModel) response.Value;
@@ -71,14 +71,14 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
                     Times.Never);
         }
 
-        private static PurchaseApplicationController.PurchaseApplicationCreationRequest BuildPurchaseApplicationRequest(
+        private static CreatePurchaseApplicationController.PurchaseApplicationCreationRequest BuildPurchaseApplicationRequest(
             string clientName = "Alfredo")
         {
-            return new PurchaseApplicationController.PurchaseApplicationCreationRequest
+            return new CreatePurchaseApplicationController.PurchaseApplicationCreationRequest
             {
-                Products = new List<PurchaseApplicationController.Product>
+                Products = new List<CreatePurchaseApplicationController.Product>
                 {
-                    new PurchaseApplicationController.Product
+                    new CreatePurchaseApplicationController.Product
                     {
                         Link = "https://www.addida.com/any/product",
                         Units = "1",
@@ -86,7 +86,7 @@ namespace CanaryDeliveries.Tests.WebApp.Unit.ApiTests.PurchaseApplication.Contro
                         PromotionCode = "ADDIDAS-123"
                     }
                 },
-                Client = new  PurchaseApplicationController.Client
+                Client = new  CreatePurchaseApplicationController.Client
                 {
                     Name = clientName,
                     PhoneNumber = "123123123",

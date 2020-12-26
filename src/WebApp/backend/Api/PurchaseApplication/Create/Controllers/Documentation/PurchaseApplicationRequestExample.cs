@@ -3,15 +3,15 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers.Documentation
 {
-    public sealed class PurchaseApplicationRequestExample : IExamplesProvider<PurchaseApplicationController.PurchaseApplicationCreationRequest>
+    public sealed class PurchaseApplicationRequestExample : IExamplesProvider<CreatePurchaseApplicationController.PurchaseApplicationCreationRequest>
     {
-        public PurchaseApplicationController.PurchaseApplicationCreationRequest GetExamples()
+        public CreatePurchaseApplicationController.PurchaseApplicationCreationRequest GetExamples()
         {
-            return new PurchaseApplicationController.PurchaseApplicationCreationRequest
+            return new CreatePurchaseApplicationController.PurchaseApplicationCreationRequest
             {
-                Products = new List<PurchaseApplicationController.Product>
+                Products = new List<CreatePurchaseApplicationController.Product>
                 {
-                    new PurchaseApplicationController.Product
+                    new CreatePurchaseApplicationController.Product
                     {
                         Link = "https://www.adidas.es/zapatilla-zx-2k-4d/FY9089.html",
                         Units = "1",
@@ -19,7 +19,7 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers.Doc
                         PromotionCode = "ADDIDAS-123"
                     }
                 },
-                Client = new PurchaseApplicationController.Client{
+                Client = new CreatePurchaseApplicationController.Client{
                     Name = "Alfredo",
                     PhoneNumber = "123123123",
                     Email = "alfredo@elguapo.com"
