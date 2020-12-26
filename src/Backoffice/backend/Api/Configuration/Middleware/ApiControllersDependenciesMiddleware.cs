@@ -8,6 +8,7 @@ namespace CanaryDeliveries.Backoffice.Api.Configuration.Middleware
         {
             services.AddScoped(provider => Users.Login.Controllers.Factory.LoginService());
             services.AddScoped(provider => PurchaseApplication.Search.Controllers.Factory.PurchaseApplicationRepository());
+            services.AddScoped(provider => PurchaseApplication.Cancel.Controllers.Factory.CancelPurchaseApplicationCommandHandler());
         }
     }
 }

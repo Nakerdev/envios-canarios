@@ -25,6 +25,7 @@
       <ProjectReference Include="..\..\..\Common\Logging\Logging.csproj" />
       <ProjectReference Include="..\..\..\PurchaseApplication\DbContext\DbContext.csproj" />
       <ProjectReference Include="..\..\..\PurchaseApplication\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\..\PurchaseApplication\Repositories\Repositories.csproj" />
     </ItemGroup>
 
 </Project>
