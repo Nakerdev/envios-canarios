@@ -79,10 +79,10 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
                     && y.RejectionReason == RejectionReason.Create(request.RejectionReason).IfFail(() => null))), Times.Never);
         }
 
-        private static CancelPurchaseApplicationController.RequestDto BuildRequest(
+        private static CancelPurchaseApplicationController.CancelRequestDto BuildRequest(
             string purchaseApplicationId = "b5cd78a5-2e26-498a-a399-2c5cb2bf0f54")
         {
-            return new CancelPurchaseApplicationController.RequestDto
+            return new CancelPurchaseApplicationController.CancelRequestDto
             {
                 Id = purchaseApplicationId,
                 RejectionReason = "Razón del rechazo"

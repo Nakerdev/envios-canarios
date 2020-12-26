@@ -57,9 +57,9 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.Users.Login.Controllers
             response.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
         }
 
-        private static LoginController.RequestDto BuildRequest()
+        private static LoginController.LoginRequestDto BuildRequest()
         {
-            return new LoginController.RequestDto
+            return new LoginController.LoginRequestDto
             {
                 Email = "user@email.com",
                 Password = "MiPassSuperSegura"

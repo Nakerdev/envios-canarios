@@ -28,9 +28,9 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
         [SwaggerResponse(statusCode: 200, description: "The user credentials are correct. It returns a Json Web Token", typeof(ResponseDto))]
         [SwaggerResponse(statusCode: 401, description: "Invalid user credentials")]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
-        [SwaggerRequestExample(typeof(RequestDto), typeof(LoginRequestExample))]
+        [SwaggerRequestExample(typeof(LoginRequestDto), typeof(LoginRequestExample))]
         [SwaggerResponseExample(statusCode: 200, examplesProviderType: typeof(LoginResponseExample))]
-        public ActionResult Execute([FromBody] RequestDto request)
+        public ActionResult Execute([FromBody] LoginRequestDto request)
         {
             return loginService.Authenticate(BuildLoginRequest(request))
                 .Match(
@@ -38,7 +38,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
                     Right: BuildSuccessResponse);
         }
 
-        private static LoginService.LoginRequest BuildLoginRequest(RequestDto request)
+        private static LoginService.LoginRequest BuildLoginRequest(LoginRequestDto request)
         {
             return new LoginService.LoginRequest(
                 email: request.Email,
@@ -51,7 +51,7 @@ namespace CanaryDeliveries.Backoffice.Api.Users.Login.Controllers
             return new OkObjectResult(responseDto);
         }
 
-        public class RequestDto
+        public class LoginRequestDto
         {
             [SwaggerSchema("User email")]            
             [Required]             

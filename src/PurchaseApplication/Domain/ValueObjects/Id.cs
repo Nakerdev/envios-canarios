@@ -30,7 +30,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
                 {
                     return new Guid(id);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                 }

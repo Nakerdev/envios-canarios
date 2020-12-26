@@ -29,9 +29,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
         [SwaggerResponse(statusCode: 400, description: "The purchase application cancellation request has validation errors or an operation error occurs", type: typeof(BadRequestResponseModel))]
         [SwaggerResponse(statusCode: 401, description: "Unauthorized request")]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
-        [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForValidationsError))]
-        [SwaggerResponseExample(400, typeof(BadRequestResponseModelExampleForOperation))]
-        public ActionResult Cancel(RequestDto request)
+        [SwaggerResponseExample(400, typeof(BadRequestResponseModelExample))]
+        public ActionResult Cancel(CancelRequestDto request)
         {
             var command = BuildCancelPurchaseApplicationCommand(request);
             return command.Match(
@@ -41,7 +40,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
 
         private static Validation<
             ValidationError<GenericValidationErrorCode>, 
-            CancelPurchaseApplicationCommand> BuildCancelPurchaseApplicationCommand(RequestDto request)
+            CancelPurchaseApplicationCommand> BuildCancelPurchaseApplicationCommand(CancelRequestDto request)
         {
             var dto = new CancelPurchaseApplicationCommand.Dto(
                 purchaseApplicationId: request.Id,
@@ -68,7 +67,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
                     Right: _ => (ActionResult) Ok());
         }
 
-        public sealed class RequestDto
+        public sealed class CancelRequestDto
         {
             [SwaggerSchema("The purchase application identifier")] 
             [Required]            
