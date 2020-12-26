@@ -19,6 +19,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Backoffice\backend\Api\Api.csproj" />
+      <ProjectReference Include="..\..\..\..\PurchaseApplication\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\..\PurchaseApplication\Unit\Builders\Builders.csproj" />
     </ItemGroup>
 
 </Project>

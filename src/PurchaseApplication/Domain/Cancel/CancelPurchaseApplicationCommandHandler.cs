@@ -5,7 +5,7 @@ using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
 {
-    public sealed class CancelPurchaseApplicationCommandHandler
+    public class CancelPurchaseApplicationCommandHandler
     {
         private readonly PurchaseApplicationRepository purchaseApplicationRepository;
         private readonly TimeService timeService;
@@ -18,7 +18,7 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.Cancel
             this.timeService = timeService;
         }
 
-        public Either<Error, PurchaseApplication> Cancel(CancelPurchaseApplicationCommand command)
+        public virtual Either<Error, PurchaseApplication> Cancel(CancelPurchaseApplicationCommand command)
         {
             return
                 from purchaseApplication in SearchPurchaseApplicationBy(command.PurchaseApplicationId)
