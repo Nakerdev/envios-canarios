@@ -18,6 +18,7 @@
        * [Api Documentation](#backoffice-backend-api-doc)
        * [Logs](#backoffice-backend-logs)
 3. [Database](#database)
+   1. [Migrations](#database-migrations)
 4. [Technology](#technology)
 
 ## Web App
@@ -103,6 +104,13 @@ The logs output can be redirected to `/tmp` folder but i decided to save it and 
 
 The database container creates a directory that it uses as a volume to avoid losing the local data. This directory is located in `~/envios-canarios/db-data`.
 If you remove this directory you will lose all your local database data.
+
+<a name="database-migrations"></a>
+### Migrations
+
+To create migrations you need to create an enviroment variable with the connection string.
+
+**Purchase applications context database**: PurchaseApplicationDbConnectionString="Host=192.168.2.3;Database=CanaryDeliveries;Username=postgres;Password=Password01!;"
 
 <a name="technology"></a>
 ## Technology
