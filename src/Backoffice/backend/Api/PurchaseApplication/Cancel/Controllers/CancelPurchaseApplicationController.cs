@@ -42,7 +42,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
             CancelPurchaseApplicationCommand> BuildCancelPurchaseApplicationCommand(CancelRequestDto request)
         {
             var dto = new CancelPurchaseApplicationCommand.Dto(
-                purchaseApplicationId: request.Id,
+                purchaseApplicationId: request.PurchaseApplicationId,
                 rejectionReason: request.RejectionReason);
             return CancelPurchaseApplicationCommand.Create(dto);
         }
@@ -70,7 +70,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
         {
             [SwaggerSchema("The purchase application identifier")] 
             [Required]            
-            public string Id { get; set; }
+            public string PurchaseApplicationId { get; set; }
             
             [SwaggerSchema("The purchase application identifier", Description = "Must contains a maximum of 1000 characters")] 
             [Required]            

@@ -42,7 +42,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
             response.StatusCode.Should().Be(StatusCodes.Status200OK);
             commandHandler
                 .Verify(x => x.Cancel(It.Is<CancelPurchaseApplicationCommand>(y =>
-                    y.PurchaseApplicationId == Id.Create(request.Id).IfFail(() => null)
+                    y.PurchaseApplicationId == Id.Create(request.PurchaseApplicationId).IfFail(() => null)
                     && y.RejectionReason == RejectionReason.Create(request.RejectionReason).IfFail(() => null))), Times.Once);
         }
         
@@ -75,7 +75,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
             badRequestResponseModel.OperationError.Should().BeNull();
             commandHandler
                 .Verify(x => x.Cancel(It.Is<CancelPurchaseApplicationCommand>(y =>
-                    y.PurchaseApplicationId == Id.Create(request.Id).IfFail(() => null)
+                    y.PurchaseApplicationId == Id.Create(request.PurchaseApplicationId).IfFail(() => null)
                     && y.RejectionReason == RejectionReason.Create(request.RejectionReason).IfFail(() => null))), Times.Never);
         }
 
@@ -84,7 +84,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Cancel.
         {
             return new CancelPurchaseApplicationController.CancelRequestDto
             {
-                Id = purchaseApplicationId,
+                PurchaseApplicationId = purchaseApplicationId,
                 RejectionReason = "Razón del rechazo"
             };
         }
