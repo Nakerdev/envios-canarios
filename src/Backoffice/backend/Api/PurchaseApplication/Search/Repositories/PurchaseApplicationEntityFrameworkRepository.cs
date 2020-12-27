@@ -7,16 +7,9 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
 {
     public sealed class PurchaseApplicationEntityFrameworkRepository : PurchaseApplicationRepository
     {
-        private readonly string purchaseApplicationDbContextConnectionString;
-
-        public PurchaseApplicationEntityFrameworkRepository(string purchaseApplicationDbContextConnectionString)
-        {
-            this.purchaseApplicationDbContextConnectionString = purchaseApplicationDbContextConnectionString;
-        }
-
         public ReadOnlyCollection<PurchaseApplicationDto> SearchAll()
         {
-            using var dbContext = new PurchaseApplicationDbContext(purchaseApplicationDbContextConnectionString);
+            using var dbContext = new PurchaseApplicationDbContext();
             return dbContext.PurchaseApplications
                 .Include(x => x.Products)
                 .Include(x => x.Client)

@@ -7,8 +7,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
     {
         public static PurchaseApplicationRepository PurchaseApplicationRepository()
         {
-            return new PurchaseApplicationEntityFrameworkRepository(
-                purchaseApplicationDbContextConnectionString: Environment.PurchaseApplicationDbConnectionString);
+            return new PurchaseApplicationEntityFrameworkRepository();
         }
     }
 }

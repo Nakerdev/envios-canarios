@@ -9,16 +9,9 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
 {
     public class PurchaseApplicationEntityFrameworkRepository : PurchaseApplicationRepository
     {
-        private readonly string purchaseApplicationDbConnectionString;
-
-        public PurchaseApplicationEntityFrameworkRepository(string purchaseApplicationDbConnectionString)
-        {
-            this.purchaseApplicationDbConnectionString = purchaseApplicationDbConnectionString;
-        }
-
         void PurchaseApplicationRepository.Create(Domain.PurchaseApplication purchaseApplication)
         {
-            using var dbContext = new PurchaseApplicationDbContext(purchaseApplicationDbConnectionString);
+            using var dbContext = new PurchaseApplicationDbContext();
             var dbEntity = BuildDbPurchaseApplication(purchaseApplication);
             dbContext.PurchaseApplications.Add(dbEntity);
             dbContext.SaveChanges();
@@ -26,7 +19,7 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
 
         public void Update(Domain.PurchaseApplication purchaseApplication)
         {
-            using var dbContext = new PurchaseApplicationDbContext(purchaseApplicationDbConnectionString);
+            using var dbContext = new PurchaseApplicationDbContext();
             var purchaseApplicationPersistenceState = purchaseApplication.PersistenceState;
             var id = purchaseApplication.Id.State.Value;
             var dbEntity = dbContext.PurchaseApplications.FirstOrDefault(x => x.Id == id);
@@ -38,7 +31,7 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
 
         public Option<Domain.PurchaseApplication> SearchBy(Id purchaseApplicationId)
         {
-            using var dbContext = new PurchaseApplicationDbContext(purchaseApplicationDbConnectionString);
+            using var dbContext = new PurchaseApplicationDbContext();
             var id = purchaseApplicationId.State.Value;
             return dbContext.PurchaseApplications
                 .Include(x => x.Products)

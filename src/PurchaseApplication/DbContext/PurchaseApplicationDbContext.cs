@@ -8,15 +8,9 @@ namespace CanaryDeliveries.PurchaseApplication.DbContext
         public DbSet<Client> Clients { get; set; } 
         public DbSet<Product> Products { get; set; } 
         
-        private readonly string connectionString;
-
-        public PurchaseApplicationDbContext(string connectionString) : base()
-        {
-            this.connectionString = connectionString;
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var connectionString = System.Environment.GetEnvironmentVariable("PurchaseApplicationDbConnectionString");
             optionsBuilder.UseNpgsql(connectionString);
         }
         

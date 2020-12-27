@@ -9,7 +9,7 @@ namespace CanaryDeliveries.Databases.MigrationManager
         static void Main(string[] args)
         {
             Console.WriteLine("Applying Purchase Applications DB Migrations..");
-            using var dbContext = new PurchaseApplicationDbContext(Environment.PurchaseApplicationDbConnectionString);
+            using var dbContext = new PurchaseApplicationDbContext();
             dbContext.Database.Migrate();
             Console.WriteLine("Migrations applied.");
         }

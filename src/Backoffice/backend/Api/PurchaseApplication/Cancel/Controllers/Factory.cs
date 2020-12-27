@@ -10,8 +10,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
         public static CancelPurchaseApplicationCommandHandler CancelPurchaseApplicationCommandHandler ()
         {
             return new CancelPurchaseApplicationCommandHandler(
-                purchaseApplicationRepository: new PurchaseApplicationEntityFrameworkRepository(
-                    purchaseApplicationDbConnectionString: Environment.PurchaseApplicationDbConnectionString),
+                purchaseApplicationRepository: new PurchaseApplicationEntityFrameworkRepository(),
                 timeService: new SystemTimeService());
         }
     }

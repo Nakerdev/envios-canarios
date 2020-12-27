@@ -10,14 +10,8 @@ namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
         public static CreatePurchaseApplicationCommandHandler CreatePurchaseApplicationCommandHandler()
         {
             return new CreatePurchaseApplicationCommandHandler(
-                purchaseApplicationRepository: PurchaseApplicationRepository(),
+                purchaseApplicationRepository: new PurchaseApplicationEntityFrameworkRepository(),
                 timeService: new SystemTimeService());
-
-            PurchaseApplicationEntityFrameworkRepository PurchaseApplicationRepository()
-            {
-                return new PurchaseApplicationEntityFrameworkRepository(
-                    purchaseApplicationDbConnectionString: Environment.PurchaseApplicationDbConnectionString);
-            }
         }
     }
 }
