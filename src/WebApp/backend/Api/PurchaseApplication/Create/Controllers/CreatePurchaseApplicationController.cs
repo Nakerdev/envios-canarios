@@ -13,7 +13,6 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace CanaryDeliveries.WebApp.Api.PurchaseApplication.Create.Controllers
 {
-    [ApiController]
     [Route("/v1/purchase-application")]
     public class CreatePurchaseApplicationController : ControllerBase
     {

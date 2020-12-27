@@ -11,7 +11,6 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
 {
-    [ApiController]
     [Route("/v1/purchase-application/cancel")]
     public sealed class CancelPurchaseApplicationController : ControllerBase
     {
