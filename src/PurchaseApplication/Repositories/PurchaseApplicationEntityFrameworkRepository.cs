@@ -88,7 +88,7 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
                     ? new AdditionalInformation.PersistenceState(dbEntity.AdditionalInformation) 
                     : Option<AdditionalInformation.PersistenceState>.None,
                 creationDateTime: dbEntity.CreationDateTime,
-                rejection: null);
+                rejection: BuildRejection(dbEntity));
             return new Domain.PurchaseApplication(persistenceState);
 
             Domain.Entities.Product.PersistenceState BuildProductPersistenceState(Product product)
@@ -112,6 +112,15 @@ namespace CanaryDeliveries.PurchaseApplication.Repositories
                     name: new Name.PersistenceState(dbEntity.Client.Name),
                     phoneNumber: new PhoneNumber.PersistenceState(dbEntity.Client.PhoneNumber),
                     email: new Email.PersistenceState(dbEntity.Client.Email));
+            }
+
+            Option<Rejection.PersistenceState> BuildRejection(DbContext.PurchaseApplication purchaseApplication)
+            {
+                return purchaseApplication.RejectionDateTime.HasValue
+                    ? new Rejection.PersistenceState(
+                        purchaseApplication.RejectionDateTime.Value, 
+                        new RejectionReason.PersistenceState(purchaseApplication.RejectionReason))
+                    : Option<Rejection.PersistenceState>.None;
             }
         }
     }
