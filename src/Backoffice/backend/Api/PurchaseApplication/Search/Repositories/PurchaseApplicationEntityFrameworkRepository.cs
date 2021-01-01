@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.DbContext;
+using CanaryDeliveries.PurchaseApplication.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories
@@ -27,7 +28,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
                 products: purchaseApplication.Products.Map(BuildProductDto).ToList().AsReadOnly(),
                 client: BuildClientDto(),
                 additionalInformation: purchaseApplication.AdditionalInformation,
-                creationDateTime: purchaseApplication.CreationDateTime);
+                creationDateTime: purchaseApplication.CreationDateTime,
+                state: PurchaseApplicationStateBuilder.Build(purchaseApplication.RejectionDateTime.HasValue));
             
             PurchaseApplicationDto.ProductDto BuildProductDto(Product product)
             {

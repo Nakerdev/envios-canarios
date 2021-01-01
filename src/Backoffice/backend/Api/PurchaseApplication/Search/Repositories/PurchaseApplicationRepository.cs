@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CanaryDeliveries.PurchaseApplication.Domain;
 
 namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories
 {
@@ -16,19 +17,22 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
         public ClientDto Client { get; }
         public string AdditionalInformation { get; }
         public DateTime CreationDateTime { get; }
+        public State State { get; }
 
         public PurchaseApplicationDto(
             string id,
             ReadOnlyCollection<ProductDto> products, 
             ClientDto client, 
             string additionalInformation,
-            DateTime creationDateTime)
+            DateTime creationDateTime, 
+            State state)
         {
             Id = id;
             Products = products;
             Client = client;
             AdditionalInformation = additionalInformation;
             CreationDateTime = creationDateTime;
+            State = state;
         }
 
         public sealed class ProductDto

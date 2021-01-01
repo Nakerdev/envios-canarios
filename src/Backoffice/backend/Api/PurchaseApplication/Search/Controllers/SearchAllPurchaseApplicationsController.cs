@@ -46,7 +46,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                 products: purchaseApplication.Products.Map(BuildResponseProductDto).ToList(),
                 client: BuildResponseClient(),
                 additionalInformation: purchaseApplication.AdditionalInformation,
-                creationDateTime: purchaseApplication.CreationDateTime.ToISO8601());
+                creationDateTime: purchaseApplication.CreationDateTime.ToISO8601(),
+                state: purchaseApplication.State.ToString());
 
             PurchaseApplicationDto.ProductDto BuildResponseProductDto(
                 Repositories.PurchaseApplicationDto.ProductDto product)
@@ -88,18 +89,23 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
             [SwaggerSchema("The creation date in ISO8601 format")]            
             public string CreationDateTime { get; }
 
+            [SwaggerSchema("The purchase application state, it can be: PendingOfPayment || Rejected ")]            
+            public string State { get; }
+
             public PurchaseApplicationDto(
                 string id,
                 List<ProductDto> products,
                 ClientDto client,
                 string additionalInformation,
-                string creationDateTime)
+                string creationDateTime, 
+                string state)
             {
                 Id = id;
                 Products = products;
                 Client = client;
                 AdditionalInformation = additionalInformation;
                 CreationDateTime = creationDateTime;
+                State = state;
             }
 
             public sealed class ProductDto

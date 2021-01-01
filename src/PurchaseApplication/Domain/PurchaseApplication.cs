@@ -15,8 +15,8 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
         public Option<AdditionalInformation> AdditionalInformation { get; }
         public DateTime CreationDateTime { get; }
         public Option<Rejection> Rejection { get; }
-        public State State => Rejection.IsSome ? State.Rejected : State.PendingOfPayment;
-        
+        public State State => PurchaseApplicationStateBuilder.Build(isRejected: Rejection.IsSome);
+
         public PersistenceStateDto PersistenceState => new PersistenceStateDto(
             id: Id.State,
             products: Products.Map(x => x.State).ToList(),
@@ -102,6 +102,16 @@ namespace CanaryDeliveries.PurchaseApplication.Domain
                 CreationDateTime = creationDateTime;
                 Rejection = rejection;
             }
+        }
+    }
+    
+    public static class PurchaseApplicationStateBuilder
+    {
+        public static State Build(bool isRejected)
+        {
+            return isRejected 
+                ? State.Rejected 
+                : State.PendingOfPayment;
         }
     }
 

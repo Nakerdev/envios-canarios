@@ -23,7 +23,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                     phoneNumber: "610121212",
                     email: "alfredo@emai.com"),
                 additionalInformation: "Informacion adicional del pedido",
-                creationDateTime: "2020-10-10T16:33:34.3040300");
+                creationDateTime: "2020-10-10T16:33:34.3040300",
+                state: "PendingOfPayment");
         }
     }
 }

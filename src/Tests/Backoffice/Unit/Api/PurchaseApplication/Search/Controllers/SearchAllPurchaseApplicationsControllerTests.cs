@@ -5,11 +5,13 @@ using System.Linq;
 using CanaryDeliveries.Backoffice.Api.Extensions;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories;
+using CanaryDeliveries.PurchaseApplication.Domain;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using PurchaseApplicationRepository = CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories.PurchaseApplicationRepository;
 
 namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.Controllers
 {
@@ -58,6 +60,7 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
             responseModel.First().Client.Email.Should().Be(purchaseApplication.Client.Email);
             responseModel.First().AdditionalInformation.Should().Be(purchaseApplication.AdditionalInformation);
             responseModel.First().CreationDateTime.Should().Be(purchaseApplication.CreationDateTime.ToISO8601());
+            responseModel.First().State.Should().Be(State.PendingOfPayment.ToString());
         }
 
         private static PurchaseApplicationDto BuildPurchaseApplication()
@@ -80,7 +83,8 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
                     phoneNumber: "610121212",
                     email: "alfredo@emai.com"),
                 additionalInformation: "Informacion adicional del pedido",
-                creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00));
+                creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00),
+                state: State.PendingOfPayment);
         }
     }
 }
