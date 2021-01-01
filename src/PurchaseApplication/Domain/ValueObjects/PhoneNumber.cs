@@ -13,34 +13,39 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         public static Validation<ValidationError<GenericValidationErrorCode>, PhoneNumber> Create(Option<string> value)
         {
             return
-                from phoneNumberUnparsedValue in ValidateRequire(value)
-                from phoneNumber in ValidateFormat(phoneNumberUnparsedValue)
-                from _ in ValidateLenght(phoneNumber)
-                select phoneNumber;
+                from phoneNumber in ValidateRequire()
+                from _1 in ValidateFormat(phoneNumber)
+                from _2 in ValidateLenght(phoneNumber)
+                select BuildPhoneNumber(phoneNumber);
 
-            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(Option<string> val)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
-                return val.Match(
-                    None: () => CreateValidationError(GenericValidationErrorCode.Required),
-                    Some: Success<ValidationError<GenericValidationErrorCode>, string>);
+                return value
+                    .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, PhoneNumber> ValidateFormat(string val)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateFormat(string phoneNumber)
             {
-                if (!Regex.Match(val, @"^[0-9]*$").Success)
+                if (!Regex.Match(phoneNumber, @"^[0-9]*$").Success)
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                 };
-                return new PhoneNumber(val);
+                return unit;
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, PhoneNumber> ValidateLenght(PhoneNumber phoneNumber)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(string phoneNumber)
             {
                 const int maxAllowedLenght = 15;
-                if (phoneNumber.value.Length > maxAllowedLenght)
+                if (phoneNumber.Length > maxAllowedLenght)
                 {
-                    return CreateValidationError(GenericValidationErrorCode.WrongLength); };
-                return phoneNumber;
+                    return CreateValidationError(GenericValidationErrorCode.WrongLength); 
+                };
+                return unit;
+            }
+
+            static PhoneNumber BuildPhoneNumber(string phoneNumber)
+            {
+                return new PhoneNumber(phoneNumber);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(GenericValidationErrorCode errorCode)

@@ -13,7 +13,7 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjec
         [Test]
         public void CreatesReject()
         {
-            var result = RejectionReason.Create(optionalReason: "Razon del rechazo");
+            var result = RejectionReason.Create("Razon del rechazo");
 
             result.IsSuccess.Should().BeTrue();
         }
@@ -22,11 +22,11 @@ namespace CanaryDeliveries.Tests.PurchaseApplication.Unit.DomainTests.ValueObjec
             new List<ValidationErrorTestCase<GenericValidationErrorCode, RejectionReason>>
             {
                 new ValidationErrorTestCase<GenericValidationErrorCode, RejectionReason>(
-                    builder: () => RejectionReason.Create(optionalReason: None),
+                    builder: () => RejectionReason.Create(None),
                     expectedFieldId: nameof(RejectionReason),
                     expectedErrorCode: GenericValidationErrorCode.Required),
                 new ValidationErrorTestCase<GenericValidationErrorCode, RejectionReason>(
-                    builder: () => RejectionReason.Create(optionalReason: new string('a', 1001)),
+                    builder: () => RejectionReason.Create(new string('a', 1001)),
                     expectedFieldId: nameof(RejectionReason),
                     expectedErrorCode: GenericValidationErrorCode.WrongLength),
             }.AsReadOnly();

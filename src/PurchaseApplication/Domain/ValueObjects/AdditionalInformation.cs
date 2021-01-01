@@ -1,4 +1,5 @@
 using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
@@ -12,27 +13,29 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             Option<string> value)
         {
             return
-                from additionalInformation in ValidateRequire(value)
-                from _1 in ValidateLenght(additionalInformation )
-                select additionalInformation;
+                from additionalInformation in ValidateRequire()
+                from _1 in ValidateLenght(additionalInformation)
+                select BuildAdditionalInformation(additionalInformation);
 
-            Validation<ValidationError<GenericValidationErrorCode>, AdditionalInformation> ValidateRequire(
-                Option<string> val)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
-                return val
-                    .Map(v => new AdditionalInformation(v))
+                return value
                     .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, AdditionalInformation> ValidateLenght(
-                AdditionalInformation additionalInformation)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(string additionalInformation)
             {
                 const int maxAllowedLenght = 1000;
-                if (additionalInformation.value.Length > maxAllowedLenght)
+                if (additionalInformation.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
-                return additionalInformation;
+                return unit;
+            }
+            
+            static AdditionalInformation BuildAdditionalInformation(string additionalInformation)
+            {
+                return new AdditionalInformation(additionalInformation);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(

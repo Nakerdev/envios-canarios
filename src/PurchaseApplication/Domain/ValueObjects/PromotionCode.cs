@@ -1,4 +1,5 @@
 using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
@@ -12,27 +13,30 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
             Option<string> value)
         {
             return
-                from promotionCode in ValidateRequire(value)
+                from promotionCode in ValidateRequire()
                 from _1 in ValidateLenght(promotionCode)
-                select promotionCode;
+                select BuildPromotionCode(promotionCode);
 
-            Validation<ValidationError<GenericValidationErrorCode>, PromotionCode> ValidateRequire(
-                Option<string> val)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
-                return val
-                    .Map(v => new PromotionCode(v))
+                return value
                     .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, PromotionCode> ValidateLenght(
-                PromotionCode promotionCode)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(
+                string promotionCode)
             {
                 const int maxAllowedLenght = 50;
-                if (promotionCode.Value.Length > maxAllowedLenght)
+                if (promotionCode.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
-                return promotionCode;
+                return unit;
+            }
+
+            static PromotionCode BuildPromotionCode(string promotionCode)
+            {
+                return new PromotionCode(promotionCode);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(

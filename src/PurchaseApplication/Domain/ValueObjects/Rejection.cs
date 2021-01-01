@@ -45,48 +45,39 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         private readonly string value;
 
         public static Validation<ValidationError<GenericValidationErrorCode>, RejectionReason> Create(
-            Option<string> optionalReason)
+            Option<string> value)
         {
             return
-                from reason in ValidateRequire(optionalReason)
+                from reason in ValidateRequire()
                 from _1 in ValidateLenght(reason)
-                from rejectionReason in BuildRejectionReason(reason)
-                select rejectionReason ;
+                select BuildRejectionReason(reason);
 
-            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(
-                Option<string> value)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
                 return value
-                    .ToValidation(CreateValidationError(
-                        fieldId: nameof(RejectionReason),
-                        errorCode: GenericValidationErrorCode.Required));
+                    .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(
-                string reason)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(string reason)
             {
                 const int maxAllowedLenght = 1000;
                 if (reason.Length > maxAllowedLenght)
                 {
-                    return CreateValidationError(
-                        fieldId: nameof(RejectionReason),
-                        errorCode: GenericValidationErrorCode.WrongLength);
+                    return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
                 return unit;
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, RejectionReason> BuildRejectionReason(
-                string value)
+            static RejectionReason BuildRejectionReason(string reason)
             {
-                return new RejectionReason(value: value);
+                return new RejectionReason(reason);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(
-                string fieldId,
                 GenericValidationErrorCode errorCode)
             {
                 return new ValidationError<GenericValidationErrorCode>(
-                    fieldId: fieldId, 
+                    fieldId: nameof(RejectionReason), 
                     errorCode: errorCode);
             }
         }

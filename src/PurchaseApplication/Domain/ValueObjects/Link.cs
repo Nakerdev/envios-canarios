@@ -1,6 +1,7 @@
 using System;
 using System.Runtime;
 using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
@@ -13,35 +14,39 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         public static Validation<ValidationError<GenericValidationErrorCode>, Link> Create(Option<string> value)
         {
             return
-                from link in ValidateRequire(value)
+                from link in ValidateRequire()
                 from _1 in ValidateLenght(link)
                 from _2 in ValidateFormat(link)
-                select link;
+                select BuildLink(link);
 
-            Validation<ValidationError<GenericValidationErrorCode>, Link> ValidateRequire(Option<string> val)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
-                return val
-                    .Map(v => new Link(v))
+                return value
                     .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Link> ValidateLenght(Link link)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(string link)
             {
                 const int maxAllowedLenght = 1000;
-                if (link.value.Length > maxAllowedLenght)
+                if (link.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
-                return link;
+                return unit;
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Link> ValidateFormat(Link link)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateFormat(string link)
             {
-                if (!Uri.IsWellFormedUriString(link.value, UriKind.Absolute))
+                if (!Uri.IsWellFormedUriString(link, UriKind.Absolute))
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                 }
-                return link;
+                return unit;
+            }
+            
+            static Link BuildLink(string link)
+            {
+                return new Link(link);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(GenericValidationErrorCode errorCode)

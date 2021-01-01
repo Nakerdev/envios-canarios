@@ -12,17 +12,15 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         public static Validation<ValidationError<GenericValidationErrorCode>, Units> Create(Option<string> value)
         {
             return
-                from units in ValidateRequire(value)
+                from units in ValidateRequire()
                 from _1 in ValidateFormat(units)
                 from _2 in ValidateValue(units)
                 select BuildUnits(units);
 
-            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(Option<string> units)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
-                return units.Match(
-                    None: () => Fail<ValidationError<GenericValidationErrorCode>, string>(
-                        CreateValidationError(GenericValidationErrorCode.Required)),
-                    Some: Success<ValidationError<GenericValidationErrorCode>, string>);
+                return value
+                    .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
             Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateFormat(string units)

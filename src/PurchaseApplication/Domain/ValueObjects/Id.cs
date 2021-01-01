@@ -1,5 +1,6 @@
 using System;
 using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
@@ -10,35 +11,31 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         private readonly Guid value;
         
         public static Validation<ValidationError<GenericValidationErrorCode>, Id> Create(
-            Option<string> optionalId)
+            Option<string> value)
         {
             return
-                from flatId in ValidateRequire()
-                from formattedId in ValidateFormat(flatId)
-                from id in BuildId(formattedId)
-                select id;
+                from id in ValidateRequire()
+                from _1 in ValidateFormat(id)
+                select BuildId(id);
 
             Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
-                return optionalId
+                return value
                     .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Guid> ValidateFormat(string id)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateFormat(string id)
             {
-                try
-                {
-                    return new Guid(id);
-                }
-                catch (Exception)
+                if (!Guid.TryParse(id, out _))
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
-                }
+                };
+                return unit;
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Id> BuildId(Guid id)
+            static Id BuildId(string id)
             {
-                return new Id(id);
+                return new Id(new Guid(id));
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(

@@ -1,4 +1,5 @@
 using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
 {
@@ -11,39 +12,42 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         public static Validation<ValidationError<GenericValidationErrorCode>, Email> Create(Option<string> value)
         {
             return
-                from email in ValidateRequire(value)
+                from email in ValidateRequire()
                 from _1 in ValidateFormat(email)
                 from _2 in ValidateLenght(email)
-                select email;
+                select BuildEmail(email);
 
-            Validation<ValidationError<GenericValidationErrorCode>, Email> ValidateRequire(
-                Option<string> val)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire()
             {
-                return val
-                    .Map(v => new Email(v))
+                return value
                     .ToValidation(CreateValidationError(GenericValidationErrorCode.Required));
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Email> ValidateFormat(Email email)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateFormat(string email)
              {
                  try
                  {
-                     var mailAddress = new System.Net.Mail.MailAddress(email.value);
-                     return email;
+                     var mailAddress = new System.Net.Mail.MailAddress(email);
+                     return unit;
                  }
                  catch {
                      return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                  }
              }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Email> ValidateLenght(Email email)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateLenght(string email)
             {
                 const int maxAllowedLenght = 255;
-                if (email.value.Length > maxAllowedLenght)
+                if (email.Length > maxAllowedLenght)
                 {
                     return CreateValidationError(GenericValidationErrorCode.WrongLength);
                 }
-                return email;
+                return unit;
+            }
+            
+            static Email BuildEmail(string email)
+            {
+                return new Email(email);
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(
