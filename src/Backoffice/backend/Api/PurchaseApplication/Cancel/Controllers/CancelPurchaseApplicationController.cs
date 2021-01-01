@@ -29,7 +29,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Cancel.Controllers
         [SwaggerResponse(statusCode: 401, description: "Unauthorized request")]
         [SwaggerResponse(statusCode: 500, description: "Unhandled error")]
         [SwaggerResponseExample(400, typeof(BadRequestResponseModelExample))]
-        public ActionResult Cancel(CancelRequestDto request)
+        public ActionResult Cancel([FromBody] CancelRequestDto request)
         {
             var command = BuildCancelPurchaseApplicationCommand(request);
             return command.Match(
