@@ -12,35 +12,40 @@ namespace CanaryDeliveries.PurchaseApplication.Domain.ValueObjects
         public static Validation<ValidationError<GenericValidationErrorCode>, Units> Create(Option<string> value)
         {
             return
-                from unitsUnparsedValue in ValidateRequire(value)
-                from units in ValidateFormat(unitsUnparsedValue)
-                from _ in ValidateValue(units)
-                select units;
+                from units in ValidateRequire(value)
+                from _1 in ValidateFormat(units)
+                from _2 in ValidateValue(units)
+                select BuildUnits(units);
 
-            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(Option<string> val)
+            Validation<ValidationError<GenericValidationErrorCode>, string> ValidateRequire(Option<string> units)
             {
-                return val.Match(
+                return units.Match(
                     None: () => Fail<ValidationError<GenericValidationErrorCode>, string>(
                         CreateValidationError(GenericValidationErrorCode.Required)),
                     Some: Success<ValidationError<GenericValidationErrorCode>, string>);
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Units> ValidateFormat(string val)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateFormat(string units)
             {
-                if (!int.TryParse(val, out var parsedValue))
+                if (!int.TryParse(units, out _))
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidFormat);
                 };
-                return new Units(parsedValue);
+                return unit;
             }
             
-            Validation<ValidationError<GenericValidationErrorCode>, Units> ValidateValue(Units units)
+            Validation<ValidationError<GenericValidationErrorCode>, Unit> ValidateValue(string units)
             {
-                if (units.value <= 0)
+                if (int.Parse(units) <= 0)
                 {
                     return CreateValidationError(GenericValidationErrorCode.InvalidValue);
                 };
-                return units;
+                return unit;
+            }
+
+            static Units BuildUnits(string units)
+            {
+                return new Units(int.Parse(units));
             }
 
             ValidationError<GenericValidationErrorCode> CreateValidationError(GenericValidationErrorCode errorCode)
