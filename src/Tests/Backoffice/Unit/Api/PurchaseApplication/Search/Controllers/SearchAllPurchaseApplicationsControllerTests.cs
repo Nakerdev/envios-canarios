@@ -6,7 +6,9 @@ using CanaryDeliveries.Backoffice.Api.Extensions;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers;
 using CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories;
 using CanaryDeliveries.PurchaseApplication.Domain;
+using CanaryDeliveries.PurchaseApplication.Domain.ValueObjects;
 using FluentAssertions;
+using LanguageExt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -60,7 +62,9 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
             responseModel.First().Client.Email.Should().Be(purchaseApplication.Client.Email);
             responseModel.First().AdditionalInformation.Should().Be(purchaseApplication.AdditionalInformation);
             responseModel.First().CreationDateTime.Should().Be(purchaseApplication.CreationDateTime.ToISO8601());
-            responseModel.First().State.Should().Be(State.PendingOfPayment.ToString());
+            responseModel.First().State.Should().Be(State.Rejected.ToString());
+            responseModel.First().Rejection.DateTime.Should().Be(purchaseApplication.Rejection.Map(x => x.DateTime.ToISO8601()).IfNoneUnsafe(() => null));
+            responseModel.First().Rejection.Reason.Should().Be(purchaseApplication.Rejection.Map(x => x.Reason).IfNoneUnsafe(() => null));
         }
 
         private static PurchaseApplicationDto BuildPurchaseApplication()
@@ -84,7 +88,10 @@ namespace CanaryDeliveries.Tests.Backoffice.Unit.Api.PurchaseApplication.Search.
                     email: "alfredo@emai.com"),
                 additionalInformation: "Informacion adicional del pedido",
                 creationDateTime: new DateTime(2020, 10, 10, 12, 30, 00),
-                state: State.PendingOfPayment);
+                state: State.Rejected,
+                rejection: new PurchaseApplicationDto.RejectionDto(
+                    dateTime: new DateTime(2020, 10, 11, 10, 00, 00),
+                    reason: "Razon del rechazo"));
         }
     }
 }

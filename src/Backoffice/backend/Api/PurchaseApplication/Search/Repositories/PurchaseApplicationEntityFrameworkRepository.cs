@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CanaryDeliveries.PurchaseApplication.DbContext;
 using CanaryDeliveries.PurchaseApplication.Domain;
+using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 
 namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories
@@ -29,7 +30,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
                 client: BuildClientDto(),
                 additionalInformation: purchaseApplication.AdditionalInformation,
                 creationDateTime: purchaseApplication.CreationDateTime,
-                state: PurchaseApplicationStateBuilder.Build(purchaseApplication.RejectionDateTime.HasValue));
+                state: PurchaseApplicationStateBuilder.Build(purchaseApplication.RejectionDateTime.HasValue),
+                rejection: BuildRejectionDto());
             
             PurchaseApplicationDto.ProductDto BuildProductDto(Product product)
             {
@@ -47,6 +49,14 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
                     name: purchaseApplication.Client.Name,
                     phoneNumber: purchaseApplication.Client.PhoneNumber,
                     email: purchaseApplication.Client.Email);
+            }
+            
+            Option<PurchaseApplicationDto.RejectionDto> BuildRejectionDto()
+            {
+                if (!purchaseApplication.RejectionDateTime.HasValue) return null;
+                return new PurchaseApplicationDto.RejectionDto(
+                    dateTime: purchaseApplication.RejectionDateTime.Value,
+                    reason: purchaseApplication.RejectionReason);
             }
         }
     }

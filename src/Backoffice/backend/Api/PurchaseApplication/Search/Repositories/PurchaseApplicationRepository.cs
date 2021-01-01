@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CanaryDeliveries.PurchaseApplication.Domain;
+using LanguageExt;
 
 namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositories
 {
@@ -18,6 +19,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
         public string AdditionalInformation { get; }
         public DateTime CreationDateTime { get; }
         public State State { get; }
+        public Option<RejectionDto> Rejection { get; }
 
         public PurchaseApplicationDto(
             string id,
@@ -25,7 +27,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
             ClientDto client, 
             string additionalInformation,
             DateTime creationDateTime, 
-            State state)
+            State state, 
+            Option<RejectionDto> rejection)
         {
             Id = id;
             Products = products;
@@ -33,6 +36,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
             AdditionalInformation = additionalInformation;
             CreationDateTime = creationDateTime;
             State = state;
+            Rejection = rejection;
         }
 
         public sealed class ProductDto
@@ -72,6 +76,18 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Repositorie
                 Name = name;
                 PhoneNumber = phoneNumber;
                 Email = email;
+            }
+        }
+
+        public sealed class RejectionDto
+        {
+            public DateTime DateTime { get; }
+            public string Reason { get; }
+
+            public RejectionDto(DateTime dateTime, string reason)
+            {
+                DateTime = dateTime;
+                Reason = reason;
             }
         }
     }

@@ -24,7 +24,10 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                     email: "alfredo@emai.com"),
                 additionalInformation: "Informacion adicional del pedido",
                 creationDateTime: "2020-10-10T16:33:34.3040300",
-                state: "PendingOfPayment");
+                state: "Rejected",
+                rejection: new SearchAllPurchaseApplicationsController.PurchaseApplicationDto.RejectionDto(
+                    dateTime: "2020-10-11T10:00:00.34.1232434",
+                    reason: "Los productos del pedido no cumplen con nuestra política de envíos."));
         }
     }
 }

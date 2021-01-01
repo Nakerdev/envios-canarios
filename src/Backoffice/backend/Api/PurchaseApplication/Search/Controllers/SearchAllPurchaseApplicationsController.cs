@@ -47,7 +47,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                 client: BuildResponseClient(),
                 additionalInformation: purchaseApplication.AdditionalInformation,
                 creationDateTime: purchaseApplication.CreationDateTime.ToISO8601(),
-                state: purchaseApplication.State.ToString());
+                state: purchaseApplication.State.ToString(),
+                rejection: purchaseApplication.Rejection.Map(BuildRejectionDto).IfNoneUnsafe(() => null));
 
             PurchaseApplicationDto.ProductDto BuildResponseProductDto(
                 Repositories.PurchaseApplicationDto.ProductDto product)
@@ -67,8 +68,16 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                     phoneNumber: purchaseApplication.Client.PhoneNumber,
                     email: purchaseApplication.Client.Email);
             }
+            
+            PurchaseApplicationDto.RejectionDto BuildRejectionDto(
+                Repositories.PurchaseApplicationDto.RejectionDto rejection)
+            {
+                return new PurchaseApplicationDto.RejectionDto(
+                    dateTime: rejection.DateTime.ToISO8601(),
+                    reason: rejection.Reason);
+            }
         }
-
+        
         public sealed class PurchaseApplicationDto
         {
             [SwaggerSchema("The purchase application identifier")] 
@@ -87,10 +96,15 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
             public string AdditionalInformation { get; }
             
             [SwaggerSchema("The creation date in ISO8601 format")]            
+            [Required]            
             public string CreationDateTime { get; }
 
             [SwaggerSchema("The purchase application state, it can be: PendingOfPayment || Rejected ")]            
+            [Required]            
             public string State { get; }
+
+            [SwaggerSchema("The purchase application rejection. It is optional.")]            
+            public RejectionDto Rejection { get; }
 
             public PurchaseApplicationDto(
                 string id,
@@ -98,7 +112,8 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                 ClientDto client,
                 string additionalInformation,
                 string creationDateTime, 
-                string state)
+                string state, 
+                RejectionDto rejection)
             {
                 Id = id;
                 Products = products;
@@ -106,6 +121,7 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                 AdditionalInformation = additionalInformation;
                 CreationDateTime = creationDateTime;
                 State = state;
+                Rejection = rejection;
             }
 
             public sealed class ProductDto
@@ -165,6 +181,25 @@ namespace CanaryDeliveries.Backoffice.Api.PurchaseApplication.Search.Controllers
                     Name = name;
                     PhoneNumber = phoneNumber;
                     Email = email;
+                }
+            }
+            
+            public sealed class RejectionDto
+            {
+                [SwaggerSchema("The rejection date time in ISO8601 format")]            
+                [Required]            
+                public string DateTime { get; }
+                
+                [SwaggerSchema("The rejection reason")]            
+                [Required]            
+                public string Reason { get; }
+
+                public RejectionDto(
+                    string dateTime, 
+                    string reason)
+                {
+                    DateTime = dateTime;
+                    Reason = reason;
                 }
             }
         }
