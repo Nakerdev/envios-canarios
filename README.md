@@ -1,5 +1,28 @@
 # Canary Deliveries
 
+* BackEnd - Antonio Sánchez
+* FrontEnd - Iru Hernández
+
+Canary deliveries is a proyect that born from a Business idea.
+The idea was create a web platform where Canary Islands people can buy products from providers that don't deliveries to Canary Islands.
+From the web application you can create a purchase request, specifies the product link, units, etc. That request is managed from Backoffice application, the operator can accept the request or reject it.
+The project is unfinished and only has the reject case of use.
+
+## Most important thecnical specifications
+
+### BackEnd
+
+* .NET Core
+* Docker
+* EF Core
+* DDD
+* TDD
+* Command and Query Segregation (Not CQRS)
+* Ports and Adapters architecture
+* Automatic Documentation using OpenApi specification
+* Functional programming concepts like Monads pattern (using LanguageExt lib)
+* JWT Auth
+
 ## Requirements
 
 - Docker >=19.03
