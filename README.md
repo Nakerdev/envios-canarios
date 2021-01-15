@@ -3,7 +3,7 @@
 * BackEnd - Antonio Sánchez
 * FrontEnd - Iru Hernández
 
-Canary deliveries is a proyect that born from a Business idea.
+Canary deliveries is a project that born from a Business idea.
 The idea was create a web platform where Canary Islands people can buy products from providers that don't deliveries to Canary Islands.
 From the web application you can create a purchase request, specifies the product link, units, etc. That request is managed from Backoffice application, the operator can accept the request or reject it.
 The project is unfinished and only has the reject case of use.
